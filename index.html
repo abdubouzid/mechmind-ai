@@ -1,226 +1,501 @@
 <!doctype html>
-<html lang="fr">
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="MechMind AI — Outils de calcul et dimensionnement pour ingénieurs CVC / HVAC.">
-  <title>MechMind AI — HVAC Engineering Toolkit</title>
+  <meta name="description" content="MechMind AI — Professional HVAC Engineering Calculations and Equipment Selection Tool set.">
+  <title>MechMind AI — HVAC Engineering Hub</title>
   <style>
-    :root{--bg:#f4f7fb;--panel:#fff;--ink:#17243a;--muted:#64748b;--line:#dce4ef;--blue:#1459d9;--green:#087a55;--shadow:0 12px 32px rgba(25,48,83,.08)}
-    *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
-    header{background:#10213c;color:#fff;padding:24px max(20px,calc((100% - 1100px)/2));display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}
-    .brand{display:flex;align-items:center;gap:12px}.logo{width:42px;height:42px;border-radius:12px;background:#fff;color:#1459d9;display:grid;place-items:center;font-weight:900;font-size:20px}.brand h1{font-size:21px;margin:0;letter-spacing:.2px}.brand p{margin:2px 0 0;color:#c4d2e8;font-size:12px}
-    select,button,input{font:inherit} header select{background:#1b3458;color:#fff;border:1px solid #466080;border-radius:9px;padding:9px 12px}
-    main{max-width:1100px;margin:34px auto;padding:0 20px 50px}.hero{margin-bottom:24px}.eyebrow{color:var(--blue);font-weight:750;text-transform:uppercase;letter-spacing:1.5px;font-size:11px}.hero h2{font-size:clamp(28px,4vw,42px);line-height:1.12;margin:8px 0 10px;letter-spacing:-1.2px}.hero p{max-width:700px;color:var(--muted);margin:0}
-    .notice{border:1px solid #f0d7a2;background:#fff9e9;color:#654600;border-radius:12px;padding:13px 16px;margin:20px 0 24px;font-size:13px}
-    .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:22px;box-shadow:var(--shadow)}.card h3{margin:0 0 5px;font-size:19px}.sub{color:var(--muted);font-size:13px;margin:0 0 18px}
-    .fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.field label{display:block;font-size:12px;font-weight:700;color:#40516b;margin-bottom:5px}.field input, .field select{width:100%;border:1px solid #cbd6e5;border-radius:9px;padding:10px 11px;color:var(--ink);background:#fff;outline:none}.field input:focus, .field select:focus{border-color:var(--blue);box-shadow:0 0 0 3px #1459d91a}.unit{font-weight:500;color:#718096}
-    .actions{display:flex;gap:10px;align-items:center;margin-top:16px;flex-wrap:wrap}.primary{border:0;border-radius:9px;padding:10px 16px;background:var(--blue);color:#fff;font-weight:750;cursor:pointer}.primary:hover{background:#0e49b5}.result{display:none;margin-top:16px;border-radius:11px;background:#eff8f4;border:1px solid #cce9dc;padding:13px 15px}.result.show{display:block}.result strong{display:block;font-size:23px;color:var(--green);line-height:1.3}.result p{margin:4px 0 0;color:#385c50;font-size:13px}.error{color:#a32626!important}.details{margin-top:9px;color:#53657a;font-size:12px;white-space:pre-line}.full{grid-column:1/-1}.footer{margin-top:25px;color:var(--muted);font-size:12px;text-align:center}
-    @media(max-width:720px){.grid{grid-template-columns:1fr}.full{grid-column:auto}.fields{grid-template-columns:1fr}main{margin-top:24px}header{padding:18px 20px}}
+    :root {
+      --bg: #f4f7fb;
+      --panel: #ffffff;
+      --ink: #17243a;
+      --muted: #64748b;
+      --line: #dce4ef;
+      --blue: #1459d9;
+      --blue-dark: #10213c;
+      --green: #087a55;
+      --red: #c53030;
+      --amber: #d69e2e;
+      --shadow: 0 12px 32px rgba(25, 48, 83, .08);
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.5 Inter, system-ui, -apple-system, sans-serif; }
+    
+    header { background: var(--blue-dark); color: #fff; padding: 20px max(20px, calc((100% - 1150px)/2)); }
+    .brand-bar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+    .brand { display: flex; align-items: center; gap: 12px; }
+    .logo { width: 40px; height: 40px; border-radius: 10px; background: #fff; color: var(--blue); display: grid; place-items: center; font-weight: 900; font-size: 20px; }
+    .brand h1 { font-size: 20px; margin: 0; letter-spacing: .2px; }
+    .brand p { margin: 2px 0 0; color: #c4d2e8; font-size: 12px; }
+
+    /* Top Navigation Tabs */
+    nav.top-nav { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; }
+    .nav-btn { background: #1b3458; color: #c4d2e8; border: 1px solid #355075; border-radius: 8px; padding: 10px 16px; font-weight: 600; font-size: 13px; cursor: pointer; white-space: nowrap; transition: all 0.2s ease; }
+    .nav-btn:hover { background: #264673; color: #fff; }
+    .nav-btn.active { background: var(--blue); color: #fff; border-color: var(--blue); }
+
+    main { max-width: 1150px; margin: 28px auto; padding: 0 20px 60px; }
+    
+    .hero { background: var(--panel); border: 1px solid var(--line); border-radius: 16px; padding: 28px; box-shadow: var(--shadow); margin-bottom: 24px; }
+    .eyebrow { color: var(--blue); font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px; font-size: 11px; }
+    .hero h2 { font-size: 30px; line-height: 1.15; margin: 8px 0 10px; letter-spacing: -0.8px; }
+    .hero p { max-width: 800px; color: var(--muted); margin: 0 0 16px; }
+
+    /* Interactive Diagram */
+    .diagram-card { background: #0f172a; color: #fff; border-radius: 14px; padding: 20px; margin-top: 20px; }
+    .diagram-title { font-size: 14px; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 15px; }
+    .hvac-scheme { display: flex; align-items: center; justify-content: space-between; gap: 10px; overflow-x: auto; padding: 10px 0; }
+    .eq-box { background: #1e293b; border: 1px solid #334155; border-radius: 10px; padding: 12px 14px; text-align: center; min-width: 120px; cursor: pointer; transition: transform 0.2s, border-color 0.2s; }
+    .eq-box:hover { transform: translateY(-3px); border-color: var(--blue); }
+    .eq-box span { display: block; font-size: 11px; color: #94a3b8; margin-top: 4px; }
+    .eq-box strong { font-size: 13px; color: #e2e8f0; }
+    .arrow { color: #64748b; font-weight: bold; font-size: 18px; }
+    .info-display { background: #1e293b; border-left: 4px solid var(--blue); padding: 10px 14px; font-size: 13px; border-radius: 4px; margin-top: 15px; display: none; }
+
+    /* Content Sections */
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+    
+    .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+    .card { background: var(--panel); border: 1px solid var(--line); border-radius: 16px; padding: 22px; box-shadow: var(--shadow); }
+    .card h3 { margin: 0 0 4px; font-size: 18px; color: var(--ink); }
+    .sub { color: var(--muted); font-size: 13px; margin: 0 0 18px; }
+
+    .fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+    .field label { display: block; font-size: 12px; font-weight: 700; color: #40516b; margin-bottom: 5px; }
+    .field input, .field select { width: 100%; border: 1px solid #cbd6e5; border-radius: 9px; padding: 10px 11px; color: var(--ink); background: #fff; outline: none; }
+    .field input:focus, .field select:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(20,89,217,0.1); }
+    .unit { font-weight: 500; color: #718096; }
+
+    .actions { display: flex; gap: 10px; align-items: center; margin-top: 16px; }
+    .primary { border: 0; border-radius: 9px; padding: 10px 16px; background: var(--blue); color: #fff; font-weight: 700; cursor: pointer; }
+    .primary:hover { background: #0e49b5; }
+
+    .result { display: none; margin-top: 16px; border-radius: 11px; background: #eff8f4; border: 1px solid #cce9dc; padding: 13px 15px; }
+    .result.show { display: block; }
+    .result strong { display: block; font-size: 22px; color: var(--green); line-height: 1.3; }
+    .result p { margin: 4px 0 0; color: #385c50; font-size: 13px; }
+    .error { color: var(--red) !important; }
+    .warning { color: var(--amber) !important; font-weight: bold; }
+    .details { margin-top: 9px; color: #53657a; font-size: 12px; white-space: pre-line; border-top: 1px dashed #cbd6e5; padding-top: 8px; }
+    
+    .full { grid-column: 1 / -1; }
+    .footer { margin-top: 35px; color: var(--muted); font-size: 12px; text-align: center; }
+
+    @media(max-width: 768px) {
+      .grid { grid-template-columns: 1fr; }
+      .full { grid-column: auto; }
+      .fields { grid-template-columns: 1fr; }
+    }
   </style>
 </head>
 <body>
+
 <header>
-  <div class="brand"><div class="logo">M</div><div><h1>MechMind AI</h1><p id="tagline">Outils de calcul et dimensionnement CVC / HVAC.</p></div></div>
-  <select id="language" aria-label="Language"><option value="fr">Français</option><option value="en">English</option></select>
+  <div class="brand-bar">
+    <div class="brand">
+      <div class="logo">M</div>
+      <div>
+        <h1>MechMind AI</h1>
+        <p>End-to-End HVAC Engineering Toolkit & Equipment Selector</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Top Navigation -->
+  <nav class="top-nav" aria-label="HVAC Categories">
+    <button class="nav-btn active" onclick="switchTab('tab-overview')">Home & Scheme</button>
+    <button class="nav-btn" onclick="switchTab('tab-thermal')">1. Heating & Cooling Loads</button>
+    <button class="nav-btn" onclick="switchTab('tab-air')">2. Ventilation & Air Ducting</button>
+    <button class="nav-btn" onclick="switchTab('tab-water')">3. Hydronics & Pumps</button>
+    <button class="nav-btn" onclick="switchTab('tab-refrig')">4. Refrigeration & Cycles</button>
+    <button class="nav-btn" onclick="switchTab('tab-equipment')">5. Equipment Selector</button>
+  </nav>
 </header>
+
 <main>
-  <section class="hero">
-    <div class="eyebrow" id="eyebrow">HVAC ENGINEERING TOOLKIT</div>
-    <h2 id="headline">Calculs génie climatique & aéraulique.</h2>
-    <p id="intro">Boîte à outils dédiée au traitement d'air, dimensionnement des réseaux de gaines, tuyauteries d'eau glacée/chaude et psychrométrie.</p>
-  </section>
-  <div class="notice" id="disclaimer"><strong>Important :</strong> résultats indicatifs pour le dimensionnement préliminaire en CVC. Toujours vérifier selon les normes locales (ASHRAE, RE2020, EN 13779) et les abaques fabricants.</div>
   
-  <section class="grid">
-    <!-- 1. Bilan thermique Air -->
-    <article class="card">
-      <h3 id="airHeatTitle">1. Bilan Thermique Aéraulique</h3>
-      <p class="sub" id="airHeatSub">Puissance sensible d'une batterie d'air ou débit d'air requis.</p>
-      <div class="fields">
-        <div class="field"><label for="airQ" id="airQL">Débit d'air Q <span class="unit">(m³/h)</span></label><input id="airQ" type="number" min="0" step="any" value="1500"></div>
-        <div class="field"><label for="airdT" id="airdTL">Écart de Température ΔT <span class="unit">(°C ou K)</span></label><input id="airdT" type="number" step="any" value="10"></div>
-        <div class="field"><label for="airRho" id="airRhoL">Masse volumique air ρ <span class="unit">(kg/m³)</span></label><input id="airRho" type="number" min="0" step="any" value="1.2"></div>
-      </div>
-      <div class="actions"><button class="primary" id="airHeatBtn">Calculer</button></div>
-      <div class="result" id="airHeatResult" aria-live="polite"></div>
-    </article>
+  <!-- TAB 0: HOME & SYSTEM SCHEME -->
+  <section id="tab-overview" class="tab-content active">
+    <div class="hero">
+      <div class="eyebrow">HVAC PROJECT ASSISTANT FROM A TO Z</div>
+      <h2>Welcome to the HVAC Engineering Hub</h2>
+      <p>This web application assists mechanical engineers through every stage of an HVAC project: from thermal load calculation and psychrometrics, to duct and pipe network sizing, up to final equipment selection.</p>
 
-    <!-- 2. Dimensionnement Gaine d'air -->
-    <article class="card">
-      <h3 id="ductTitle">2. Dimensionnement Gaine Aéraulique</h3>
-      <p class="sub" id="ductSub">Vitesse de l'air et perte de charge équivalente.</p>
-      <div class="fields">
-        <div class="field"><label for="ductQ" id="ductQL">Débit Q <span class="unit">(m³/h)</span></label><input id="ductQ" type="number" min="0" step="any" value="2000"></div>
-        <div class="field"><label for="ductW" id="ductWL">Largeur / Diamètre <span class="unit">(mm)</span></label><input id="ductW" type="number" min="0" step="any" value="500"></div>
-        <div class="field"><label for="ductH" id="ductHL">Hauteur (0 si circulaire) <span class="unit">(mm)</span></label><input id="ductH" type="number" min="0" step="any" value="300"></div>
+      <div class="diagram-card">
+        <div class="diagram-title">Interactive Air Handling Unit (AHU) & Chilled Water Loop Scheme</div>
+        <div class="hvac-scheme">
+          <div class="eq-box" onclick="showInfo('Fresh Air Intake', 'Introduces required outdoor air for occupants based on ASHRAE 62.1 standards.')">
+            <strong>Fresh Air Intake</strong>
+            <span>Outdoor Air (OA)</span>
+          </div>
+          <div class="arrow">➔</div>
+          <div class="eq-box" onclick="showInfo('Air Filter (G4/F7)', 'Protects equipment and ensures indoor air quality by removing particulate matter.')">
+            <strong>Air Filters</strong>
+            <span>Pre & Fine Filters</span>
+          </div>
+          <div class="arrow">➔</div>
+          <div class="eq-box" onclick="showInfo('Cooling Coil', 'Cools and dehumidifies air using chilled water (7°C/12°C) or direct expansion refrigerant.')">
+            <strong>Cooling Coil</strong>
+            <span>Dehumidification</span>
+          </div>
+          <div class="arrow">➔</div>
+          <div class="eq-box" onclick="showInfo('Heating Coil', 'Heats supply air during winter mode using hot water or electric heating elements.')">
+            <strong>Heating Coil</strong>
+            <span>Sensible Heating</span>
+          </div>
+          <div class="arrow">➔</div>
+          <div class="eq-box" onclick="showInfo('Supply Fan', 'Overcomes system static pressure loss (ducts, dampers, filters) to deliver air.')">
+            <strong>Supply Fan</strong>
+            <span>AHU Blower</span>
+          </div>
+          <div class="arrow">➔</div>
+          <div class="eq-box" onclick="showInfo('Conditioned Space', 'The room or zone maintaining occupant thermal comfort and RH targets.')">
+            <strong>Conditioned Zone</strong>
+            <span>Supply Air (SA)</span>
+          </div>
+        </div>
+        <div id="infoDisplay" class="info-display"></div>
       </div>
-      <div class="actions"><button class="primary" id="ductBtn">Calculer</button></div>
-      <div class="result" id="ductResult" aria-live="polite"></div>
-    </article>
-
-    <!-- 3. Pertes d'eau / Pompage CVC -->
-    <article class="card">
-      <h3 id="waterTitle">3. Puissance & Débit Eau Chauffage/Refroidissement</h3>
-      <p class="sub" id="waterSub">Calcul du débit d'eau et de la puissance thermique ($Q = m \cdot c_p \cdot \Delta T$).</p>
-      <div class="fields">
-        <div class="field"><label for="waterP" id="waterPL">Puissance thermique P <span class="unit">(kW)</span></label><input id="waterP" type="number" min="0" step="any" value="50"></div>
-        <div class="field"><label for="waterdT" id="waterdTL">Régime ΔT (ex: 5°C eau glacée, 10°C chaud) <span class="unit">(°C)</span></label><input id="waterdT" type="number" min="0" step="any" value="5"></div>
-      </div>
-      <div class="actions"><button class="primary" id="waterBtn">Calculer</button></div>
-      <div class="result" id="waterResult" aria-live="polite"></div>
-    </article>
-
-    <!-- 4. Psychrométrie / Point de Rosée -->
-    <article class="card">
-      <h3 id="dewTitle">4. Point de Rosée & Humidité</h3>
-      <p class="sub" id="dewSub">Estimation du point de rosée pour éviter la condensation sur le réseau.</p>
-      <div class="fields">
-        <div class="field"><label for="dewT" id="dewTL">Température de l'air T <span class="unit">(°C)</span></label><input id="dewT" type="number" step="any" value="24"></div>
-        <div class="field"><label for="dewRH" id="dewRHL">Humidité Relative HR <span class="unit">(%)</span></label><input id="dewRH" type="number" min="0" max="100" step="any" value="50"></div>
-      </div>
-      <div class="actions"><button class="primary" id="dewBtn">Calculer</button></div>
-      <div class="result" id="dewResult" aria-live="polite"></div>
-    </article>
+    </div>
   </section>
 
-  <p class="footer" id="footer">MechMind AI · Version CVC 0.2 · Outils de calcul pour ingénieurs CVC.</p>
+  <!-- TAB 1: HEATING & COOLING CALCULATIONS -->
+  <section id="tab-thermal" class="tab-content">
+    <div class="grid">
+      <!-- Air Thermal Load -->
+      <article class="card">
+        <h3>Air Thermal Capacity (Sensible & Latent)</h3>
+        <p class="sub">Calculate required cooling or heating capacity for an Air Handling Unit (AHU).</p>
+        <div class="fields">
+          <div class="field"><label for="airQ">Airflow Rate Q <span class="unit">(m³/h)</span></label><input id="airQ" type="number" value="3000"></div>
+          <div class="field"><label for="airTin">Supply Temp T_in <span class="unit">(°C)</span></label><input id="airTin" type="number" value="32"></div>
+          <div class="field"><label for="airTout">Target Temp T_out <span class="unit">(°C)</span></label><input id="airTout" type="number" value="22"></div>
+          <div class="field"><label for="airRho">Air Density ρ <span class="unit">(kg/m³)</span></label><input id="airRho" type="number" value="1.2"></div>
+        </div>
+        <div class="actions"><button class="primary" onclick="calcAirThermal()">Calculate Thermal Load</button></div>
+        <div class="result" id="resAirThermal"></div>
+      </article>
+
+      <!-- Psychrometrics / Dew Point -->
+      <article class="card">
+        <h3>Psychrometric Dew Point & Humidity</h3>
+        <p class="sub">Determine dew point temperature to prevent condensation on ducts and pipes.</p>
+        <div class="fields">
+          <div class="field"><label for="psyT">Air Temperature T <span class="unit">(°C)</span></label><input id="psyT" type="number" value="25"></div>
+          <div class="field"><label for="psyRH">Relative Humidity RH <span class="unit">(%)</span></label><input id="psyRH" type="number" value="50"></div>
+        </div>
+        <div class="actions"><button class="primary" onclick="calcPsychrometrics()">Calculate Dew Point</button></div>
+        <div class="result" id="resPsy"></div>
+      </article>
+    </div>
+  </section>
+
+  <!-- TAB 2: VENTILATION & AIR DUCTING -->
+  <section id="tab-air" class="tab-content">
+    <div class="grid">
+      <!-- Duct Sizing Card -->
+      <article class="card full">
+        <h3>Ductwork Sizing & Velocity Check</h3>
+        <p class="sub">Calculate velocity and equivalent hydraulic diameter for rectangular or circular ducts.</p>
+        <div class="fields">
+          <div class="field"><label for="ductQ">Airflow Volume <span class="unit">(m³/h)</span></label><input id="ductQ" type="number" value="2500"></div>
+          <div class="field"><label for="ductW">Duct Width / Diameter <span class="unit">(mm)</span></label><input id="ductW" type="number" value="500"></div>
+          <div class="field"><label for="ductH">Duct Height (0 if circular) <span class="unit">(mm)</span></label><input id="ductH" type="number" value="300"></div>
+          <div class="field">
+            <label for="ductMaxV">Application Max Velocity Limit</label>
+            <select id="ductMaxV">
+              <option value="4">Residential / Acoustic critical (Max 4 m/s)</option>
+              <option value="6" selected>Commercial / Office Main Duct (Max 6 m/s)</option>
+              <option value="9">Industrial / High Velocity (Max 9 m/s)</option>
+            </select>
+          </div>
+        </div>
+        <div class="actions"><button class="primary" onclick="calcDuct()">Size Ductwork</button></div>
+        <div class="result" id="resDuct"></div>
+      </article>
+    </div>
+  </section>
+
+  <!-- TAB 3: HYDRONICS & PUMPING -->
+  <section id="tab-water" class="tab-content">
+    <div class="grid">
+      <!-- Chilled/Hot Water Flow -->
+      <article class="card">
+        <h3>Water Flow Rate Calculation</h3>
+        <p class="sub">Calculate required water flow rate from cooling/heating capacity and delta T.</p>
+        <div class="fields">
+          <div class="field"><label for="watP">Capacity P <span class="unit">(kW)</span></label><input id="watP" type="number" value="100"></div>
+          <div class="field"><label for="watdT">Delta T (ex: 5°C Chilled, 10°C Hot) <span class="unit">(°C)</span></label><input id="watdT" type="number" value="5"></div>
+        </div>
+        <div class="actions"><button class="primary" onclick="calcWaterFlow()">Calculate Flow Rate</button></div>
+        <div class="result" id="resWaterFlow"></div>
+      </article>
+
+      <!-- Pump Head & Shaft Power -->
+      <article class="card">
+        <h3>Pump Shaft Power & HMT</h3>
+        <p class="sub">Determine pump power required based on flow rate and pressure loss (Head).</p>
+        <div class="fields">
+          <div class="field"><label for="pumpQ">Water Flow Q <span class="unit">(m³/h)</span></label><input id="pumpQ" type="number" value="17.2"></div>
+          <div class="field"><label for="pumpH">Total Head Loss H <span class="unit">(m.w.g)</span></label><input id="pumpH" type="number" value="15"></div>
+          <div class="field"><label for="pumpEta">Pump Efficiency η <span class="unit">(%)</span></label><input id="pumpEta" type="number" value="70"></div>
+        </div>
+        <div class="actions"><button class="primary" onclick="calcPumpPower()">Calculate Pump Power</button></div>
+        <div class="result" id="resPump"></div>
+      </article>
+    </div>
+  </section>
+
+  <!-- TAB 4: REFRIGERATION & CYCLES -->
+  <section id="tab-refrig" class="tab-content">
+    <div class="grid">
+      <!-- Compressor Efficiency & COP -->
+      <article class="card full">
+        <h3>Compressor Isentropic Efficiency & COP</h3>
+        <p class="sub">Evaluate refrigeration cycle performance and actual compressor work output.</p>
+        <div class="fields">
+          <div class="field"><label for="h1">Evaporator Outlet Enthalpy h1 <span class="unit">(kJ/kg)</span></label><input id="h1" type="number" value="400"></div>
+          <div class="field"><label for="h2s">Ideal Isentropic Discharge h2s <span class="unit">(kJ/kg)</span></label><input id="h2s" type="number" value="435"></div>
+          <div class="field"><label for="h2">Actual Discharge Enthalpy h2 <span class="unit">(kJ/kg)</span></label><input id="h2" type="number" value="442"></div>
+          <div class="field"><label for="h4">Expansion Valve Inlet Enthalpy h4 <span class="unit">(kJ/kg)</span></label><input id="h4" type="number" value="250"></div>
+        </div>
+        <div class="actions"><button class="primary" onclick="calcRefrigeration()">Calculate COP & Efficiency</button></div>
+        <div class="result" id="resRefrig"></div>
+      </article>
+    </div>
+  </section>
+
+  <!-- TAB 5: EQUIPMENT SELECTOR -->
+  <section id="tab-equipment" class="tab-content">
+    <div class="grid">
+      <article class="card full">
+        <h3>HVAC Equipment Selection Guide</h3>
+        <p class="sub">Input your primary system parameters to receive equipment type recommendations.</p>
+        <div class="fields">
+          <div class="field">
+            <label for="eqBuildingType">Building Application</label>
+            <select id="eqBuildingType">
+              <option value="office">Office Building / Commercial</option>
+              <option value="residential">Residential Apartments</option>
+              <option value="hospital">Hospital / Healthcare Cleanroom</option>
+            </select>
+          </div>
+          <div class="field"><label for="eqArea">Total Area <span class="unit">(m²)</span></label><input id="eqArea" type="number" value="1200"></div>
+        </div>
+        <div class="actions"><button class="primary" onclick="recommendEquipment()">Generate Recommendations</button></div>
+        <div class="result" id="resEquipment"></div>
+      </article>
+    </div>
+  </section>
+
+  <p class="footer">MechMind AI · Professional HVAC Engineering Toolkit · Calculations executed locally in your browser.</p>
 </main>
 
 <script>
-const translations = {
-  fr: {
-    tagline: "Outils de calcul et dimensionnement CVC / HVAC.",
-    eyebrow: "HVAC ENGINEERING TOOLKIT",
-    headline: "Calculs génie climatique & aéraulique.",
-    intro: "Boîte à outils dédiée au traitement d'air, dimensionnement des réseaux de gaines, tuyauteries d'eau glacée/chaude et psychrométrie.",
-    disclaimer: "<strong>Important :</strong> résultats indicatifs pour le dimensionnement préliminaire en CVC. Toujours vérifier selon les normes locales (ASHRAE, RE2020, EN 13779) et les abaques fabricants.",
-    airHeatTitle: "1. Bilan Thermique Aéraulique",
-    airHeatSub: "Puissance sensible d'une batterie d'air ou débit d'air requis.",
-    ductTitle: "2. Dimensionnement Gaine Aéraulique",
-    ductSub: "Vitesse de l'air et perte de charge équivalente.",
-    waterTitle: "3. Débit Eau Chauffage/Refroidissement",
-    waterSub: "Calcul du débit d'eau et de la puissance thermique.",
-    dewTitle: "4. Point de Rosée & Humidité",
-    dewSub: "Estimation du point de rosée pour éviter la condensation.",
-    calc: "Calculer",
-    invalid: "Veuillez vérifier vos données d'entrée.",
-    footer: "MechMind AI · Version CVC 0.2 · Outils de calcul pour ingénieurs CVC."
-  },
-  en: {
-    tagline: "HVAC & Climate Control Engineering Tools.",
-    eyebrow: "HVAC ENGINEERING TOOLKIT",
-    headline: "Clearer HVAC & Ducting Calculations.",
-    intro: "Engineering toolkit for air handling, duct sizing, chilled/hot water piping, and basic psychrometrics.",
-    disclaimer: "<strong>Important:</strong> preliminary results for HVAC design. Always double check against local standards (ASHRAE, EN 13779) and manufacturer tables.",
-    airHeatTitle: "1. Air Sensible Thermal Load",
-    airHeatSub: "Estimate thermal capacity from airflow and temperature delta.",
-    ductTitle: "2. Air Duct Sizing",
-    ductSub: "Calculate air velocity and hydraulic diameter.",
-    waterTitle: "3. Hydronic Water Flow Rate",
-    waterSub: "Calculate water flow rate needed for heating or cooling.",
-    dewTitle: "4. Dew Point Estimation",
-    dewSub: "Calculate dew point to prevent condensation on ducts or pipes.",
-    calc: "Calculate",
-    invalid: "Please check input values.",
-    footer: "MechMind AI · HVAC Version 0.2 · Calculations run locally."
-  }
-};
-
-let lang = "fr";
-const t = () => translations[lang];
-const el = id => document.getElementById(id);
-const num = id => Number(el(id).value);
-const fmt = (x, d = 2) => Number(x).toLocaleString(lang === "fr" ? "fr-FR" : "en-GB", { maximumFractionDigits: d });
-
-function show(id, html, error = false) {
-  const box = el(id);
-  box.className = "result show";
-  box.innerHTML = html;
-  if (error) box.querySelector("strong")?.classList.add("error");
-}
-
-function valid(values) {
-  return values.every(Number.isFinite) && values.every(v => v > 0);
-}
-
-// 1. Calcul Puissance Sensible Air
-el("airHeatBtn").addEventListener("click", () => {
-  const Q = num("airQ") / 3600; // m3/s
-  const dT = num("airdT");
-  const rho = num("airRho");
-  const cp = 1005; // J/kg.K pour l'air sec
-
-  if (!valid([Q, rho]) || isNaN(dT)) return show("airHeatResult", `<strong>${t().invalid}</strong>`, true);
-
-  const P_kW = (rho * Q * cp * dT) / 1000;
-  show("airHeatResult", `<strong>${fmt(P_kW)} kW</strong><p>Débit massique: ${fmt(Q * rho, 3)} kg/s</p><div class="details">P = ρ × Q × Cp × ΔT</div>`);
-});
-
-// 2. Calcul Gaine d'Air
-el("ductBtn").addEventListener("click", () => {
-  const Q = num("ductQ") / 3600;
-  const W = num("ductW") / 1000;
-  const H = num("ductH") / 1000;
-
-  if (Q <= 0 || W <= 0) return show("ductResult", `<strong>${t().invalid}</strong>`, true);
-
-  let A = 0;
-  let Dh = 0;
-  if (H > 0) {
-    A = W * H;
-    Dh = (2 * W * H) / (W + H);
-  } else {
-    A = (Math.PI * W * W) / 4;
-    Dh = W;
+  // TAB SWITCHER
+  function switchTab(tabId) {
+    document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+    document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
+    
+    document.getElementById(tabId).classList.add('active');
+    event.currentTarget.classList.add('active');
   }
 
-  const v = Q / A;
-  let warning = v > 6 ? `<p class="error">Vitesse élevée (> 6 m/s), risque de bruit en tertiaire !</p>` : "";
-  show("ductResult", `<strong>${fmt(v)} m/s</strong><p>Diamètre hydraulique: ${fmt(Dh * 1000, 0)} mm · Section: ${fmt(A, 3)} m²</p>${warning}`);
-});
+  // SCHEME INFO TOOLTIP
+  function showInfo(title, desc) {
+    const box = document.getElementById('infoDisplay');
+    box.style.display = 'block';
+    box.innerHTML = `<strong>${title}:</strong> ${desc}`;
+  }
 
-// 3. Calcul Débit Eau Glacée / Chaude
-el("waterBtn").addEventListener("click", () => {
-  const P = num("waterP"); // kW
-  const dT = num("waterdT");
-  const cp = 4.186; // kJ/kg.K
+  // HELPER SHOW RESULT
+  function showResult(id, mainText, subText, detailsText = "", isError = false) {
+    const box = document.getElementById(id);
+    box.className = "result show";
+    box.innerHTML = `
+      <strong class="${isError ? 'error' : ''}">${mainText}</strong>
+      <p>${subText}</p>
+      ${detailsText ? `<div class="details">${detailsText}</div>` : ''}
+    `;
+  }
 
-  if (!valid([P, dT])) return show("waterResult", `<strong>${t().invalid}</strong>`, true);
+  // 1. AIR THERMAL CALCULATOR
+  function calcAirThermal() {
+    const Q_m3h = Number(document.getElementById('airQ').value);
+    const Tin = Number(document.getElementById('airTin').value);
+    const Tout = Number(document.getElementById('airTout').value);
+    const rho = Number(document.getElementById('airRho').value);
 
-  const m_kgs = P / (cp * dT); // kg/s
-  const Q_m3h = (m_kgs * 3600) / 1000;
+    if (Q_m3h <= 0 || isNaN(Tin) || isNaN(Tout)) {
+      return showResult('resAirThermal', 'Invalid inputs', 'Please enter positive values for airflow rate.', '', true);
+    }
 
-  show("waterResult", `<strong>${fmt(Q_m3h)} m³/h</strong><p>Débit eau: ${fmt(Q_m3h * 1000 / 3600, 2)} L/s (${fmt(m_kgs, 2)} kg/s)</p><div class="details">Q = P / (c_p × ΔT)</div>`);
-});
+    const Q_m3s = Q_m3h / 3600;
+    const dT = Math.abs(Tin - Tout);
+    const cp = 1.006; // kJ/kg.K
+    
+    const P_kW = rho * Q_m3s * cp * dT;
+    const mode = Tin > Tout ? "Cooling" : "Heating";
 
-// 4. Calcul Point de Rosée (Formule de Magnus)
-el("dewBtn").addEventListener("click", () => {
-  const T = num("dewT");
-  const RH = num("dewRH");
+    showResult('resAirThermal', 
+      `${P_kW.toFixed(2)} kW (${(P_kW / 3.517).toFixed(2)} TR)`, 
+      `Required Sensible ${mode} Capacity for ΔT = ${dT.toFixed(1)} K`,
+      `Formula: P = ρ × Q × Cp × ΔT\nMass Airflow: ${(rho * Q_m3s).toFixed(3)} kg/s`
+    );
+  }
 
-  if (RH <= 0 || RH > 100) return show("dewResult", `<strong>${t().invalid}</strong>`, true);
+  // 2. PSYCHROMETRICS / DEW POINT
+  function calcPsychrometrics() {
+    const T = Number(document.getElementById('psyT').value);
+    const RH = Number(document.getElementById('psyRH').value);
 
-  const a = 17.27;
-  const b = 237.7;
-  const alpha = ((a * T) / (b + T)) + Math.log(RH / 100);
-  const Tdp = (b * alpha) / (a - alpha);
+    if (RH <= 0 || RH > 100) {
+      return showResult('resPsy', 'Invalid RH', 'Relative Humidity must be between 1% and 100%.', '', true);
+    }
 
-  show("dewResult", `<strong>${fmt(Tdp, 1)} °C</strong><p>Température de point de rosée pour ${RH}% HR à ${T}°C.</p>`);
-});
+    // Magnus Formula
+    const a = 17.27, b = 237.7;
+    const alpha = ((a * T) / (b + T)) + Math.log(RH / 100);
+    const Tdp = (b * alpha) / (a - alpha);
 
-el("language").addEventListener("change", (e) => {
-  lang = e.target.value;
-  const x = t();
-  document.getElementById("tagline").textContent = x.tagline;
-  document.getElementById("eyebrow").textContent = x.eyebrow;
-  document.getElementById("headline").textContent = x.headline;
-  document.getElementById("intro").textContent = x.intro;
-  document.getElementById("disclaimer").innerHTML = x.disclaimer;
-  document.getElementById("footer").textContent = x.footer;
-});
+    showResult('resPsy',
+      `${Tdp.toFixed(1)} °C`,
+      `Dew Point Temperature for ${RH}% RH at ${T}°C air dry-bulb`,
+      `Note: Ensure pipe & duct insulation surface temperatures stay ABOVE ${Tdp.toFixed(1)}°C to prevent condensation.`
+    );
+  }
+
+  // 3. DUCT SIZING
+  function calcDuct() {
+    const Q = Number(document.getElementById('ductQ').value) / 3600; // m3/s
+    const W = Number(document.getElementById('ductW').value) / 1000; // m
+    const H = Number(document.getElementById('ductH').value) / 1000; // m
+    const maxV = Number(document.getElementById('ductMaxV').value);
+
+    if (Q <= 0 || W <= 0) {
+      return showResult('resDuct', 'Invalid Dimensions', 'Airflow rate and width/diameter must be positive.', '', true);
+    }
+
+    let Area = 0, Dh = 0;
+    if (H > 0) {
+      Area = W * H;
+      Dh = (2 * W * H) / (W + H);
+    } else {
+      Area = (Math.PI * W * W) / 4;
+      Dh = W;
+    }
+
+    const v = Q / Area;
+    let warning = v > maxV ? `<span class="warning">⚠️ Velocity (${v.toFixed(2)} m/s) exceeds maximum limit (${maxV} m/s). Risk of excessive acoustic noise!</span>` : `Velocity is within acceptable limits for the selected application.`;
+
+    showResult('resDuct',
+      `${v.toFixed(2)} m/s`,
+      `Duct Cross Section: ${Area.toFixed(3)} m² | Hydraulic Diameter (Dh): ${(Dh * 1000).toFixed(0)} mm`,
+      warning
+    );
+  }
+
+  // 4. WATER FLOW RATE
+  function calcWaterFlow() {
+    const P = Number(document.getElementById('watP').value);
+    const dT = Number(document.getElementById('watdT').value);
+
+    if (P <= 0 || dT <= 0) {
+      return showResult('resWaterFlow', 'Invalid Inputs', 'Capacity and Delta T must be greater than zero.', '', true);
+    }
+
+    const cp = 4.186; // kJ/kg.K
+    const massFlow_kgs = P / (cp * dT);
+    const m3h = (massFlow_kgs * 3600) / 1000;
+
+    showResult('resWaterFlow',
+      `${m3h.toFixed(2)} m³/h`,
+      `Water Flow Rate (${(m3h * 1000 / 3600).toFixed(2)} L/s)`,
+      `Formula: Q_water = P / (ρ × C_p × ΔT)`
+    );
+  }
+
+  // 5. PUMP POWER
+  function calcPumpPower() {
+    const Q = Number(document.getElementById('pumpQ').value) / 3600; // m3/s
+    const H = Number(document.getElementById('pumpH').value); // m
+    const eta = Number(document.getElementById('pumpEta').value) / 100;
+
+    if (Q <= 0 || H <= 0 || eta <= 0 || eta > 1) {
+      return showResult('resPump', 'Invalid Inputs', 'Please verify flow, head, and efficiency values.', '', true);
+    }
+
+    const g = 9.81, rho = 1000;
+    const P_hyd = (rho * g * Q * H) / 1000; // kW
+    const P_shaft = P_hyd / eta;
+
+    showResult('resPump',
+      `${P_shaft.toFixed(2)} kW`,
+      `Estimated Pump Shaft Power (Hydraulic Power: ${P_hyd.toFixed(2)} kW)`,
+      `Formula: P_shaft = (ρ × g × Q × H) / η`
+    );
+  }
+
+  // 6. REFRIGERATION CYCLE
+  function calcRefrigeration() {
+    const h1 = Number(document.getElementById('h1').value);
+    const h2s = Number(document.getElementById('h2s').value);
+    const h2 = Number(document.getElementById('h2').value);
+    const h4 = Number(document.getElementById('h4').value);
+
+    if (h2 <= h1 || h2s <= h1 || h4 >= h1) {
+      return showResult('resRefrig', 'Thermodynamic Error', 'Check enthalpy inputs: h2 & h2s must be greater than h1, and h4 must be less than h1.', '', true);
+    }
+
+    const eta_is = ((h2s - h1) / (h2 - h1)) * 100;
+    const q_evap = h1 - h4;
+    const w_comp = h2 - h1;
+    const COP = q_evap / w_comp;
+
+    showResult('resRefrig',
+      `COP = ${COP.toFixed(2)} | η_is = ${eta_is.toFixed(1)}%`,
+      `Refrigeration Effect: ${q_evap.toFixed(1)} kJ/kg | Compressor Work: ${w_comp.toFixed(1)} kJ/kg`,
+      `Isentropic Efficiency Formula: η_is = (h2s - h1) / (h2 - h1)\nCOP Formula: COP = (h1 - h4) / (h2 - h1)`
+    );
+  }
+
+  // 7. EQUIPMENT RECOMMENDER
+  function recommendEquipment() {
+    const area = Number(document.getElementById('eqArea').value);
+    const type = document.getElementById('eqBuildingType').value;
+
+    if (area <= 0) {
+      return showResult('resEquipment', 'Invalid Area', 'Please enter a valid floor area.', '', true);
+    }
+
+    // Estimated load rule of thumb: ~100 to 120 W/m2
+    const estkW = (area * 0.11);
+    const estTR = estkW / 3.517;
+
+    let sysRec = "";
+    if (estTR < 15) {
+      sysRec = "Multi-Split VRF/VRV System or Light Commercial Package Units.";
+    } else if (estTR < 150) {
+      sysRec = "Air-Cooled Scroll Chiller with Modular Air Handling Units (AHU) / Fan Coil Units (FCU).";
+    } else {
+      sysRec = "Water-Cooled Centrifugal/Screw Chiller plant with Cooling Towers & Central AHUs.";
+    }
+
+    showResult('resEquipment',
+      `Estimated Capacity: ~${estkW.toFixed(0)} kW (${estTR.toFixed(0)} TR)`,
+      `Recommended Configuration: ${sysRec}`,
+      `Based on typical heat load density of ~110 W/m² for ${type} applications.`
+    );
+  }
 </script>
 </body>
 </html>
+
+ 
+
+ 
+
  
      
