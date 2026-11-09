@@ -104,13 +104,13 @@
   </div>
 
   <nav class="top-nav" aria-label="HVAC Categories">
-    <button class="nav-btn active" onclick="switchTab('tab-overview', this)">Home & Scheme</button>
-    <button class="nav-btn" onclick="switchTab('tab-thermal', this)">1. Thermal & Internal Loads</button>
-    <button class="nav-btn" onclick="switchTab('tab-air', this)">2. Air Ducting & Noise</button>
-    <button class="nav-btn" onclick="switchTab('tab-water', this)">3. Hydronics & Pumps</button>
-    <button class="nav-btn" onclick="switchTab('tab-refrig', this)">4. Cycles & Combustion</button>
-    <button class="nav-btn" onclick="switchTab('tab-envelope', this)">5. Envelope & Climate</button>
-    <button class="nav-btn" onclick="switchTab('tab-equipment', this)">6. Equipment Selector</button>
+    <button class="nav-btn active" onclick="switchTab('tab-overview', event)">Home & Scheme</button>
+    <button class="nav-btn" onclick="switchTab('tab-thermal', event)">1. Thermal & Internal Loads</button>
+    <button class="nav-btn" onclick="switchTab('tab-air', event)">2. Air Duct Sizing & Noise</button>
+    <button class="nav-btn" onclick="switchTab('tab-water', event)">3. Hydronics & Pumps</button>
+    <button class="nav-btn" onclick="switchTab('tab-refrig', event)">4. Cycles & Combustion</button>
+    <button class="nav-btn" onclick="switchTab('tab-envelope', event)">5. Envelope & Climate</button>
+    <button class="nav-btn" onclick="switchTab('tab-equipment', event)">6. Equipment Selector</button>
   </nav>
 </header>
 
@@ -164,7 +164,6 @@
   <!-- TAB 1: HEATING, COOLING & INTERNAL HEAT LOADS -->
   <section id="tab-thermal" class="tab-content">
     <div class="grid">
-      <!-- Air Thermal Capacity -->
       <article class="card">
         <h3>Air Thermal Capacity (Sensible & Latent)</h3>
         <p class="sub">Calculate required cooling or heating capacity for an Air Handling Unit (AHU).</p>
@@ -178,7 +177,6 @@
         <div class="result" id="resAirThermal"></div>
       </article>
 
-      <!-- Internal Heat Load Calculator -->
       <article class="card">
         <h3>Indoor Occupants & Internal Heat Load</h3>
         <p class="sub">Estimate total sensible & latent heat gain from occupants, lights, and appliances.</p>
@@ -202,31 +200,23 @@
     </div>
   </section>
 
-  <!-- TAB 2: VENTILATION, DUCTING & NOISE ATTEUNATION -->
+  <!-- TAB 2: VENTILATION, DUCT SIZING & NOISE -->
   <section id="tab-air" class="tab-content">
     <div class="grid">
-      <!-- Duct Sizing Card -->
+      <!-- REAL DUCT SIZING CALCULATOR -->
       <article class="card">
-        <h3>Ductwork Sizing & Velocity Check</h3>
-        <p class="sub">Calculate velocity and hydraulic diameter for rectangular or circular ducts.</p>
+        <h3>Duct Sizing (Dimension Calculator)</h3>
+        <p class="sub">Calculate required duct diameter and rectangular dimensions based on flow rate and target velocity.</p>
         <div class="fields">
-          <div class="field"><label for="ductQ">Airflow Volume <span class="unit">(m³/h)</span></label><input id="ductQ" type="number" value="2500"></div>
-          <div class="field"><label for="ductW">Duct Width / Diameter <span class="unit">(mm)</span></label><input id="ductW" type="number" value="500"></div>
-          <div class="field"><label for="ductH">Duct Height (0 if circular) <span class="unit">(mm)</span></label><input id="ductH" type="number" value="300"></div>
-          <div class="field">
-            <label for="ductMaxV">Max Velocity Limit</label>
-            <select id="ductMaxV">
-              <option value="4">Residential (Max 4 m/s)</option>
-              <option value="6" selected>Office Main Duct (Max 6 m/s)</option>
-              <option value="9">Industrial (Max 9 m/s)</option>
-            </select>
-          </div>
+          <div class="field"><label for="sizeQ">Airflow Volume Q <span class="unit">(m³/h)</span></label><input id="sizeQ" type="number" value="2500"></div>
+          <div class="field"><label for="sizeV">Target Air Velocity v <span class="unit">(m/s)</span></label><input id="sizeV" type="number" value="5.0"></div>
+          <div class="field full"><label for="sizeH">Fixed Duct Height H (for rectangular) <span class="unit">(mm)</span></label><input id="sizeH" type="number" value="300"></div>
         </div>
-        <div class="actions"><button class="primary" onclick="calcDuct()">Size Ductwork</button></div>
-        <div class="result" id="resDuct"></div>
+        <div class="actions"><button class="primary" onclick="calcDuctSizing()">Calculate Duct Dimensions</button></div>
+        <div class="result" id="resDuctSizing"></div>
       </article>
 
-      <!-- HVAC Noise & Acoustic Calculation -->
+      <!-- NOISE CALCULATOR -->
       <article class="card">
         <h3>HVAC Duct Acoustic & Noise Calculation</h3>
         <p class="sub">Estimate airflow generated noise and evaluate silencer requirements.</p>
@@ -250,7 +240,6 @@
   <!-- TAB 3: HYDRONICS & PUMPING -->
   <section id="tab-water" class="tab-content">
     <div class="grid">
-      <!-- Chilled/Hot Water Flow -->
       <article class="card">
         <h3>Water Flow Rate Calculation</h3>
         <p class="sub">Calculate required water flow rate from cooling/heating capacity and delta T.</p>
@@ -262,7 +251,6 @@
         <div class="result" id="resWaterFlow"></div>
       </article>
 
-      <!-- Pump Head & Shaft Power -->
       <article class="card">
         <h3>Pump Shaft Power & HMT</h3>
         <p class="sub">Determine pump power required based on flow rate and total pressure loss (Head).</p>
@@ -277,10 +265,9 @@
     </div>
   </section>
 
-  <!-- TAB 4: REFRIGERATION CYCLES & COMBUSTION FLUE GAS -->
+  <!-- TAB 4: REFRIGERATION CYCLES & COMBUSTION -->
   <section id="tab-refrig" class="tab-content">
     <div class="grid">
-      <!-- Compressor Efficiency & COP -->
       <article class="card">
         <h3>Compressor Isentropic Efficiency & COP</h3>
         <p class="sub">Evaluate refrigeration cycle performance and actual compressor work output.</p>
@@ -294,7 +281,6 @@
         <div class="result" id="resRefrig"></div>
       </article>
 
-      <!-- Boiler Combustion Air & Flue Gas -->
       <article class="card">
         <h3>Boiler Combustion Air & Flue Gas Demand</h3>
         <p class="sub">Estimate air intake and exhaust flue gas volumes for boiler systems.</p>
@@ -314,10 +300,9 @@
     </div>
   </section>
 
-  <!-- TAB 5: BUILDING ENVELOPE & OUTDOOR CLIMATE -->
+  <!-- TAB 5: ENVELOPE & CLIMATE -->
   <section id="tab-envelope" class="tab-content">
     <div class="grid">
-      <!-- Moisture Migration & Vapor Pressure -->
       <article class="card">
         <h3>Wall Moisture Transport & Vapor Pressure</h3>
         <p class="sub">Calculate vapor pressure differential across building envelope to detect interstitial condensation.</p>
@@ -331,7 +316,6 @@
         <div class="result" id="resVapor"></div>
       </article>
 
-      <!-- Outdoor Design Conditions Database -->
       <article class="card">
         <h3>Outdoor Design Conditions Lookup</h3>
         <p class="sub">Quick lookup for outdoor design temperatures and humidity levels by city.</p>
@@ -379,13 +363,24 @@
 </main>
 
 <script>
-  // TAB SWITCHER
-  function switchTab(tabId, btnEl) {
-    document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
-    document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
+  // WORKING TAB SWITCHER FIX
+  function switchTab(tabId, evt) {
+    if (evt) evt.preventDefault();
     
-    document.getElementById(tabId).classList.add('active');
-    btnEl.classList.add('active');
+    const contents = document.querySelectorAll('.tab-content');
+    const buttons = document.querySelectorAll('.nav-btn');
+    
+    contents.forEach(el => el.classList.remove('active'));
+    buttons.forEach(el => el.classList.remove('active'));
+    
+    const targetTab = document.getElementById(tabId);
+    if (targetTab) {
+      targetTab.classList.add('active');
+    }
+    
+    if (evt && evt.currentTarget) {
+      evt.currentTarget.classList.add('active');
+    }
   }
 
   // SCHEME INFO TOOLTIP
@@ -442,10 +437,10 @@
     if (actType === 'light') { q_sens = 90; q_lat = 95; }
     if (actType === 'heavy') { q_sens = 140; q_lat = 185; }
 
-    const peopleSensible = (people * q_sens) / 1000; // kW
-    const peopleLatent = (people * q_lat) / 1000; // kW
-    const lightingKW = (lightingW * area) / 1000; // kW
-    const equipKW = equipW / 1000; // kW
+    const peopleSensible = (people * q_sens) / 1000;
+    const peopleLatent = (people * q_lat) / 1000;
+    const lightingKW = (lightingW * area) / 1000;
+    const equipKW = equipW / 1000;
 
     const totalSensibleKW = peopleSensible + lightingKW + equipKW;
     const totalLatentKW = peopleLatent;
@@ -458,33 +453,32 @@
     );
   }
 
-  // 3. DUCT SIZING
-  function calcDuct() {
-    const Q = Number(document.getElementById('ductQ').value) / 3600;
-    const W = Number(document.getElementById('ductW').value) / 1000;
-    const H = Number(document.getElementById('ductH').value) / 1000;
-    const maxV = Number(document.getElementById('ductMaxV').value);
+  // 3. TRUE DUCT SIZING CALCULATOR
+  function calcDuctSizing() {
+    const Q_m3h = Number(document.getElementById('sizeQ').value);
+    const v = Number(document.getElementById('sizeV').value);
+    const H_mm = Number(document.getElementById('sizeH').value);
 
-    if (Q <= 0 || W <= 0) {
-      return showResult('resDuct', 'Invalid Dimensions', 'Airflow rate and width/diameter must be positive.', '', true);
+    if (Q_m3h <= 0 || v <= 0) {
+      return showResult('resDuctSizing', 'Invalid Inputs', 'Airflow rate and target velocity must be positive.', '', true);
     }
 
-    let Area = 0, Dh = 0;
-    if (H > 0) {
-      Area = W * H;
-      Dh = (2 * W * H) / (W + H);
-    } else {
-      Area = (Math.PI * W * W) / 4;
-      Dh = W;
-    }
+    const Q_m3s = Q_m3h / 3600;
+    const Area_m2 = Q_m3s / v;
 
-    const v = Q / Area;
-    let warning = v > maxV ? `<span class="warning">⚠️ Velocity (${v.toFixed(2)} m/s) exceeds maximum limit (${maxV} m/s). Risk of noise!</span>` : `Velocity is within acceptable limits.`;
+    // Circular Diameter: A = pi * D^2 / 4 => D = sqrt(4A / pi)
+    const D_m = Math.sqrt((4 * Area_m2) / Math.PI);
+    const D_mm = D_m * 1000;
 
-    showResult('resDuct',
-      `${v.toFixed(2)} m/s`,
-      `Duct Cross Section: ${Area.toFixed(3)} m² | Hydraulic Diameter (Dh): ${(Dh * 1000).toFixed(0)} mm`,
-      warning
+    // Rectangular Width W = A / H
+    const H_m = H_mm / 1000;
+    const W_m = Area_m2 / H_m;
+    const W_mm = W_m * 1000;
+
+    showResult('resDuctSizing',
+      `Circular: Ø ${Math.ceil(D_mm)} mm`,
+      `Rectangular Option: ${Math.ceil(W_mm)} mm (Width) × ${H_mm} mm (Height)`,
+      `Calculated Required Cross-Section Area: ${Area_m2.toFixed(3)} m²\nDesign Target Velocity: ${v} m/s`
     );
   }
 
@@ -543,8 +537,130 @@
     const P_hyd = (rho * g * Q * H) / 1000;
     const P_shaft = P_hyd / eta;
 
-    showResult('
+    showResult('resPump',
+      `${P_shaft.toFixed(2)} kW`,
+      `Estimated Pump Shaft Power (Hydraulic Power: ${P_hyd.toFixed(2)} kW)`,
+      `Formula: P_shaft = (ρ × g × Q × H) / η`
+    );
+  }
 
+  // 7. REFRIGERATION CYCLE
+  function calcRefrigeration() {
+    const h1 = Number(document.getElementById('h1').value);
+    const h2s = Number(document.getElementById('h2s').value);
+    const h2 = Number(document.getElementById('h2').value);
+    const h4 = Number(document.getElementById('h4').value);
+
+    if (h2 <= h1 || h2s <= h1 || h4 >= h1) {
+      return showResult('resRefrig', 'Thermodynamic Error', 'Check enthalpy inputs: h2 & h2s must be greater than h1, and h4 less than h1.', '', true);
+    }
+
+    const eta_is = ((h2s - h1) / (h2 - h1)) * 100;
+    const q_evap = h1 - h4;
+    const w_comp = h2 - h1;
+    const COP = q_evap / w_comp;
+
+    showResult('resRefrig',
+      `COP = ${COP.toFixed(2)} | η_is = ${eta_is.toFixed(1)}%`,
+      `Refrigeration Effect: ${q_evap.toFixed(1)} kJ/kg | Compressor Work: ${w_comp.toFixed(1)} kJ/kg`,
+      `Isentropic Efficiency Formula: η_is = (h2s - h1) / (h2 - h1)\nCOP Formula: COP = (h1 - h4) / (h2 - h1)`
+    );
+  }
+
+  // 8. COMBUSTION & FLUE GAS
+  function calcCombustion() {
+    const capKW = Number(document.getElementById('combCap').value);
+    const fuel = document.getElementById('combFuel').value;
+
+    let airRatio = fuel === 'natgas' ? 1.2 : 1.3;
+    let airVol_m3h = capKW * airRatio * 1.1;
+    let flueVol_m3h = airVol_m3h * 1.05;
+
+    showResult('resCombustion',
+      `~${airVol_m3h.toFixed(0)} m³/h Combustion Air Demand`,
+      `Estimated Exhaust Flue Gas Volume: ~${flueVol_m3h.toFixed(0)} m³/h`,
+      `Assumed Excess Air Ratio: ${airRatio}`
+    );
+  }
+
+  // 9. VAPOR PRESSURE & MOISTURE MIGRATION
+  function calcVaporMigration() {
+    const Tin = Number(document.getElementById('vaptIn').value);
+    const RHin = Number(document.getElementById('vapRhIn').value);
+    const Tout = Number(document.getElementById('vaptOut').value);
+    const RHout = Number(document.getElementById('vapRhOut').value);
+
+    const getPv = (T, RH) => {
+      const pvs = 610.78 * Math.exp((17.27 * T) / (T + 237.3));
+      return (RH / 100) * pvs;
+    };
+
+    const Pv_in = getPv(Tin, RHin);
+    const Pv_out = getPv(Tout, RHout);
+    const dPv = Pv_out - Pv_in;
+
+    let dir = dPv > 0 ? "Outdoor to Indoor (Summer Cooling Mode)" : "Indoor to Outdoor (Winter Heating Mode)";
+    let risk = Math.abs(dPv) > 1000 ? "⚠️ High vapor pressure differential. Continuous vapor barrier required on warm side." : "Moderate vapor drive.";
+
+    showResult('resVapor',
+      `ΔP_vapor = ${Math.abs(dPv / 1000).toFixed(2)} kPa`,
+      `Vapor Drive Direction: ${dir}`,
+      `Indoor Vapor Pressure: ${(Pv_in/1000).toFixed(2)} kPa | Outdoor Vapor Pressure: ${(Pv_out/1000).toFixed(2)} kPa\n${risk}`
+    );
+  }
+
+  // 10. CLIMATE LOOKUP
+  function lookupClimate() {
+    const city = document.getElementById('citySelect').value;
+    const climateData = {
+      paris: { sT: 32, sRH: 45, wT: -5, wRH: 85 },
+      london: { sT: 28, sRH: 50, wT: -2, wRH: 90 },
+      dubai: { sT: 46, sRH: 40, wT: 14, wRH: 60 },
+      ny: { sT: 33, sRH: 50, wT: -9, wRH: 70 },
+      tokyo: { sT: 33, sRH: 65, wT: 0, wRH: 50 }
+    };
+
+    const d = climateData[city];
+    showResult('resClimate',
+      `Summer: ${d.sT}°C DB / ${d.sRH}% RH`,
+      `Winter Design Condition: ${d.wT}°C DB / ${d.wRH}% RH`,
+      `Use these parameters for outdoor air intake and heating/cooling load calculations.`
+    );
+  }
+
+  // 11. EQUIPMENT RECOMMENDER
+  function recommendEquipment() {
+    const area = Number(document.getElementById('eqArea').value);
+    const type = document.getElementById('eqBuildingType').value;
+
+    if (area <= 0) {
+      return showResult('resEquipment', 'Invalid Area', 'Please enter a valid floor area.', '', true);
+    }
+
+    const estkW = (area * 0.11);
+    const estTR = estkW / 3.517;
+
+    let sysRec = "";
+    if (estTR < 15) {
+      sysRec = "Multi-Split VRF/VRV System or Light Commercial Package Units.";
+    } else if (estTR < 150) {
+      sysRec = "Air-Cooled Scroll Chiller with Modular Air Handling Units (AHU) / Fan Coil Units (FCU).";
+    } else {
+      sysRec = "Water-Cooled Centrifugal/Screw Chiller plant with Cooling Towers & Central AHUs.";
+    }
+
+    showResult('resEquipment',
+      `Estimated Capacity: ~${estkW.toFixed(0)} kW (${estTR.toFixed(0)} TR)`,
+      `Recommended Configuration: ${sysRec}`,
+      `Based on typical heat load density of ~110 W/m² for ${type} applications.`
+    );
+  }
+
+  // INITIAL SETUP
+  lookupClimate();
+</script>
+</body>
+</html>
  
 
  
