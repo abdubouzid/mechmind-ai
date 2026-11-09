@@ -3,10 +3,10 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="MechMind AI — outils de calcul pour les professionnels du génie mécanique.">
-  <title>MechMind AI — Engineering tools</title>
+  <meta name="description" content="MechMind AI — Outils de calcul et dimensionnement pour ingénieurs CVC / HVAC.">
+  <title>MechMind AI — HVAC Engineering Toolkit</title>
   <style>
-    :root{--bg:#f4f7fb;--panel:#fff;--ink:#17243a;--muted:#64748b;--line:#dce4ef;--blue:#1459d9;--blue2:#eaf1ff;--green:#087a55;--amber:#8a5700;--shadow:0 12px 32px rgba(25,48,83,.08)}
+    :root{--bg:#f4f7fb;--panel:#fff;--ink:#17243a;--muted:#64748b;--line:#dce4ef;--blue:#1459d9;--green:#087a55;--shadow:0 12px 32px rgba(25,48,83,.08)}
     *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
     header{background:#10213c;color:#fff;padding:24px max(20px,calc((100% - 1100px)/2));display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}
     .brand{display:flex;align-items:center;gap:12px}.logo{width:42px;height:42px;border-radius:12px;background:#fff;color:#1459d9;display:grid;place-items:center;font-weight:900;font-size:20px}.brand h1{font-size:21px;margin:0;letter-spacing:.2px}.brand p{margin:2px 0 0;color:#c4d2e8;font-size:12px}
@@ -14,72 +14,213 @@
     main{max-width:1100px;margin:34px auto;padding:0 20px 50px}.hero{margin-bottom:24px}.eyebrow{color:var(--blue);font-weight:750;text-transform:uppercase;letter-spacing:1.5px;font-size:11px}.hero h2{font-size:clamp(28px,4vw,42px);line-height:1.12;margin:8px 0 10px;letter-spacing:-1.2px}.hero p{max-width:700px;color:var(--muted);margin:0}
     .notice{border:1px solid #f0d7a2;background:#fff9e9;color:#654600;border-radius:12px;padding:13px 16px;margin:20px 0 24px;font-size:13px}
     .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:22px;box-shadow:var(--shadow)}.card h3{margin:0 0 5px;font-size:19px}.sub{color:var(--muted);font-size:13px;margin:0 0 18px}
-    .fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.field label{display:block;font-size:12px;font-weight:700;color:#40516b;margin-bottom:5px}.field input{width:100%;border:1px solid #cbd6e5;border-radius:9px;padding:10px 11px;color:var(--ink);background:#fff;outline:none}.field input:focus{border-color:var(--blue);box-shadow:0 0 0 3px #1459d91a}.unit{font-weight:500;color:#718096}
+    .fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.field label{display:block;font-size:12px;font-weight:700;color:#40516b;margin-bottom:5px}.field input, .field select{width:100%;border:1px solid #cbd6e5;border-radius:9px;padding:10px 11px;color:var(--ink);background:#fff;outline:none}.field input:focus, .field select:focus{border-color:var(--blue);box-shadow:0 0 0 3px #1459d91a}.unit{font-weight:500;color:#718096}
     .actions{display:flex;gap:10px;align-items:center;margin-top:16px;flex-wrap:wrap}.primary{border:0;border-radius:9px;padding:10px 16px;background:var(--blue);color:#fff;font-weight:750;cursor:pointer}.primary:hover{background:#0e49b5}.result{display:none;margin-top:16px;border-radius:11px;background:#eff8f4;border:1px solid #cce9dc;padding:13px 15px}.result.show{display:block}.result strong{display:block;font-size:23px;color:var(--green);line-height:1.3}.result p{margin:4px 0 0;color:#385c50;font-size:13px}.error{color:#a32626!important}.details{margin-top:9px;color:#53657a;font-size:12px;white-space:pre-line}.full{grid-column:1/-1}.footer{margin-top:25px;color:var(--muted);font-size:12px;text-align:center}
     @media(max-width:720px){.grid{grid-template-columns:1fr}.full{grid-column:auto}.fields{grid-template-columns:1fr}main{margin-top:24px}header{padding:18px 20px}}
   </style>
 </head>
 <body>
 <header>
-  <div class="brand"><div class="logo">M</div><div><h1>MechMind AI</h1><p id="tagline">Des outils d’ingénierie mécanique, simplement.</p></div></div>
+  <div class="brand"><div class="logo">M</div><div><h1>MechMind AI</h1><p id="tagline">Outils de calcul et dimensionnement CVC / HVAC.</p></div></div>
   <select id="language" aria-label="Language"><option value="fr">Français</option><option value="en">English</option></select>
 </header>
 <main>
   <section class="hero">
-    <div class="eyebrow" id="eyebrow">MECHANICAL ENGINEERING TOOLKIT</div>
-    <h2 id="headline">Des calculs d’ingénierie plus clairs.</h2>
-    <p id="intro">Une première boîte à outils pour les professionnels des systèmes fluides industriels : débit, pompage et pertes de charge.</p>
+    <div class="eyebrow" id="eyebrow">HVAC ENGINEERING TOOLKIT</div>
+    <h2 id="headline">Calculs génie climatique & aéraulique.</h2>
+    <p id="intro">Boîte à outils dédiée au traitement d'air, dimensionnement des réseaux de gaines, tuyauteries d'eau glacée/chaude et psychrométrie.</p>
   </section>
-  <div class="notice" id="disclaimer"><strong>Important :</strong> résultats préliminaires à titre pédagogique et de présélection. Vérifiez les hypothèses, les unités et les données fabricant. Ce site ne remplace pas la validation d’un ingénieur qualifié ni les normes applicables.</div>
+  <div class="notice" id="disclaimer"><strong>Important :</strong> résultats indicatifs pour le dimensionnement préliminaire en CVC. Toujours vérifier selon les normes locales (ASHRAE, RE2020, EN 13779) et les abaques fabricants.</div>
+  
   <section class="grid">
+    <!-- 1. Bilan thermique Air -->
     <article class="card">
-      <h3 id="flowTitle">1. Vitesse d’écoulement</h3><p class="sub" id="flowSub">Calculez la vitesse moyenne dans une conduite circulaire.</p>
+      <h3 id="airHeatTitle">1. Bilan Thermique Aéraulique</h3>
+      <p class="sub" id="airHeatSub">Puissance sensible d'une batterie d'air ou débit d'air requis.</p>
       <div class="fields">
-        <div class="field"><label for="flowQ" id="flowQL">Débit Q <span class="unit">(m³/h)</span></label><input id="flowQ" type="number" min="0" step="any" value="10"></div>
-        <div class="field"><label for="flowD" id="flowDL">Diamètre intérieur D <span class="unit">(mm)</span></label><input id="flowD" type="number" min="0" step="any" value="50"></div>
+        <div class="field"><label for="airQ" id="airQL">Débit d'air Q <span class="unit">(m³/h)</span></label><input id="airQ" type="number" min="0" step="any" value="1500"></div>
+        <div class="field"><label for="airdT" id="airdTL">Écart de Température ΔT <span class="unit">(°C ou K)</span></label><input id="airdT" type="number" step="any" value="10"></div>
+        <div class="field"><label for="airRho" id="airRhoL">Masse volumique air ρ <span class="unit">(kg/m³)</span></label><input id="airRho" type="number" min="0" step="any" value="1.2"></div>
       </div>
-      <div class="actions"><button class="primary" id="flowBtn">Calculer</button></div><div class="result" id="flowResult" aria-live="polite"></div>
+      <div class="actions"><button class="primary" id="airHeatBtn">Calculer</button></div>
+      <div class="result" id="airHeatResult" aria-live="polite"></div>
     </article>
+
+    <!-- 2. Dimensionnement Gaine d'air -->
     <article class="card">
-      <h3 id="pumpTitle">2. Puissance de pompe</h3><p class="sub" id="pumpSub">Estimez la puissance à l’arbre à partir du débit, de la hauteur et du rendement.</p>
+      <h3 id="ductTitle">2. Dimensionnement Gaine Aéraulique</h3>
+      <p class="sub" id="ductSub">Vitesse de l'air et perte de charge équivalente.</p>
       <div class="fields">
-        <div class="field"><label for="pumpQ" id="pumpQL">Débit Q <span class="unit">(m³/h)</span></label><input id="pumpQ" type="number" min="0" step="any" value="12"></div>
-        <div class="field"><label for="pumpH" id="pumpHL">Hauteur manométrique H <span class="unit">(m)</span></label><input id="pumpH" type="number" min="0" step="any" value="25"></div>
-        <div class="field"><label for="pumpRho" id="pumpRhoL">Masse volumique ρ <span class="unit">(kg/m³)</span></label><input id="pumpRho" type="number" min="0" step="any" value="1000"></div>
-        <div class="field"><label for="pumpEta" id="pumpEtaL">Rendement η <span class="unit">(%)</span></label><input id="pumpEta" type="number" min="0" max="100" step="any" value="70"></div>
+        <div class="field"><label for="ductQ" id="ductQL">Débit Q <span class="unit">(m³/h)</span></label><input id="ductQ" type="number" min="0" step="any" value="2000"></div>
+        <div class="field"><label for="ductW" id="ductWL">Largeur / Diamètre <span class="unit">(mm)</span></label><input id="ductW" type="number" min="0" step="any" value="500"></div>
+        <div class="field"><label for="ductH" id="ductHL">Hauteur (0 si circulaire) <span class="unit">(mm)</span></label><input id="ductH" type="number" min="0" step="any" value="300"></div>
       </div>
-      <div class="actions"><button class="primary" id="pumpBtn">Calculer</button></div><div class="result" id="pumpResult" aria-live="polite"></div>
+      <div class="actions"><button class="primary" id="ductBtn">Calculer</button></div>
+      <div class="result" id="ductResult" aria-live="polite"></div>
     </article>
-    <article class="card full">
-      <h3 id="dropTitle">3. Perte de charge en conduite droite</h3><p class="sub" id="dropSub">Estimation Darcy–Weisbach avec facteur de frottement adapté au régime d’écoulement.</p>
+
+    <!-- 3. Pertes d'eau / Pompage CVC -->
+    <article class="card">
+      <h3 id="waterTitle">3. Puissance & Débit Eau Chauffage/Refroidissement</h3>
+      <p class="sub" id="waterSub">Calcul du débit d'eau et de la puissance thermique ($Q = m \cdot c_p \cdot \Delta T$).</p>
       <div class="fields">
-        <div class="field"><label for="dropQ" id="dropQL">Débit Q <span class="unit">(m³/h)</span></label><input id="dropQ" type="number" min="0" step="any" value="10"></div>
-        <div class="field"><label for="dropD" id="dropDL">Diamètre intérieur D <span class="unit">(mm)</span></label><input id="dropD" type="number" min="0" step="any" value="50"></div>
-        <div class="field"><label for="dropL" id="dropLL">Longueur droite L <span class="unit">(m)</span></label><input id="dropL" type="number" min="0" step="any" value="100"></div>
-        <div class="field"><label for="dropRho" id="dropRhoL">Masse volumique ρ <span class="unit">(kg/m³)</span></label><input id="dropRho" type="number" min="0" step="any" value="1000"></div>
-        <div class="field"><label for="dropMu" id="dropMuL">Viscosité dynamique μ <span class="unit">(Pa·s)</span></label><input id="dropMu" type="number" min="0" step="any" value="0.001"></div>
-        <div class="field"><label for="dropEps" id="dropEpsL">Rugosité absolue ε <span class="unit">(mm)</span></label><input id="dropEps" type="number" min="0" step="any" value="0.045"></div>
+        <div class="field"><label for="waterP" id="waterPL">Puissance thermique P <span class="unit">(kW)</span></label><input id="waterP" type="number" min="0" step="any" value="50"></div>
+        <div class="field"><label for="waterdT" id="waterdTL">Régime ΔT (ex: 5°C eau glacée, 10°C chaud) <span class="unit">(°C)</span></label><input id="waterdT" type="number" min="0" step="any" value="5"></div>
       </div>
-      <div class="actions"><button class="primary" id="dropBtn">Calculer</button></div><div class="result" id="dropResult" aria-live="polite"></div>
+      <div class="actions"><button class="primary" id="waterBtn">Calculer</button></div>
+      <div class="result" id="waterResult" aria-live="polite"></div>
+    </article>
+
+    <!-- 4. Psychrométrie / Point de Rosée -->
+    <article class="card">
+      <h3 id="dewTitle">4. Point de Rosée & Humidité</h3>
+      <p class="sub" id="dewSub">Estimation du point de rosée pour éviter la condensation sur le réseau.</p>
+      <div class="fields">
+        <div class="field"><label for="dewT" id="dewTL">Température de l'air T <span class="unit">(°C)</span></label><input id="dewT" type="number" step="any" value="24"></div>
+        <div class="field"><label for="dewRH" id="dewRHL">Humidité Relative HR <span class="unit">(%)</span></label><input id="dewRH" type="number" min="0" max="100" step="any" value="50"></div>
+      </div>
+      <div class="actions"><button class="primary" id="dewBtn">Calculer</button></div>
+      <div class="result" id="dewResult" aria-live="polite"></div>
     </article>
   </section>
-  <p class="footer" id="footer">MechMind AI · Version prototype 0.1 · Calculs exécutés localement dans votre navigateur.</p>
+
+  <p class="footer" id="footer">MechMind AI · Version CVC 0.2 · Outils de calcul pour ingénieurs CVC.</p>
 </main>
+
 <script>
-const translations={
- fr:{tagline:"Des outils d’ingénierie mécanique, simplement.",eyebrow:"BOÎTE À OUTILS DE GÉNIE MÉCANIQUE",headline:"Des calculs d’ingénierie plus clairs.",intro:"Une première boîte à outils pour les professionnels des systèmes fluides industriels : débit, pompage et pertes de charge.",disclaimer:"<strong>Important :</strong> résultats préliminaires à titre pédagogique et de présélection. Vérifiez les hypothèses, les unités et les données fabricant. Ce site ne remplace pas la validation d’un ingénieur qualifié ni les normes applicables.",flowTitle:"1. Vitesse d’écoulement",flowSub:"Calculez la vitesse moyenne dans une conduite circulaire.",pumpTitle:"2. Puissance de pompe",pumpSub:"Estimez la puissance à l’arbre à partir du débit, de la hauteur et du rendement.",dropTitle:"3. Perte de charge en conduite droite",dropSub:"Estimation Darcy–Weisbach avec facteur de frottement adapté au régime d’écoulement.",q:"Débit Q",d:"Diamètre intérieur D",h:"Hauteur manométrique H",rho:"Masse volumique ρ",eta:"Rendement η",length:"Longueur droite L",mu:"Viscosité dynamique μ",eps:"Rugosité absolue ε",calc:"Calculer",invalid:"Veuillez saisir des valeurs valides. Les dimensions et propriétés doivent être positives; le rendement doit être compris entre 0 et 100 %.",speed:"Vitesse moyenne",area:"Section intérieure",flowFormula:"Formule : v = Q / A, avec A = πD²/4.",shaft:"Puissance estimée à l’arbre",hydraulic:"Puissance hydraulique",pumpFormula:"P arbre = ρ × g × Q × H / η.",drop:"Perte de pression",head:"Perte de hauteur",velocity:"Vitesse",reynolds:"Nombre de Reynolds",friction:"Facteur de frottement Darcy",regime:"Régime",laminar:"Laminaire",transition:"Transition — résultat indicatif",turbulent:"Turbulent",dropFormula:"Darcy–Weisbach : Δp = f × (L/D) × (ρv²/2).",warningTransition:"Le régime est transitionnel; le facteur de frottement et la perte de charge sont incertains. Faites une analyse plus détaillée.",warningDrop:"Inclut uniquement le frottement dans une conduite droite. Les coudes, vannes, raccords, dénivelés, variations de diamètre et effets transitoires ne sont pas inclus.",footer:"MechMind AI · Prototype version 0.1 · Les calculs sont exécutés localement dans votre navigateur."},
- en:{tagline:"Mechanical engineering tools, made simple.",eyebrow:"MECHANICAL ENGINEERING TOOLKIT",headline:"Clearer engineering calculations.",intro:"A first toolkit for industrial fluid-systems professionals: flow, pumping and pressure losses.",disclaimer:"<strong>Important:</strong> preliminary results for learning and early-stage estimates only. Check assumptions, units and manufacturer data. This site does not replace review by a qualified engineer or applicable standards.",flowTitle:"1. Flow velocity",flowSub:"Calculate average velocity in a circular pipe.",pumpTitle:"2. Pump shaft power",pumpSub:"Estimate shaft power from flow rate, head and efficiency.",dropTitle:"3. Straight-pipe pressure drop",dropSub:"Darcy–Weisbach estimate with a friction factor suited to the flow regime.",q:"Flow rate Q",d:"Internal diameter D",h:"Total head H",rho:"Fluid density ρ",eta:"Efficiency η",length:"Straight length L",mu:"Dynamic viscosity μ",eps:"Absolute roughness ε",calc:"Calculate",invalid:"Enter valid values. Dimensions and fluid properties must be positive; efficiency must be between 0 and 100%.",speed:"Average velocity",area:"Internal area",flowFormula:"Formula: v = Q / A, where A = πD²/4.",shaft:"Estimated shaft power",hydraulic:"Hydraulic power",pumpFormula:"P shaft = ρ × g × Q × H / η.",drop:"Pressure drop",head:"Head loss",velocity:"Velocity",reynolds:"Reynolds number",friction:"Darcy friction factor",regime:"Flow regime",laminar:"Laminar",transition:"Transition — indicative result",turbulent:"Turbulent",dropFormula:"Darcy–Weisbach: Δp = f × (L/D) × (ρv²/2).",warningTransition:"Flow is transitional; friction factor and pressure loss are uncertain. Perform a more detailed analysis.",warningDrop:"Includes friction in a straight pipe only. Elbows, valves, fittings, elevation changes, diameter changes and transient effects are excluded.",footer:"MechMind AI · Prototype version 0.1 · Calculations run locally in your browser."}
+const translations = {
+  fr: {
+    tagline: "Outils de calcul et dimensionnement CVC / HVAC.",
+    eyebrow: "HVAC ENGINEERING TOOLKIT",
+    headline: "Calculs génie climatique & aéraulique.",
+    intro: "Boîte à outils dédiée au traitement d'air, dimensionnement des réseaux de gaines, tuyauteries d'eau glacée/chaude et psychrométrie.",
+    disclaimer: "<strong>Important :</strong> résultats indicatifs pour le dimensionnement préliminaire en CVC. Toujours vérifier selon les normes locales (ASHRAE, RE2020, EN 13779) et les abaques fabricants.",
+    airHeatTitle: "1. Bilan Thermique Aéraulique",
+    airHeatSub: "Puissance sensible d'une batterie d'air ou débit d'air requis.",
+    ductTitle: "2. Dimensionnement Gaine Aéraulique",
+    ductSub: "Vitesse de l'air et perte de charge équivalente.",
+    waterTitle: "3. Débit Eau Chauffage/Refroidissement",
+    waterSub: "Calcul du débit d'eau et de la puissance thermique.",
+    dewTitle: "4. Point de Rosée & Humidité",
+    dewSub: "Estimation du point de rosée pour éviter la condensation.",
+    calc: "Calculer",
+    invalid: "Veuillez vérifier vos données d'entrée.",
+    footer: "MechMind AI · Version CVC 0.2 · Outils de calcul pour ingénieurs CVC."
+  },
+  en: {
+    tagline: "HVAC & Climate Control Engineering Tools.",
+    eyebrow: "HVAC ENGINEERING TOOLKIT",
+    headline: "Clearer HVAC & Ducting Calculations.",
+    intro: "Engineering toolkit for air handling, duct sizing, chilled/hot water piping, and basic psychrometrics.",
+    disclaimer: "<strong>Important:</strong> preliminary results for HVAC design. Always double check against local standards (ASHRAE, EN 13779) and manufacturer tables.",
+    airHeatTitle: "1. Air Sensible Thermal Load",
+    airHeatSub: "Estimate thermal capacity from airflow and temperature delta.",
+    ductTitle: "2. Air Duct Sizing",
+    ductSub: "Calculate air velocity and hydraulic diameter.",
+    waterTitle: "3. Hydronic Water Flow Rate",
+    waterSub: "Calculate water flow rate needed for heating or cooling.",
+    dewTitle: "4. Dew Point Estimation",
+    dewSub: "Calculate dew point to prevent condensation on ducts or pipes.",
+    calc: "Calculate",
+    invalid: "Please check input values.",
+    footer: "MechMind AI · HVAC Version 0.2 · Calculations run locally."
+  }
 };
-let lang="fr";const t=()=>translations[lang];const el=id=>document.getElementById(id);const num=id=>Number(el(id).value);const fmt=(x,d=3)=>Number(x).toLocaleString(lang==="fr"?"fr-FR":"en-GB",{maximumFractionDigits:d});
-function setText(id,value){el(id).textContent=value}function label(id,key,unit){el(id).innerHTML=t()[key]+` <span class="unit">(${unit})</span>`}
-function show(id,html,error=false){const box=el(id);box.className="result show";box.innerHTML=html;if(error)box.querySelector("strong")?.classList.add("error")}
-function valid(values){return values.every(Number.isFinite)&&values.every(v=>v>0)}
-function renderLanguage(){const x=t();for(const id of ["tagline","eyebrow","headline","intro","flowTitle","flowSub","pumpTitle","pumpSub","dropTitle","dropSub","footer"])setText(id,x[id]);el("disclaimer").innerHTML=x.disclaimer;for(const [id,key,u] of [["flowQL","q","m³/h"],["flowDL","d","mm"],["pumpQL","q","m³/h"],["pumpHL","h","m"],["pumpRhoL","rho","kg/m³"],["pumpEtaL","eta","%"],["dropQL","q","m³/h"],["dropDL","d","mm"],["dropLL","length","m"],["dropRhoL","rho","kg/m³"],["dropMuL","mu","Pa·s"],["dropEpsL","eps","mm"]])label(id,key,u);for(const id of ["flowBtn","pumpBtn","dropBtn"])setText(id,x.calc);}
-el("language").addEventListener("change",e=>{lang=e.target.value;renderLanguage()});
-el("flowBtn").addEventListener("click",()=>{const Q=num("flowQ")/3600,D=num("flowD")/1000;if(!valid([Q,D]))return show("flowResult",`<strong>${t().invalid}</strong>`,true);const A=Math.PI*D*D/4,v=Q/A;show("flowResult",`<strong>${fmt(v)} m/s</strong><p>${t().speed}: ${fmt(v)} m/s · ${t().area}: ${fmt(A,6)} m²</p><div class="details">${t().flowFormula}</div>`)});
-el("pumpBtn").addEventListener("click",()=>{const Q=num("pumpQ")/3600,H=num("pumpH"),rho=num("pumpRho"),eta=num("pumpEta")/100;if(!valid([Q,H,rho,eta])||eta>1)return show("pumpResult",`<strong>${t().invalid}</strong>`,true);const Ph=rho*9.80665*Q*H,P=Ph/eta;show("pumpResult",`<strong>${fmt(P/1000)} kW</strong><p>${t().shaft}: ${fmt(P/1000)} kW · ${t().hydraulic}: ${fmt(Ph/1000)} kW</p><div class="details">${t().pumpFormula}</div>`)});
-el("dropBtn").addEventListener("click",()=>{const Q=num("dropQ")/3600,D=num("dropD")/1000,L=num("dropL"),rho=num("dropRho"),mu=num("dropMu"),eps=num("dropEps")/1000;if(!valid([Q,D,L,rho,mu])||eps<0)return show("dropResult",`<strong>${t().invalid}</strong>`,true);const A=Math.PI*D*D/4,v=Q/A,Re=rho*v*D/mu,rr=eps/D;let f,regime;if(Re<2300){f=64/Re;regime=t().laminar}else if(Re>=4000){f=0.25/Math.pow(Math.log10(rr/3.7+5.74/Math.pow(Re,0.9)),2);regime=t().turbulent}else{f=64/Re;regime=t().transition}const dp=f*(L/D)*(rho*v*v/2),dh=dp/(rho*9.80665);const extra=Re>=2300&&Re<4000?`<p class="error">${t().warningTransition}</p>`:"";show("dropResult",`<strong>${fmt(dp/1000)} kPa</strong><p>${t().drop}: ${fmt(dp/1000)} kPa · ${t().head}: ${fmt(dh)} m</p><div class="details">${t().velocity}: ${fmt(v)} m/s\n${t().reynolds}: ${fmt(Re,0)} · ${t().regime}: ${regime}\n${t().friction}: ${fmt(f,5)}\n${t().dropFormula}</div>${extra}<p>${t().warningDrop}</p>`)});
-renderLanguage();
+
+let lang = "fr";
+const t = () => translations[lang];
+const el = id => document.getElementById(id);
+const num = id => Number(el(id).value);
+const fmt = (x, d = 2) => Number(x).toLocaleString(lang === "fr" ? "fr-FR" : "en-GB", { maximumFractionDigits: d });
+
+function show(id, html, error = false) {
+  const box = el(id);
+  box.className = "result show";
+  box.innerHTML = html;
+  if (error) box.querySelector("strong")?.classList.add("error");
+}
+
+function valid(values) {
+  return values.every(Number.isFinite) && values.every(v => v > 0);
+}
+
+// 1. Calcul Puissance Sensible Air
+el("airHeatBtn").addEventListener("click", () => {
+  const Q = num("airQ") / 3600; // m3/s
+  const dT = num("airdT");
+  const rho = num("airRho");
+  const cp = 1005; // J/kg.K pour l'air sec
+
+  if (!valid([Q, rho]) || isNaN(dT)) return show("airHeatResult", `<strong>${t().invalid}</strong>`, true);
+
+  const P_kW = (rho * Q * cp * dT) / 1000;
+  show("airHeatResult", `<strong>${fmt(P_kW)} kW</strong><p>Débit massique: ${fmt(Q * rho, 3)} kg/s</p><div class="details">P = ρ × Q × Cp × ΔT</div>`);
+});
+
+// 2. Calcul Gaine d'Air
+el("ductBtn").addEventListener("click", () => {
+  const Q = num("ductQ") / 3600;
+  const W = num("ductW") / 1000;
+  const H = num("ductH") / 1000;
+
+  if (Q <= 0 || W <= 0) return show("ductResult", `<strong>${t().invalid}</strong>`, true);
+
+  let A = 0;
+  let Dh = 0;
+  if (H > 0) {
+    A = W * H;
+    Dh = (2 * W * H) / (W + H);
+  } else {
+    A = (Math.PI * W * W) / 4;
+    Dh = W;
+  }
+
+  const v = Q / A;
+  let warning = v > 6 ? `<p class="error">Vitesse élevée (> 6 m/s), risque de bruit en tertiaire !</p>` : "";
+  show("ductResult", `<strong>${fmt(v)} m/s</strong><p>Diamètre hydraulique: ${fmt(Dh * 1000, 0)} mm · Section: ${fmt(A, 3)} m²</p>${warning}`);
+});
+
+// 3. Calcul Débit Eau Glacée / Chaude
+el("waterBtn").addEventListener("click", () => {
+  const P = num("waterP"); // kW
+  const dT = num("waterdT");
+  const cp = 4.186; // kJ/kg.K
+
+  if (!valid([P, dT])) return show("waterResult", `<strong>${t().invalid}</strong>`, true);
+
+  const m_kgs = P / (cp * dT); // kg/s
+  const Q_m3h = (m_kgs * 3600) / 1000;
+
+  show("waterResult", `<strong>${fmt(Q_m3h)} m³/h</strong><p>Débit eau: ${fmt(Q_m3h * 1000 / 3600, 2)} L/s (${fmt(m_kgs, 2)} kg/s)</p><div class="details">Q = P / (c_p × ΔT)</div>`);
+});
+
+// 4. Calcul Point de Rosée (Formule de Magnus)
+el("dewBtn").addEventListener("click", () => {
+  const T = num("dewT");
+  const RH = num("dewRH");
+
+  if (RH <= 0 || RH > 100) return show("dewResult", `<strong>${t().invalid}</strong>`, true);
+
+  const a = 17.27;
+  const b = 237.7;
+  const alpha = ((a * T) / (b + T)) + Math.log(RH / 100);
+  const Tdp = (b * alpha) / (a - alpha);
+
+  show("dewResult", `<strong>${fmt(Tdp, 1)} °C</strong><p>Température de point de rosée pour ${RH}% HR à ${T}°C.</p>`);
+});
+
+el("language").addEventListener("change", (e) => {
+  lang = e.target.value;
+  const x = t();
+  document.getElementById("tagline").textContent = x.tagline;
+  document.getElementById("eyebrow").textContent = x.eyebrow;
+  document.getElementById("headline").textContent = x.headline;
+  document.getElementById("intro").textContent = x.intro;
+  document.getElementById("disclaimer").innerHTML = x.disclaimer;
+  document.getElementById("footer").textContent = x.footer;
+});
 </script>
 </body>
 </html>
+ 
+     
