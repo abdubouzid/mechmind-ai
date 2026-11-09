@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="MechMind AI — outils de calcul pour les professionnels du génie mécanique.">
+  <title>MechMind AI — Engineering tools</title>
+  <style>
+    :root{--bg:#f4f7fb;--panel:#fff;--ink:#17243a;--muted:#64748b;--line:#dce4ef;--blue:#1459d9;--blue2:#eaf1ff;--green:#087a55;--amber:#8a5700;--shadow:0 12px 32px rgba(25,48,83,.08)}
+    *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+    header{background:#10213c;color:#fff;padding:24px max(20px,calc((100% - 1100px)/2));display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}
+    .brand{display:flex;align-items:center;gap:12px}.logo{width:42px;height:42px;border-radius:12px;background:#fff;color:#1459d9;display:grid;place-items:center;font-weight:900;font-size:20px}.brand h1{font-size:21px;margin:0;letter-spacing:.2px}.brand p{margin:2px 0 0;color:#c4d2e8;font-size:12px}
+    select,button,input{font:inherit} header select{background:#1b3458;color:#fff;border:1px solid #466080;border-radius:9px;padding:9px 12px}
+    main{max-width:1100px;margin:34px auto;padding:0 20px 50px}.hero{margin-bottom:24px}.eyebrow{color:var(--blue);font-weight:750;text-transform:uppercase;letter-spacing:1.5px;font-size:11px}.hero h2{font-size:clamp(28px,4vw,42px);line-height:1.12;margin:8px 0 10px;letter-spacing:-1.2px}.hero p{max-width:700px;color:var(--muted);margin:0}
+    .notice{border:1px solid #f0d7a2;background:#fff9e9;color:#654600;border-radius:12px;padding:13px 16px;margin:20px 0 24px;font-size:13px}
+    .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:22px;box-shadow:var(--shadow)}.card h3{margin:0 0 5px;font-size:19px}.sub{color:var(--muted);font-size:13px;margin:0 0 18px}
+    .fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.field label{display:block;font-size:12px;font-weight:700;color:#40516b;margin-bottom:5px}.field input{width:100%;border:1px solid #cbd6e5;border-radius:9px;padding:10px 11px;color:var(--ink);background:#fff;outline:none}.field input:focus{border-color:var(--blue);box-shadow:0 0 0 3px #1459d91a}.unit{font-weight:500;color:#718096}
+    .actions{display:flex;gap:10px;align-items:center;margin-top:16px;flex-wrap:wrap}.primary{border:0;border-radius:9px;padding:10px 16px;background:var(--blue);color:#fff;font-weight:750;cursor:pointer}.primary:hover{background:#0e49b5}.result{display:none;margin-top:16px;border-radius:11px;background:#eff8f4;border:1px solid #cce9dc;padding:13px 15px}.result.show{display:block}.result strong{display:block;font-size:23px;color:var(--green);line-height:1.3}.result p{margin:4px 0 0;color:#385c50;font-size:13px}.error{color:#a32626!important}.details{margin-top:9px;color:#53657a;font-size:12px;white-space:pre-line}.full{grid-column:1/-1}.footer{margin-top:25px;color:var(--muted);font-size:12px;text-align:center}
+    @media(max-width:720px){.grid{grid-template-columns:1fr}.full{grid-column:auto}.fields{grid-template-columns:1fr}main{margin-top:24px}header{padding:18px 20px}}
+  </style>
+</head>
+<body>
+<header>
+  <div class="brand"><div class="logo">M</div><div><h1>MechMind AI</h1><p id="tagline">Des outils d’ingénierie mécanique, simplement.</p></div></div>
+  <select id="language" aria-label="Language"><option value="fr">Français</option><option value="en">English</option></select>
+</header>
+<main>
+  <section class="hero">
+    <div class="eyebrow" id="eyebrow">MECHANICAL ENGINEERING TOOLKIT</div>
+    <h2 id="headline">Des calculs d’ingénierie plus clairs.</h2>
+    <p id="intro">Une première boîte à outils pour les professionnels des systèmes fluides industriels : débit, pompage et pertes de charge.</p>
+  </section>
+  <div class="notice" id="disclaimer"><strong>Important :</strong> résultats préliminaires à titre pédagogique et de présélection. Vérifiez les hypothèses, les unités et les données fabricant. Ce site ne remplace pas la validation d’un ingénieur qualifié ni les normes applicables.</div>
+  <section class="grid">
+    <article class="card">
+      <h3 id="flowTitle">1. Vitesse d’écoulement</h3><p class="sub" id="flowSub">Calculez la vitesse moyenne dans une conduite circulaire.</p>
+      <div class="fields">
+        <div class="field"><label for="flowQ" id="flowQL">Débit Q <span class="unit">(m³/h)</span></label><input id="flowQ" type="number" min="0" step="any" value="10"></div>
+        <div class="field"><label for="flowD" id="flowDL">Diamètre intérieur D <span class="unit">(mm)</span></label><input id="flowD" type="number" min="0" step="any" value="50"></div>
+      </div>
+      <div class="actions"><button class="primary" id="flowBtn">Calculer</button></div><div class="result" id="flowResult" aria-live="polite"></div>
+    </article>
+    <article class="card">
+      <h3 id="pumpTitle">2. Puissance de pompe</h3><p class="sub" id="pumpSub">Estimez la puissance à l’arbre à partir du débit, de la hauteur et du rendement.</p>
+      <div class="fields">
+        <div class="field"><label for="pumpQ" id="pumpQL">Débit Q <span class="unit">(m³/h)</span></label><input id="pumpQ" type="number" min="0" step="any" value="12"></div>
+        <div class="field"><label for="pumpH" id="pumpHL">Hauteur manométrique H <span class="unit">(m)</span></label><input id="pumpH" type="number" min="0" step="any" value="25"></div>
+        <div class="field"><label for="pumpRho" id="pumpRhoL">Masse volumique ρ <span class="unit">(kg/m³)</span></label><input id="pumpRho" type="number" min="0" step="any" value="1000"></div>
+        <div class="field"><label for="pumpEta" id="pumpEtaL">Rendement η <span class="unit">(%)</span></label><input id="pumpEta" type="number" min="0" max="100" step="any" value="70"></div>
+      </div>
+      <div class="actions"><button class="primary" id="pumpBtn">Calculer</button></div><div class="result" id="pumpResult" aria-live="polite"></div>
+    </article>
+    <article class="card full">
+      <h3 id="dropTitle">3. Perte de charge en conduite droite</h3><p class="sub" id="dropSub">Estimation Darcy–Weisbach avec facteur de frottement adapté au régime d’écoulement.</p>
+      <div class="fields">
+        <div class="field"><label for="dropQ" id="dropQL">Débit Q <span class="unit">(m³/h)</span></label><input id="dropQ" type="number" min="0" step="any" value="10"></div>
+        <div class="field"><label for="dropD" id="dropDL">Diamètre intérieur D <span class="unit">(mm)</span></label><input id="dropD" type="number" min="0" step="any" value="50"></div>
+        <div class="field"><label for="dropL" id="dropLL">Longueur droite L <span class="unit">(m)</span></label><input id="dropL" type="number" min="0" step="any" value="100"></div>
+        <div class="field"><label for="dropRho" id="dropRhoL">Masse volumique ρ <span class="unit">(kg/m³)</span></label><input id="dropRho" type="number" min="0" step="any" value="1000"></div>
+        <div class="field"><label for="dropMu" id="dropMuL">Viscosité dynamique μ <span class="unit">(Pa·s)</span></label><input id="dropMu" type="number" min="0" step="any" value="0.001"></div>
+        <div class="field"><label for="dropEps" id="dropEpsL">Rugosité absolue ε <span class="unit">(mm)</span></label><input id="dropEps" type="number" min="0" step="any" value="0.045"></div>
+      </div>
+      <div class="actions"><button class="primary" id="dropBtn">Calculer</button></div><div class="result" id="dropResult" aria-live="polite"></div>
+    </article>
+  </section>
+  <p class="footer" id="footer">MechMind AI · Version prototype 0.1 · Calculs exécutés localement dans votre navigateur.</p>
+</main>
+<script>
+const translations={
+ fr:{tagline:"Des outils d’ingénierie mécanique, simplement.",eyebrow:"BOÎTE À OUTILS DE GÉNIE MÉCANIQUE",headline:"Des calculs d’ingénierie plus clairs.",intro:"Une première boîte à outils pour les professionnels des systèmes fluides industriels : débit, pompage et pertes de charge.",disclaimer:"<strong>Important :</strong> résultats préliminaires à titre pédagogique et de présélection. Vérifiez les hypothèses, les unités et les données fabricant. Ce site ne remplace pas la validation d’un ingénieur qualifié ni les normes applicables.",flowTitle:"1. Vitesse d’écoulement",flowSub:"Calculez la vitesse moyenne dans une conduite circulaire.",pumpTitle:"2. Puissance de pompe",pumpSub:"Estimez la puissance à l’arbre à partir du débit, de la hauteur et du rendement.",dropTitle:"3. Perte de charge en conduite droite",dropSub:"Estimation Darcy–Weisbach avec facteur de frottement adapté au régime d’écoulement.",q:"Débit Q",d:"Diamètre intérieur D",h:"Hauteur manométrique H",rho:"Masse volumique ρ",eta:"Rendement η",length:"Longueur droite L",mu:"Viscosité dynamique μ",eps:"Rugosité absolue ε",calc:"Calculer",invalid:"Veuillez saisir des valeurs valides. Les dimensions et propriétés doivent être positives; le rendement doit être compris entre 0 et 100 %.",speed:"Vitesse moyenne",area:"Section intérieure",flowFormula:"Formule : v = Q / A, avec A = πD²/4.",shaft:"Puissance estimée à l’arbre",hydraulic:"Puissance hydraulique",pumpFormula:"P arbre = ρ × g × Q × H / η.",drop:"Perte de pression",head:"Perte de hauteur",velocity:"Vitesse",reynolds:"Nombre de Reynolds",friction:"Facteur de frottement Darcy",regime:"Régime",laminar:"Laminaire",transition:"Transition — résultat indicatif",turbulent:"Turbulent",dropFormula:"Darcy–Weisbach : Δp = f × (L/D) × (ρv²/2).",warningTransition:"Le régime est transitionnel; le facteur de frottement et la perte de charge sont incertains. Faites une analyse plus détaillée.",warningDrop:"Inclut uniquement le frottement dans une conduite droite. Les coudes, vannes, raccords, dénivelés, variations de diamètre et effets transitoires ne sont pas inclus.",footer:"MechMind AI · Prototype version 0.1 · Les calculs sont exécutés localement dans votre navigateur."},
+ en:{tagline:"Mechanical engineering tools, made simple.",eyebrow:"MECHANICAL ENGINEERING TOOLKIT",headline:"Clearer engineering calculations.",intro:"A first toolkit for industrial fluid-systems professionals: flow, pumping and pressure losses.",disclaimer:"<strong>Important:</strong> preliminary results for learning and early-stage estimates only. Check assumptions, units and manufacturer data. This site does not replace review by a qualified engineer or applicable standards.",flowTitle:"1. Flow velocity",flowSub:"Calculate average velocity in a circular pipe.",pumpTitle:"2. Pump shaft power",pumpSub:"Estimate shaft power from flow rate, head and efficiency.",dropTitle:"3. Straight-pipe pressure drop",dropSub:"Darcy–Weisbach estimate with a friction factor suited to the flow regime.",q:"Flow rate Q",d:"Internal diameter D",h:"Total head H",rho:"Fluid density ρ",eta:"Efficiency η",length:"Straight length L",mu:"Dynamic viscosity μ",eps:"Absolute roughness ε",calc:"Calculate",invalid:"Enter valid values. Dimensions and fluid properties must be positive; efficiency must be between 0 and 100%.",speed:"Average velocity",area:"Internal area",flowFormula:"Formula: v = Q / A, where A = πD²/4.",shaft:"Estimated shaft power",hydraulic:"Hydraulic power",pumpFormula:"P shaft = ρ × g × Q × H / η.",drop:"Pressure drop",head:"Head loss",velocity:"Velocity",reynolds:"Reynolds number",friction:"Darcy friction factor",regime:"Flow regime",laminar:"Laminar",transition:"Transition — indicative result",turbulent:"Turbulent",dropFormula:"Darcy–Weisbach: Δp = f × (L/D) × (ρv²/2).",warningTransition:"Flow is transitional; friction factor and pressure loss are uncertain. Perform a more detailed analysis.",warningDrop:"Includes friction in a straight pipe only. Elbows, valves, fittings, elevation changes, diameter changes and transient effects are excluded.",footer:"MechMind AI · Prototype version 0.1 · Calculations run locally in your browser."}
+};
+let lang="fr";const t=()=>translations[lang];const el=id=>document.getElementById(id);const num=id=>Number(el(id).value);const fmt=(x,d=3)=>Number(x).toLocaleString(lang==="fr"?"fr-FR":"en-GB",{maximumFractionDigits:d});
+function setText(id,value){el(id).textContent=value}function label(id,key,unit){el(id).innerHTML=t()[key]+` <span class="unit">(${unit})</span>`}
+function show(id,html,error=false){const box=el(id);box.className="result show";box.innerHTML=html;if(error)box.querySelector("strong")?.classList.add("error")}
+function valid(values){return values.every(Number.isFinite)&&values.every(v=>v>0)}
+function renderLanguage(){const x=t();for(const id of ["tagline","eyebrow","headline","intro","flowTitle","flowSub","pumpTitle","pumpSub","dropTitle","dropSub","footer"])setText(id,x[id]);el("disclaimer").innerHTML=x.disclaimer;for(const [id,key,u] of [["flowQL","q","m³/h"],["flowDL","d","mm"],["pumpQL","q","m³/h"],["pumpHL","h","m"],["pumpRhoL","rho","kg/m³"],["pumpEtaL","eta","%"],["dropQL","q","m³/h"],["dropDL","d","mm"],["dropLL","length","m"],["dropRhoL","rho","kg/m³"],["dropMuL","mu","Pa·s"],["dropEpsL","eps","mm"]])label(id,key,u);for(const id of ["flowBtn","pumpBtn","dropBtn"])setText(id,x.calc);}
+el("language").addEventListener("change",e=>{lang=e.target.value;renderLanguage()});
+el("flowBtn").addEventListener("click",()=>{const Q=num("flowQ")/3600,D=num("flowD")/1000;if(!valid([Q,D]))return show("flowResult",`<strong>${t().invalid}</strong>`,true);const A=Math.PI*D*D/4,v=Q/A;show("flowResult",`<strong>${fmt(v)} m/s</strong><p>${t().speed}: ${fmt(v)} m/s · ${t().area}: ${fmt(A,6)} m²</p><div class="details">${t().flowFormula}</div>`)});
+el("pumpBtn").addEventListener("click",()=>{const Q=num("pumpQ")/3600,H=num("pumpH"),rho=num("pumpRho"),eta=num("pumpEta")/100;if(!valid([Q,H,rho,eta])||eta>1)return show("pumpResult",`<strong>${t().invalid}</strong>`,true);const Ph=rho*9.80665*Q*H,P=Ph/eta;show("pumpResult",`<strong>${fmt(P/1000)} kW</strong><p>${t().shaft}: ${fmt(P/1000)} kW · ${t().hydraulic}: ${fmt(Ph/1000)} kW</p><div class="details">${t().pumpFormula}</div>`)});
+el("dropBtn").addEventListener("click",()=>{const Q=num("dropQ")/3600,D=num("dropD")/1000,L=num("dropL"),rho=num("dropRho"),mu=num("dropMu"),eps=num("dropEps")/1000;if(!valid([Q,D,L,rho,mu])||eps<0)return show("dropResult",`<strong>${t().invalid}</strong>`,true);const A=Math.PI*D*D/4,v=Q/A,Re=rho*v*D/mu,rr=eps/D;let f,regime;if(Re<2300){f=64/Re;regime=t().laminar}else if(Re>=4000){f=0.25/Math.pow(Math.log10(rr/3.7+5.74/Math.pow(Re,0.9)),2);regime=t().turbulent}else{f=64/Re;regime=t().transition}const dp=f*(L/D)*(rho*v*v/2),dh=dp/(rho*9.80665);const extra=Re>=2300&&Re<4000?`<p class="error">${t().warningTransition}</p>`:"";show("dropResult",`<strong>${fmt(dp/1000)} kPa</strong><p>${t().drop}: ${fmt(dp/1000)} kPa · ${t().head}: ${fmt(dh)} m</p><div class="details">${t().velocity}: ${fmt(v)} m/s\n${t().reynolds}: ${fmt(Re,0)} · ${t().regime}: ${regime}\n${t().friction}: ${fmt(f,5)}\n${t().dropFormula}</div>${extra}<p>${t().warningDrop}</p>`)});
+renderLanguage();
+</script>
+</body>
+</html>
