@@ -1,753 +1,120 @@
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#101d33">
-<meta name="description" content="MechMind AI - HVAC engineering calculations, system design and equipment selection.">
-<title>MechMind AI | HVAC Engineering Platform</title>
-
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>MechMind AI | Mechanical Engineering Platform</title>
+<meta name="description" content="Engineering calculators, project workspace and a freelance marketplace for mechanical engineering.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&family=Barlow+Semi+Condensed:wght@600;700&display=swap">
 <style>
-:root{
-  --bg:#f3f6fb;
-  --surface:#fff;
-  --nav:#101d33;
-  --nav2:#192b49;
-  --blue:#2563eb;
-  --blue2:#dbeafe;
-  --ink:#18263d;
-  --muted:#718096;
-  --line:#e2e8f0;
-  --green:#087a55;
-  --red:#c53030;
-  --amber:#b7791f;
-  --shadow:0 8px 28px rgba(20,40,75,.06);
-}
-*{box-sizing:border-box}
-body{
- margin:0;background:var(--bg);color:var(--ink);
- font:14px/1.55 Inter,system-ui,-apple-system,sans-serif;
-}
-button,input,select{font:inherit}
-button{cursor:pointer}
-.layout{min-height:100vh}
-.sidebar{
- position:fixed;inset:0 auto 0 0;width:250px;
- background:var(--nav);color:white;padding:22px 15px;
- display:flex;flex-direction:column;z-index:10;
- overflow-y:auto;
-}
-.brand{display:flex;align-items:center;gap:12px;padding:4px 8px 25px}
-.logo{
- width:42px;height:42px;background:var(--blue);border-radius:12px;
- display:grid;place-items:center;font-size:23px;font-weight:900;
-}
-.brand h1{font-size:18px;margin:0}
-.brand p{font-size:10px;color:#aabbd3;margin:3px 0}
-.nav-label{
- font-size:10px;letter-spacing:1.4px;text-transform:uppercase;
- color:#8295b1;padding:14px 10px 7px;font-weight:800;
-}
-.nav-btn{
- border:0;background:transparent;color:#bdcbe0;width:100%;
- padding:11px 12px;border-radius:8px;text-align:left;
- margin:2px 0;font-size:12px;font-weight:600;
- display:flex;gap:11px;align-items:center;
-}
-.nav-btn:hover,.nav-btn.active{background:#213d65;color:white}
-.nav-btn.active{box-shadow:inset 3px 0 var(--blue)}
-.sidebar-bottom{margin-top:auto;padding:15px 8px;color:#8295b1;font-size:11px}
-.main{margin-left:250px;min-height:100vh}
-.topbar{
- height:66px;background:white;border-bottom:1px solid var(--line);
- display:flex;align-items:center;justify-content:space-between;
- padding:0 30px;position:sticky;top:0;z-index:5;
-}
-.topbar strong{font-size:13px}
-.topbar small{color:var(--muted)}
-.status{color:var(--green);font-size:11px;font-weight:700}
-.content{max-width:1450px;margin:auto;padding:28px}
-.page{display:none}
-.page.active{display:block}
-.page-heading{margin-bottom:22px}
-.page-heading h2{font-size:25px;margin:0 0 5px}
-.page-heading p{color:var(--muted);margin:0}
-.hero{
- background:linear-gradient(120deg,#11284a,#1d4e89);
- color:white;padding:30px;border-radius:16px;margin-bottom:22px;
-}
-.hero h2{font-size:29px;margin:8px 0}
-.hero p{max-width:700px;color:#d4e3f7}
-.eyebrow{font-size:10px;letter-spacing:1.5px;color:#93c5fd;font-weight:800}
-.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
-.grid.three{grid-template-columns:repeat(3,minmax(0,1fr))}
-.card{
- background:var(--surface);border:1px solid var(--line);
- border-radius:13px;padding:21px;box-shadow:var(--shadow);
- min-width:0;
-}
-.card h3{font-size:16px;margin:0 0 5px}
-.sub{color:var(--muted);font-size:12px;margin:0 0 18px}
-.metric{font-size:25px;font-weight:800;margin:7px 0}
-.metric-label{font-size:11px;color:var(--muted)}
-.metric-card{padding:19px}
-.metric-card .metric{color:var(--blue)}
-.fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
-.field.full{grid-column:1/-1}
-.field label{display:block;font-size:11px;font-weight:700;margin-bottom:5px;color:#45566f}
-.field input,.field select{
- width:100%;padding:10px;border:1px solid #cbd5e1;
- border-radius:8px;background:white;color:var(--ink);outline:none;
-}
-.field input:focus,.field select:focus{
- border-color:var(--blue);box-shadow:0 0 0 3px #2563eb18;
-}
-.hint{font-size:10px;color:var(--muted);margin-top:4px}
-.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:17px}
-.btn{
- padding:10px 16px;border:0;border-radius:8px;
- background:var(--blue);color:white;font-weight:700;font-size:12px;
-}
-.btn:hover{background:#1d4ed8}
-.btn.secondary{background:#eaf0f8;color:#334155}
-.btn.dark{background:var(--nav);color:white}
-.result{
- display:none;margin-top:16px;padding:15px;border-radius:9px;
- background:#eff8f4;border:1px solid #cce9dc;
-}
-.result.show{display:block}
-.result.error{background:#fff1f1;border-color:#fecaca}
-.result.warning{background:#fff9e9;border-color:#f4d28b}
-.result h4{font-size:17px;color:var(--green);margin:0 0 5px}
-.result.error h4{color:var(--red)}
-.result.warning h4{color:var(--amber)}
-.result p{font-size:12px;margin:4px 0;color:#40556b}
-.result pre{
- white-space:pre-wrap;font:11px/1.7 inherit;color:#53657a;
- border-top:1px dashed #ccd7e4;padding-top:9px;margin:10px 0 0;
-}
-.notice{
- padding:12px 14px;border-left:3px solid var(--amber);
- background:#fff9e9;color:#70521b;font-size:11px;border-radius:5px;
- margin:15px 0;
-}
-.table{width:100%;border-collapse:collapse;font-size:12px}
-.table th,.table td{text-align:left;padding:10px;border-bottom:1px solid var(--line)}
-.table th{color:var(--muted);font-size:10px;text-transform:uppercase}
-.project-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
-.project-row input{padding:10px;border:1px solid var(--line);border-radius:8px}
-.footer{text-align:center;color:var(--muted);font-size:10px;padding:30px}
-.mobile-menu{display:none}
-@media(max-width:900px){
- .sidebar{width:210px}
- .main{margin-left:210px}
- .grid.three{grid-template-columns:repeat(2,minmax(0,1fr))}
-}
-@media(max-width:650px){
- .sidebar{position:static;width:100%;height:auto;padding:12px}
- .brand{padding-bottom:8px}
- .sidebar nav{display:flex;overflow-x:auto}
- .nav-label,.sidebar-bottom{display:none}
- .nav-btn{min-width:max-content;width:auto}
- .main{margin-left:0}
- .topbar{padding:0 15px}
- .content{padding:15px}
- .grid,.grid.three{grid-template-columns:1fr}
- .hero{padding:21px}
- .hero h2{font-size:23px}
-}
-</style>
-</head>
-
-<body>
-<div class="layout">
-
-<aside class="sidebar">
- <div class="brand">
-  <div class="logo">M</div>
-  <div><h1>MechMind AI</h1><p>HVAC ENGINEERING PLATFORM</p></div>
- </div>
-
- <nav>
-  <div class="nav-label">Workspace</div>
-  <button class="nav-btn active" data-page="dashboard">▦ Dashboard</button>
-  <button class="nav-btn" data-page="projects">▣ Project workspace</button>
-
-  <div class="nav-label">Engineering tools</div>
-  <button class="nav-btn" data-page="thermal">♨ Thermal loads</button>
-  <button class="nav-btn" data-page="duct">⇢ Air ducts & sizing</button>
-  <button class="nav-btn" data-page="ventilation">↗ Ventilation</button>
-  <button class="nav-btn" data-page="water">◉ Hydronics & pumps</button>
-  <button class="nav-btn" data-page="psychro">◌ Psychrometrics</button>
-  <button class="nav-btn" data-page="refrigeration">❄ Refrigeration</button>
-
-  <div class="nav-label">Design & selection</div>
-  <button class="nav-btn" data-page="equipment">⚙ Equipment selection</button>
-  <button class="nav-btn" data-page="reference">▤ Engineering reference</button>
- </nav>
-
- <div class="sidebar-bottom">MECHMIND AI · Engineering Edition<br>Preliminary engineering tools</div>
-</aside>
-
-<div class="main">
-<header class="topbar">
- <div><strong id="pageTitle">Engineering Dashboard</strong><br><small>HVAC design and calculation workspace</small></div>
- <div class="status">● LOCAL CALCULATION ENGINE</div>
-</header>
-
-<main class="content">
-
-<!-- DASHBOARD -->
-<section class="page active" id="dashboard">
- <div class="hero">
-  <div class="eyebrow">MECHANICAL ENGINEERING · BUILDING SERVICES</div>
-  <h2>Design smarter HVAC systems.</h2>
-  <p>Calculate, size and evaluate HVAC systems in one engineering workspace. From thermal loads and ventilation to duct networks, hydronics and equipment selection.</p>
-  <button class="btn" onclick="navigate('thermal')">Start a calculation →</button>
- </div>
-
- <div class="grid three">
-  <div class="card metric-card"><div class="metric">01</div><div class="metric-label">Thermal engineering</div></div>
-  <div class="card metric-card"><div class="metric">02</div><div class="metric-label">Air distribution</div></div>
-  <div class="card metric-card"><div class="metric">03</div><div class="metric-label">Hydronic systems</div></div>
- </div>
-
- <div class="card" style="margin-top:18px">
-  <h3>Engineering workflow</h3>
-  <p class="sub">A typical sequence for an HVAC project.</p>
-  <div class="grid three">
-   <div><strong>01 · Load calculation</strong><p class="sub">Determine heating, cooling and ventilation requirements.</p></div>
-   <div><strong>02 · System design</strong><p class="sub">Size ducts, pipes, pumps and distribution networks.</p></div>
-   <div><strong>03 · Equipment selection</strong><p class="sub">Select suitable HVAC equipment using calculated loads.</p></div>
-  </div>
- </div>
-
- <div class="notice">Engineering reminder: These tools provide preliminary calculations. Final designs require project-specific climate data, applicable standards, manufacturer data, pressure-loss calculations and qualified engineering review.</div>
-</section>
-
-<!-- PROJECTS -->
-<section class="page" id="projects">
- <div class="page-heading"><h2>Project workspace</h2><p>Save project information and calculation results in this browser.</p></div>
- <div class="card">
-  <h3>Project information</h3>
-  <p class="sub">Create or update your active project.</p>
-  <div class="fields">
-   <div class="field"><label>Project name</label><input id="projectName" placeholder="e.g. Office Building - Tangier"></div>
-   <div class="field"><label>Building type</label>
-    <select id="projectType"><option>Office</option><option>Residential</option><option>Hotel</option><option>Hospital</option><option>Industrial</option><option>Retail</option></select>
-   </div>
-   <div class="field"><label>Location</label><input id="projectLocation" placeholder="City, Country"></div>
-   <div class="field"><label>Floor area (m²)</label><input id="projectArea" type="number" min="0"></div>
-  </div>
-  <div class="actions">
-   <button class="btn" onclick="saveProject()">Save project</button>
-   <button class="btn secondary" onclick="loadProject()">Load saved project</button>
-   <button class="btn secondary" onclick="exportReport()">Export report</button>
-  </div>
-  <div id="projectResult" class="result"></div>
- </div>
- <div class="card" style="margin-top:18px">
-  <h3>Calculation history</h3>
-  <p class="sub">Results generated during this browser session.</p>
-  <div id="history"><p class="sub">No calculations recorded yet.</p></div>
- </div>
-</section>
-
-<!-- THERMAL -->
-<section class="page" id="thermal">
- <div class="page-heading"><h2>Thermal engineering</h2><p>Air-side capacity and preliminary internal heat gain calculations.</p></div>
- <div class="grid">
-  <article class="card">
-   <h3>Air sensible heating / cooling</h3>
-   <p class="sub">Calculate air-side sensible capacity from mass flow and temperature difference.</p>
-   <div class="fields">
-    <div class="field"><label>Airflow (m³/h)</label><input id="tFlow" type="number" value="3000"></div>
-    <div class="field"><label>Air density (kg/m³)</label><input id="tRho" type="number" value="1.2"></div>
-    <div class="field"><label>Entering temperature (°C)</label><input id="tIn" type="number" value="32"></div>
-    <div class="field"><label>Leaving temperature (°C)</label><input id="tOut" type="number" value="22"></div>
-    <div class="field full"><label>Specific heat (kJ/kg·K)</label><input id="tCp" type="number" value="1.006"></div>
-   </div>
-   <div class="actions"><button class="btn" onclick="thermalCalc()">Calculate capacity</button></div>
-   <div class="result" id="tResult"></div>
-  </article>
-
-  <article class="card">
-   <h3>Internal heat gains</h3>
-   <p class="sub">Preliminary sensible and latent loads from people, lighting and equipment.</p>
-   <div class="fields">
-    <div class="field"><label>Number of occupants</label><input id="people" type="number" value="15"></div>
-    <div class="field"><label>Floor area (m²)</label><input id="loadArea" type="number" value="100"></div>
-    <div class="field"><label>Sensible heat/person (W)</label><input id="personS" type="number" value="75"></div>
-    <div class="field"><label>Latent heat/person (W)</label><input id="personL" type="number" value="55"></div>
-    <div class="field"><label>Lighting density (W/m²)</label><input id="lighting" type="number" value="10"></div>
-    <div class="field"><label>Equipment load (W)</label><input id="equipmentLoad" type="number" value="2000"></div>
-   </div>
-   <div class="actions"><button class="btn" onclick="internalCalc()">Calculate internal loads</button></div>
-   <div class="result" id="internalResult"></div>
-  </article>
- </div>
-</section>
-
-<!-- DUCTS -->
-<section class="page" id="duct">
- <div class="page-heading"><h2>Air ducts & sizing</h2><p>Calculate duct cross-sections and preliminary dimensions.</p></div>
- <div class="grid">
-  <article class="card">
-   <h3>Duct dimension calculator</h3>
-   <p class="sub">Calculate circular and rectangular duct sizes from airflow and target velocity.</p>
-   <div class="fields">
-    <div class="field"><label>Airflow (m³/h)</label><input id="dFlow" type="number" value="2500"></div>
-    <div class="field"><label>Target velocity (m/s)</label><input id="dVelocity" type="number" value="5"></div>
-    <div class="field"><label>Rectangular height (mm)</label><input id="dHeight" type="number" value="300"></div>
-    <div class="field"><label>Width / height ratio</label><input id="dRatio" type="number" value="2"></div>
-   </div>
-   <div class="actions"><button class="btn" onclick="ductCalc()">Calculate duct</button></div>
-   <div class="result" id="ductResult"></div>
-  </article>
-
-  <article class="card">
-   <h3>Airflow velocity calculator</h3>
-   <p class="sub">Determine velocity from airflow and duct dimensions.</p>
-   <div class="fields">
-    <div class="field"><label>Airflow (m³/h)</label><input id="vFlow" type="number" value="1800"></div>
-    <div class="field"><label>Duct type</label><select id="vType"><option value="circle">Circular</option><option value="rect">Rectangular</option></select></div>
-    <div class="field"><label>Diameter (mm)</label><input id="vDiameter" type="number" value="400"></div>
-    <div class="field"><label>Width (mm)</label><input id="vWidth" type="number" value="500"></div>
-    <div class="field"><label>Height (mm)</label><input id="vHeight" type="number" value="300"></div>
-   </div>
-   <div class="actions"><button class="btn" onclick="velocityCalc()">Calculate velocity</button></div>
-   <div class="result" id="velocityResult"></div>
-  </article>
- </div>
-</section>
-
-<!-- VENTILATION -->
-<section class="page" id="ventilation">
- <div class="page-heading"><h2>Ventilation engineering</h2><p>Estimate outdoor air quantities using user-defined design rates.</p></div>
- <div class="grid">
-  <article class="card">
-   <h3>Outdoor air requirement</h3>
-   <p class="sub">Ventilation rate procedure: people component plus floor-area component.</p>
-   <div class="fields">
-    <div class="field"><label>Number of occupants</label><input id="airPeople" type="number" value="30"></div>
-    <div class="field"><label>Floor area (m²)</label><input id="airArea" type="number" value="250"></div>
-    <div class="field"><label>Outdoor air per person (L/s)</label><input id="perPerson" type="number" value="10"></div>
-    <div class="field"><label>Outdoor air per area (L/s·m²)</label><input id="perArea" type="number" value="0.3"></div>
-   </div>
-   <div class="actions"><button class="btn" onclick="ventCalc()">Calculate ventilation</button></div>
-   <div class="result" id="ventResult"></div>
-   <div class="notice">The rates are user inputs, not universal code values. Confirm occupancy category, ventilation effectiveness and applicable local requirements before design.</div>
-  </article>
- </div>
-</section>
-
-<!-- HYDRONICS -->
-<section class="page" id="water">
- <div class="page-heading"><h2>Hydronics & pumps</h2><p>Calculate water flow, preliminary pipe diameter and pump power.</p></div>
- <div class="grid">
-  <article class="card">
-   <h3>Chilled / hot water flow</h3>
-   <p class="sub">Determine required water flow from thermal capacity and temperature difference.</p>
-   <div class="fields">
-    <div class="field"><label>Thermal capacity (kW)</label><input id="wPower" type="number" value="100"></div>
-    <div class="field"><label>Water ΔT (K)</label><input id="wDelta" type="number" value="5"></div>
-    <div class="field"><label>Water density (kg/m³)</label><input id="wDensity" type="number" value="1000"></div>
-    <div class="field"><label>Specific heat (kJ/kg·K)</label><input id="wCp" type="number" value="4.186"></div>
-   </div>
-   <div class="actions"><button class="btn" onclick="waterCalc()">Calculate water flow</button></div>
-   <div class="result" id="waterResult"></div>
-  </article>
-
-  <article class="card">
-   <h3>Preliminary pipe sizing</h3>
-   <p class="sub">Calculate pipe internal diameter using a selected design velocity.</p>
-   <div class="fields">
-    <div class="field"><label>Water flow (m³/h)</label><input id="pFlow" type="number" value="17.2"></div>
-    <div class="field"><label>Target velocity (m/s)</label><input id="pVelocity" type="number" value="1.5"></div>
-   </div>
-   <div class="actions"><button class="btn" onclick="pipeCalc()">Calculate diameter</button></div>
-   <div class="result" id="pipeResult"></div>
-  </article>
-
-  <article class="card">
-   <h3>Pump power</h3>
-   <p class="sub">Calculate hydraulic and estimated shaft power from flow and total dynamic head.</p>
-   <div class="fields">
-    <div class="field"><label>Water flow (m³/h)</label><input id="pumpFlow" type="number" value="17.2"></div>
-    <div class="field"><label>Total dynamic head (m)</label><input id="pumpHead" type="number" value="15"></div>
-    <div class="field"><label>Pump efficiency (%)</label><input id="pumpEfficiency" type="number" value="70"></div>
-    <div class="field"><label>Water density (kg/m³)</label><input id="pumpDensity" type="number" value="1000"></div>
-   </div>
-   <div class="actions"><button class="btn" onclick="pumpCalc()">Calculate pump power</button></div>
-   <div class="result" id="pumpResult"></div>
-  </article>
- </div>
-</section>
-
-<!-- PSYCHROMETRICS -->
-<section class="page" id="psychro">
- <div class="page-heading"><h2>Psychrometrics</h2><p>Calculate humidity ratio, vapor pressure, dew point and moist-air enthalpy.</p></div>
- <div class="grid">
-  <article class="card">
-   <h3>Moist air properties</h3>
-   <p class="sub">Approximate psychrometric calculations at a selected atmospheric pressure.</p>
-   <div class="fields">
-    <div class="field"><label>Dry-bulb temperature (°C)</label><input id="psyTemp" type="number" value="25"></div>
-    <div class="field"><label>Relative humidity (%)</label><input id="psyRH" type="number" value="50"></div>
-    <div class="field full"><label>Atmospheric pressure (kPa)</label><input id="psyPressure" type="number" value="101.325"></div>
-   </div>
-   <div class="actions"><button class="btn" onclick="psychroCalc()">Calculate air properties</button></div>
-   <div class="result" id="psyResult"></div>
-  </article>
- </div>
-</section>
-
-<!-- REFRIGERATION -->
-<section class="page" id="refrigeration">
- <div class="page-heading"><h2>Refrigeration cycle</h2><p>Evaluate vapor-compression cycle performance using refrigerant enthalpy values.</p></div>
- <div class="grid">
-  <article class="card">
-   <h3>Compressor and COP calculator</h3>
-   <p class="sub">Use enthalpies from a refrigerant property table or software.</p>
-   <div class="fields">
-    <div class="field"><label>Evaporator outlet h1 (kJ/kg)</label><input id="rH1" type="number" value="400"></div>
-    <div class="field"><label>Ideal discharge h2s (kJ/kg)</label><input id="rH2s" type="number" value="435"></div>
-    <div class="field"><label>Actual discharge h2 (kJ/kg)</label><input id="rH2" type="number" value="442"></div>
-    <div class="field"><label>Expansion outlet h4 (kJ/kg)</label><input id="rH4" type="number" value="250"></div>
-    <div class="field full"><label>Refrigerant mass flow (kg/s) — optional</label><input id="rMass" type="number" value="0.5"></div>
-   </div>
-   <div class="actions"><button class="btn" onclick="refrigerationCalc()">Calculate cycle</button></div>
-   <div class="result" id="refResult"></div>
-  </article>
- </div>
-</section>
-
-<!-- EQUIPMENT -->
-<section class="page" id="equipment">
- <div class="page-heading"><h2>HVAC equipment selection</h2><p>Preliminary system recommendations based on calculated design capacity.</p></div>
- <div class="grid">
-  <article class="card">
-   <h3>System configuration advisor</h3>
-   <p class="sub">This tool suggests possible architectures; it does not select a manufacturer or final model.</p>
-   <div class="fields">
-    <div class="field"><label>Building type</label>
-     <select id="eqType"><option>Office</option><option>Residential</option><option>Hotel</option><option>Hospital</option><option>Industrial</option><option>Retail</option></select>
-    </div>
-    <div class="field"><label>Cooling capacity (kW)</label><input id="eqCapacity" type="number" value="100"></div>
-    <div class="field"><label>Building use</label>
-     <select id="eqUse"><option value="comfort">Comfort cooling</option><option value="process">Process cooling</option><option value="precision">Precision cooling</option></select>
-    </div>
-    <div class="field"><label>Outdoor air requirement</label>
-     <select id="eqFresh"><option value="yes">Dedicated outdoor air required</option><option value="no">Limited outdoor air requirement</option></select>
-    </div>
-   </div>
-   <div class="actions"><button class="btn" onclick="equipmentCalc()">Recommend system</button></div>
-   <div class="result" id="eqResult"></div>
-  </article>
- </div>
-</section>
-
-<!-- REFERENCE -->
-<section class="page" id="reference">
- <div class="page-heading"><h2>Engineering reference</h2><p>Useful equations and design reminders.</p></div>
- <div class="grid">
-  <article class="card">
-   <h3>Air-side sensible capacity</h3>
-   <p class="sub">Q = ρ × V̇ × Cp × ΔT</p>
-   <p>Use mass flow in kg/s, specific heat in kJ/kg·K and temperature difference in K to obtain kW.</p>
-  </article>
-  <article class="card">
-   <h3>Water-side capacity</h3>
-   <p class="sub">Q = ṁ × Cp × ΔT</p>
-   <p>Water flow must be based on the correct fluid properties and operating temperature.</p>
-  </article>
-  <article class="card">
-   <h3>Duct sizing</h3>
-   <p class="sub">A = V̇ / v</p>
-   <p>Actual design also requires pressure-loss calculations, fitting losses, duct roughness and acoustic checks.</p>
-  </article>
-  <article class="card">
-   <h3>Pump hydraulic power</h3>
-   <p class="sub">P = ρ × g × V̇ × H / η</p>
-   <p>Determine the complete system curve and operating point before selecting a pump.</p>
-  </article>
-  <article class="card">
-   <h3>Refrigeration COP</h3>
-   <p class="sub">COP = (h1 − h4) / (h2 − h1)</p>
-   <p>Use consistent refrigerant enthalpy values and the correct cycle state points.</p>
-  </article>
-  <article class="card">
-   <h3>Professional design checks</h3>
-   <p>Check applicable ventilation standards, local building codes, fire safety, acoustic limits, condensation, filtration, energy efficiency and manufacturer operating envelopes.</p>
-  </article>
- </div>
-</section>
-
-<div class="footer">MechMind AI · HVAC Engineering Platform · Preliminary design calculations only.</div>
-</main>
-</div>
-</div>
-
+:root{--bg:#eef3f7;--nav:#0a2540;--ink:#13273f;--mut:#62758c;--line:#d5dfe9;--pri:#0a66c2;--ok:#00846f;--red:#c0392b;--dim:#d9480f}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 Barlow,system-ui,sans-serif}
+h1,h2,h3{font-family:'Barlow Semi Condensed',system-ui,sans-serif;margin:0;letter-spacing:.2px}h3{font-size:19px}
+a{color:var(--pri)}input,select,textarea,button{font:inherit}
+.side{position:fixed;inset:0 auto 0 0;width:244px;background:var(--nav);color:#c4d3e5;padding:20px 14px;overflow:auto;z-index:5}
+.logo{display:flex;gap:10px;align-items:center;color:#fff;font:700 21px 'Barlow Semi Condensed';padding:0 6px 14px}
+.logo i{width:36px;height:36px;border:2px solid #fff;display:grid;place-items:center;font-style:normal}
+.lab{font-size:12px;color:#7f97b3;padding:16px 8px 5px}
+.nb{display:block;padding:8px 10px;border-radius:6px;color:#c4d3e5;text-decoration:none;font-weight:500}
+.nb:hover,.nb.on{background:#17396226;background:#16385f;color:#fff}.nb.on{box-shadow:inset 3px 0 #fff}
+.main{margin-left:244px}.top{height:54px;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 28px;position:sticky;top:0;z-index:4}
+.wrap{max-width:1280px;margin:auto;padding:26px 28px}.ph{margin-bottom:18px}.ph p{color:var(--mut);margin:4px 0 0}
+.sheet{background:linear-gradient(#0a254012 1px,transparent 1px) 0 0/22px 22px,linear-gradient(90deg,#0a254012 1px,transparent 1px) 0 0/22px 22px,#fff;border:2px solid var(--nav);display:grid;grid-template-columns:1fr minmax(240px,300px);margin-bottom:22px}
+.sheet .l{padding:36px}.sheet h1{font-size:46px;line-height:1.05;max-width:560px}.sheet p{max-width:520px;color:#3c5068}
+.tb{border-left:2px solid var(--nav);background:#fff;font-size:13px}.tb div{padding:9px 12px;border-bottom:1px solid var(--nav);display:flex;justify-content:space-between;gap:10px}.tb div:last-child{border:0}.tb span{color:var(--mut)}
+.g{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:16px}.card{background:#fff;border:1px solid var(--line);border-radius:6px;padding:20px;margin-bottom:16px}.g .card{margin:0}
+.cat{display:block;text-decoration:none;color:inherit;border-top:4px solid var(--pri)}.cat:hover{background:#f7fbff}.cat p{color:var(--mut);margin:6px 0 0;font-size:14px}
+.f{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0}label{font-size:13px;font-weight:600;color:#3c5068}
+input,select,textarea{width:100%;padding:8px 10px;border:1px solid #b9c7d6;border-radius:5px;background:#fff;color:var(--ink);margin-top:3px}
+input:focus,select:focus,textarea:focus,button:focus-visible,.nb:focus-visible{outline:3px solid #0a66c244;border-color:var(--pri)}
+.b{background:var(--pri);color:#fff;border:0;border-radius:5px;padding:9px 16px;font-weight:600;cursor:pointer;text-decoration:none;display:inline-block}.b:hover{background:#08529c}.b.s{background:#e6eef7;color:var(--ink);margin-top:10px}.b.x{background:#fbe9e6;color:var(--red)}
+.res{display:none;margin-top:14px;padding:12px;border-radius:5px;font-size:14px}.res.ok{display:block;background:#e8f6f3;border:1px solid #b6e2d9}.res.err{display:block;background:#fdeeea;border:1px solid #f2c3b8}
+.res div{display:flex;justify-content:space-between;gap:10px;padding:2px 0}
+.row{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap}.mut{color:var(--mut)}
+.tag{padding:2px 9px;border-radius:99px;font-size:12px;font-weight:600;background:#e6eef7}.tag.open{background:#e8f6f3;color:var(--ok)}.tag.progress{background:#fff2d9;color:#8a5a00}.tag.delivered{background:#e5eefc;color:var(--pri)}.tag.done{background:#e8f6f3;color:var(--ok)}
+.split{display:flex;gap:16px;flex-wrap:wrap;padding:8px 0;border-top:1px dashed var(--line);border-bottom:1px dashed var(--line);margin:8px 0;font-size:14px}.split span:nth-child(3) b{color:var(--dim)}
+table{width:100%;border-collapse:collapse;font-size:13px;margin-top:8px}td,th{text-align:left;padding:7px;border-bottom:1px solid var(--line);vertical-align:top}
+.note{border-left:4px solid var(--dim);background:#fff5ef;padding:10px 14px;margin:16px 0;font-size:13px;border-radius:0 5px 5px 0}
+#toast{position:fixed;bottom:20px;right:20px;background:var(--nav);color:#fff;padding:11px 18px;border-radius:6px;opacity:0;transition:opacity .2s;pointer-events:none;z-index:9}#toast.on{opacity:1}
+@media(max-width:800px){.side{position:static;width:auto}.side nav{display:flex;flex-wrap:wrap;gap:4px}.lab{display:none}.main{margin-left:0}.wrap{padding:16px}.top{padding:0 16px}.sheet{grid-template-columns:1fr}.tb{border-left:0;border-top:2px solid var(--nav)}.sheet h1{font-size:34px}.sheet .l{padding:22px}.f{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style></head><body>
+<aside class="side"><div class="logo"><i>M</i>MechMind AI</div><nav id="nav"></nav></aside>
+<div class="main"><header class="top"><span id="proj" class="mut"></span><span id="user"></span></header><main class="wrap" id="app"></main></div><div id="toast"></div>
 <script>
-// NAVIGATION
-const titles={
- dashboard:"Engineering Dashboard",projects:"Project Workspace",
- thermal:"Thermal Engineering",duct:"Air Ducts & Sizing",
- ventilation:"Ventilation Engineering",water:"Hydronics & Pumps",
- psychro:"Psychrometrics",refrigeration:"Refrigeration Cycle",
- equipment:"Equipment Selection",reference:"Engineering Reference"
-};
-function navigate(id){
- document.querySelectorAll(".page").forEach(p=>p.classList.toggle("active",p.id===id));
- document.querySelectorAll(".nav-btn").forEach(b=>b.classList.toggle("active",b.dataset.page===id));
- document.getElementById("pageTitle").textContent=titles[id]||"MechMind AI";
- window.scrollTo({top:0,behavior:"smooth"});
-}
-document.querySelectorAll(".nav-btn").forEach(b=>b.addEventListener("click",()=>navigate(b.dataset.page)));
-
-// SHARED UTILITIES
-const $=id=>document.getElementById(id);
-const num=id=>Number($(id).value);
-let history=[];
-
-function valid(values,positiveIndices=[]){
- if(values.some(v=>!Number.isFinite(v)))return false;
- return positiveIndices.every(i=>values[i]>0);
-}
-function show(id,title,description,details="",type="success"){
- const box=$(id);
- box.className="result show"+(type==="error"?" error":type==="warning"?" warning":"");
- box.replaceChildren();
- const h=document.createElement("h4");h.textContent=title;box.appendChild(h);
- const p=document.createElement("p");p.textContent=description;box.appendChild(p);
- if(details){
-  const pre=document.createElement("pre");pre.textContent=details;box.appendChild(pre);
- }
-}
-function error(id,message){
- show(id,"Check your inputs",message,"Values must be valid and within the physical limits of the calculation.","error");
-}
-function record(name,result){
- history.unshift({name,result,date:new Date().toLocaleString()});
- history=history.slice(0,30);
- renderHistory();
-}
-function finish(id,name,title,desc,details="",type="success"){
- show(id,title,desc,details,type);
- record(name,title+" — "+desc);
-}
-function renderHistory(){
- const box=$("history");
- if(!history.length){box.textContent="No calculations recorded yet.";return;}
- const table=document.createElement("table");table.className="table";
- const head=document.createElement("tr");
- ["Calculation","Result","Date"].forEach(x=>{const th=document.createElement("th");th.textContent=x;head.appendChild(th);});
- table.appendChild(head);
- history.forEach(item=>{
-  const tr=document.createElement("tr");
-  [item.name,item.result,item.date].forEach(x=>{const td=document.createElement("td");td.textContent=x;tr.appendChild(td);});
-  table.appendChild(tr);
- });
- box.replaceChildren(table);
-}
-const fmt=(n,d=2)=>Number(n).toFixed(d);
-
-// 1. THERMAL CALCULATOR
-function thermalCalc(){
- const q=num("tFlow"),rho=num("tRho"),tin=num("tIn"),tout=num("tOut"),cp=num("tCp");
- if(!valid([q,rho,tin,tout,cp],[0,1,4])||q<=0||rho<=0||cp<=0){error("tResult","Airflow, density and specific heat must be positive.");return;}
- const flow=q/3600,dt=Math.abs(tin-tout);
- const kw=rho*flow*cp*dt;
- const mode=tin>tout?"Cooling":"Heating";
- finish("tResult","Air thermal capacity",fmt(kw)+" kW ("+fmt(kw/3.517)+" TR)",
- mode+" sensible capacity at ΔT "+fmt(dt)+" K",
- "Volume flow: "+fmt(flow,4)+" m³/s\nMass flow: "+fmt(rho*flow,4)+" kg/s\nFormula: Q = ρ × V̇ × Cp × ΔT");
-}
-
-// 2. INTERNAL LOADS
-function internalCalc(){
- const n=num("people"),a=num("loadArea"),s=num("personS"),l=num("personL"),light=num("lighting"),eq=num("equipmentLoad");
- if(!valid([n,a,s,l,light,eq],[1])||n<0||s<0||l<0||light<0||eq<0){error("internalResult","Area must be positive; heat gains cannot be negative.");return;}
- const ps=n*s/1000,pl=n*l/1000,li=a*light/1000,eqkw=eq/1000;
- const sensible=ps+li+eqkw,total=sensible+pl;
- finish("internalResult","Internal heat gain",fmt(total)+" kW total",
- "Sensible: "+fmt(sensible)+" kW | Latent: "+fmt(pl)+" kW",
- "Occupants sensible: "+fmt(ps)+" kW\nOccupants latent: "+fmt(pl)+" kW\nLighting: "+fmt(li)+" kW\nEquipment: "+fmt(eqkw)+" kW\nSHR: "+(total?fmt(sensible/total,3):"N/A"));
-}
-
-// 3. DUCT DIMENSION
-function ductCalc(){
- const q=num("dFlow"),v=num("dVelocity"),h=num("dHeight"),ratio=num("dRatio");
- if(!valid([q,v,h,ratio],[0,1,2,3])){error("ductResult","All inputs must be greater than zero.");return;}
- const flow=q/3600,area=flow/v;
- const diameter=Math.sqrt(4*area/Math.PI)*1000;
- const height=h/1000,width=area/height*1000;
- const rectH=Math.sqrt(area/ratio)*1000,rectW=rectH*ratio;
- finish("ductResult","Required duct area",fmt(area,4)+" m²",
- "Circular diameter: "+fmt(diameter,0)+" mm",
- "Rectangular at fixed height: "+fmt(width,0)+" × "+fmt(h,0)+" mm\nRectangular at selected aspect ratio: "+fmt(rectW,0)+" × "+fmt(rectH,0)+" mm\nAir velocity: "+fmt(v)+" m/s\nThese are theoretical dimensions before standard-size selection and pressure-loss verification.");
-}
-
-// 4. VELOCITY
-function velocityCalc(){
- const q=num("vFlow"),type=$("vType").value,d=num("vDiameter"),w=num("vWidth"),h=num("vHeight");
- if(!valid([q],[0])){error("velocityResult","Airflow must be positive.");return;}
- let area;
- if(type==="circle"){
-  if(!valid([d],[0])){error("velocityResult","Diameter must be positive.");return;}
-  area=Math.PI*Math.pow(d/1000,2)/4;
- }else{
-  if(!valid([w,h],[0,1])){error("velocityResult","Width and height must be positive.");return;}
-  area=(w/1000)*(h/1000);
- }
- const v=(q/3600)/area;
- finish("velocityResult","Calculated air velocity",fmt(v)+" m/s",
- "Duct cross-sectional area: "+fmt(area,4)+" m²",
- "Airflow: "+fmt(q)+" m³/h\nArea: "+fmt(area,4)+" m²");
-}
-
-// 5. VENTILATION
-function ventCalc(){
- const people=num("airPeople"),area=num("airArea"),rp=num("perPerson"),ra=num("perArea");
- if(!valid([people,area,rp,ra],[1])||people<0||rp<0||ra<0){error("ventResult","Area must be positive; other values cannot be negative.");return;}
- const person=people*rp,building=area*ra,total=person+building;
- finish("ventResult","Outdoor air requirement",fmt(total)+" L/s",
- fmt(total*3.6)+" m³/h",
- "People component: "+fmt(person)+" L/s\nArea component: "+fmt(building)+" L/s\nTotal: "+fmt(total)+" L/s\nConfirm applicable ventilation standard and occupancy category.");
-}
-
-// 6. WATER FLOW
-function waterCalc(){
- const p=num("wPower"),dt=num("wDelta"),rho=num("wDensity"),cp=num("wCp");
- if(!valid([p,dt,rho,cp],[0,1,2,3])){error("waterResult","Capacity, temperature difference, density and specific heat must be positive.");return;}
- const mass=p/(cp*dt),volume=mass/rho*3600;
- finish("waterResult","Required water flow",fmt(volume)+" m³/h",
- fmt(volume*1000/3600)+" L/s",
- "Mass flow: "+fmt(mass,4)+" kg/s\nFormula: ṁ = Q / (Cp × ΔT)\nVolumetric flow: ṁ / ρ");
-}
-
-// 7. PIPE SIZE
-function pipeCalc(){
- const q=num("pFlow"),v=num("pVelocity");
- if(!valid([q,v],[0,1])){error("pipeResult","Flow and target velocity must be positive.");return;}
- const flow=q/3600,area=flow/v,d=Math.sqrt(4*area/Math.PI)*1000;
- finish("pipeResult","Theoretical internal diameter",fmt(d,1)+" mm",
- "Based on a water velocity of "+fmt(v)+" m/s",
- "Flow: "+fmt(q)+" m³/h\nRequired area: "+fmt(area,5)+" m²\nSelect actual internal diameter from pipe standards, then verify pressure loss, noise and operating limits.");
-}
-
-// 8. PUMP
-function pumpCalc(){
- const q=num("pumpFlow"),h=num("pumpHead"),eta=num("pumpEfficiency"),rho=num("pumpDensity");
- if(!valid([q,h,eta,rho],[0,1,2,3])||eta>100){error("pumpResult","Efficiency must be greater than 0 and no more than 100%.");return;}
- const flow=q/3600,hyd=rho*9.81*flow*h/1000,shaft=hyd/(eta/100);
- finish("pumpResult","Estimated shaft power",fmt(shaft)+" kW",
- "Hydraulic power: "+fmt(hyd)+" kW",
- "Flow: "+fmt(flow,5)+" m³/s\nHead: "+fmt(h)+" m\nEfficiency: "+fmt(eta)+"%\nFormula: P = ρgQH / η\nMotor selection requires service factor, duty point and manufacturer curves.");
-}
-
-// 9. PSYCHROMETRICS
-function saturationPressure(t){
- return 0.61121*Math.exp((18.678-t/234.5)*(t/(257.14+t)));
-}
-function psychroCalc(){
- const t=num("psyTemp"),rh=num("psyRH"),p=num("psyPressure");
- if(!valid([t,rh,p],[2])||rh<=0||rh>100||t<=-50||t>100){error("psyResult","Use temperature between -50 and 100°C, RH above 0 and at most 100%, and positive pressure.");return;}
- const pws=saturationPressure(t),pv=(rh/100)*pws;
- if(pv>=p){error("psyResult","Vapor pressure must be lower than atmospheric pressure.");return;}
- const w=0.621945*pv/(p-pv);
- const enthalpy=1.006*t+w*(2501+1.86*t);
- const alpha=Math.log(pv/0.61121);
- const dew=257.14*alpha/(18.678-alpha);
- const specificVolume=0.287042*(t+273.15)*(1+1.607858*w)/p;
- finish("psyResult","Moist-air properties",
- fmt(w*1000,2)+" g water/kg dry air",
- "Enthalpy: "+fmt(enthalpy)+" kJ/kg dry air",
- "Dry-bulb temperature: "+fmt(t)+" °C\nRelative humidity: "+fmt(rh)+"%\nDew point: "+fmt(dew)+" °C\nVapor pressure: "+fmt(pv)+" kPa\nHumidity ratio: "+fmt(w*1000,2)+" g/kg dry air\nSpecific volume: "+fmt(specificVolume,4)+" m³/kg dry air\nSaturation pressure: "+fmt(pws)+" kPa");
-}
-
-// 10. REFRIGERATION
-function refrigerationCalc(){
- const h1=num("rH1"),h2s=num("rH2s"),h2=num("rH2"),h4=num("rH4"),m=num("rMass");
- if(!valid([h1,h2s,h2,h4,m],[0,1,2])||h2<=h1||h2s<=h1||h4>=h1||h2<h2s||m<0){error("refResult","Check enthalpies: h2 and h2s must exceed h1; h4 must be below h1; actual discharge enthalpy should not be below ideal discharge enthalpy.");return;}
- const work=h2-h1,cooling=h1-h4,cop=cooling/work,eff=(h2s-h1)/work*100;
- const capacity=m*cooling;
- finish("refResult","Refrigeration performance","COP = "+fmt(cop),
- "Compressor isentropic efficiency: "+fmt(eff)+"%",
- "Refrigeration effect: "+fmt(cooling)+" kJ/kg\nCompressor work: "+fmt(work)+" kJ/kg\nCooling capacity at entered mass flow: "+fmt(capacity)+" kW\nCompressor power: "+fmt(m*work)+" kW\nUse refrigerant property data for the actual refrigerant and cycle.");
-}
-
-// 11. EQUIPMENT ADVISOR
-function equipmentCalc(){
- const cap=num("eqCapacity"),type=$("eqType").value,use=$("eqUse").value,fresh=$("eqFresh").value;
- if(!valid([cap],[0])){error("eqResult","Enter a positive calculated cooling capacity.");return;}
- let recommendation;
- if(use==="precision"){
-  recommendation="Evaluate precision DX or chilled-water CRAC/CRAH systems. Check redundancy, humidity control and sensible heat ratio.";
- }else if(use==="process"){
-  recommendation="Evaluate a process chiller or dedicated process cooling system. Check fluid temperature, flow, heat rejection and process duty.";
- }else if(cap<15){
-  recommendation="Evaluate split or multi-split systems. Confirm room-by-room loads and refrigerant pipe limitations.";
- }else if(cap<100){
-  recommendation="Evaluate VRF/VRV, packaged rooftop or small chiller with FCUs/AHUs, depending on zoning and ventilation needs.";
- }else if(cap<350){
-  recommendation="Evaluate modular air-cooled chillers or larger VRF configurations with AHUs/FCUs.";
- }else{
-  recommendation="Evaluate central chilled-water plant options including air-cooled or water-cooled chillers, pumps and AHUs/FCUs.";
- }
- const ventilation=fresh==="yes"?"A dedicated outdoor-air strategy should be evaluated, potentially using a DOAS or treated fresh-air AHU.":"Check minimum outdoor-air and exhaust requirements independently.";
- const special=type==="Hospital"?" Healthcare projects need specialist infection-control, filtration, pressure relationships and applicable healthcare standards.":type==="Hotel"?" Consider room-by-room zoning, fresh air, noise and domestic hot water coordination.":type==="Industrial"?" Assess process heat, contaminants, exhaust, make-up air and industrial safety requirements.":"";
- finish("eqResult","Preliminary system recommendation",
- fmt(cap/3.517)+" TR nominal cooling capacity",
- recommendation,
- "Building type: "+type+"\nCooling capacity: "+fmt(cap)+" kW\nVentilation: "+ventilation+special+"\nThis is an architecture suggestion, not a final equipment selection. Obtain manufacturer selection data and verify part-load performance.");
-}
-
-// PROJECT STORAGE
-function saveProject(){
- const data={
-  name:$("projectName").value,type:$("projectType").value,
-  location:$("projectLocation").value,area:num("projectArea")
- };
- if(!data.name.trim()){show("projectResult","Project name required","Enter a name before saving.","","error");return;}
- localStorage.setItem("mechmind_project",JSON.stringify(data));
- show("projectResult","Project saved",data.name,"Saved in this browser on this device.");
-}
-function loadProject(){
- const raw=localStorage.getItem("mechmind_project");
- if(!raw){show("projectResult","No saved project","Create and save a project first.");return;}
- const data=JSON.parse(raw);
- $("projectName").value=data.name||"";
- $("projectType").value=data.type||"Office";
- $("projectLocation").value=data.location||"";
- $("projectArea").value=data.area||"";
- show("projectResult","Project loaded",data.name,"Project information restored.");
-}
-function exportReport(){
- const project=JSON.parse(localStorage.getItem("mechmind_project")||"{}");
- const lines=[
- "MECHMIND AI - HVAC ENGINEERING REPORT",
- "Generated: "+new Date().toLocaleString(),
- "Project: "+(project.name||"Untitled"),
- "Building: "+(project.type||"Not specified"),
- "Location: "+(project.location||"Not specified"),
- "Area: "+(project.area||"Not specified")+" m²",
- "",
- "CALCULATION HISTORY",
- ...history.map((x,i)=>(i+1)+". "+x.name+": "+x.result+" ("+x.date+")"),
- "",
- "Disclaimer: Preliminary calculations only. Verify all designs against applicable codes, standards and manufacturer data."
- ];
- const blob=new Blob([lines.join("\n")],{type:"text/plain;charset=utf-8"});
- const url=URL.createObjectURL(blob);
- const a=document.createElement("a");
- a.href=url;a.download="MechMind-HVAC-Report.txt";a.click();
- URL.revokeObjectURL(url);
-}
-</script>
-</body>
-</html>
+const $=s=>document.querySelector(s),FEE=.2,LAST={};
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+let S={users:[],jobs:[],projects:[],session:null,active:{}},preset=0;
+try{S={...S,...JSON.parse(localStorage.getItem('mm2')||'{}')}}catch(e){}
+const save=()=>{try{localStorage.setItem('mm2',JSON.stringify(S))}catch(e){}};
+const me=()=>S.users.find(u=>u.id===S.session),owner=()=>S.session||'guest',mine=()=>S.projects.filter(p=>p.owner===owner());
+const uid=()=>Math.random().toString(36).slice(2,9),$m=n=>'$'+n.toFixed(2);
+const N=n=>typeof n==='string'?n:(Math.abs(n)>=1e6||(n!==0&&Math.abs(n)<1e-3))?n.toExponential(3):String(+n.toPrecision(5));
+const hash=async s=>[...new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s)))].map(b=>b.toString(16).padStart(2,'0')).join('');
+function toast(m){const t=$('#toast');t.textContent=m;t.className='on';setTimeout(()=>t.className='',2400)}
+const CAT={ht:['Heat transfer','Conduction, fins, lumped systems, convection, radiation, heat exchangers'],hv:['HVAC and psychrometrics','Air loads, ventilation, ducts, moist air, refrigeration cycle'],th:['Thermodynamics','Ideal gas, Carnot limits, cycle performance'],fl:['Fluid mechanics','Pipe flow, friction losses, pump power'],st:['Statics','Beam reactions, moments and deflection'],dy:['Dynamics and vibration','Natural frequency, damping, torque and power'],ma:['Materials and strength','Stress, safety factor, strain, buckling'],md:['Machine design','Shaft sizing and power transmission']};
+const T=(c,id,t,i,f)=>[c,id,t,i,f];
+const K=[
+T('ht','wall','Composite wall with convection',[['hi','Inside h (W/m²K)',8],['L1','Layer 1 thickness (mm)',200],['k1','Layer 1 k (W/mK)',.8],['L2','Layer 2 thickness (mm)',50],['k2','Layer 2 k (W/mK)',.04],['ho','Outside h (W/m²K)',25],['A','Area (m²)',10],['dT','Temperature difference (K)',20]],v=>{const R=1/v.hi+v.L1/1e3/v.k1+v.L2/1e3/v.k2+1/v.ho;return[['U-value',1/R,'W/m²K'],['Total resistance',R,'m²K/W'],['Heat flow',v.A*v.dT/R,'W']]}),
+T('ht','cyl','Cylinder conduction and critical radius',[['k','k (W/mK)',.04],['L','Length (m)',10],['r1','Inner radius (mm)',20],['r2','Outer radius (mm)',40],['T1','Inner temp (°C)',90],['T2','Outer temp (°C)',30],['h','Outside h (W/m²K)',10]],v=>[['Heat flow',2*Math.PI*v.L*v.k*(v.T1-v.T2)/Math.log(v.r2/v.r1),'W'],['Critical radius k/h',v.k/v.h*1e3,'mm']]),
+T('ht','fin','Pin fin with corrected length',[['h','h (W/m²K)',25],['k','k (W/mK)',200],['D','Diameter (mm)',10],['L','Length (mm)',100],['Tb','Base temp (°C)',100],['Ti','Fluid temp (°C)',25]],v=>{const P=Math.PI*v.D/1e3,Ac=Math.PI*(v.D/1e3)**2/4,m=Math.sqrt(v.h*P/(v.k*Ac)),mL=m*(v.L+v.D/4)/1e3,th=Math.tanh(mL);return[['Fin heat rate',Math.sqrt(v.h*P*v.k*Ac)*(v.Tb-v.Ti)*th,'W'],['Efficiency',th/mL*100,'%'],['m',m,'1/m']]}),
+T('ht','lump','Lumped capacitance (sphere)',[['D','Diameter (mm)',20],['rho','Density (kg/m³)',7800],['cp','cp (J/kgK)',480],['k','k (W/mK)',45],['h','h (W/m²K)',100],['Ti','Initial temp (°C)',500],['Tf','Fluid temp (°C)',25],['t','Time (s)',60]],v=>{const Lc=v.D/6e3,Bi=v.h*Lc/v.k,tau=v.rho*v.cp*Lc/v.h;return[['Biot number',Bi,''],['Lumped valid',Bi<.1?'Yes, Bi below 0.1':'No, use transient charts',''],['Time constant',tau,'s'],['Temperature at t',v.Tf+(v.Ti-v.Tf)*Math.exp(-v.t/tau),'°C']]}),
+T('ht','rad','Convection and radiation from a surface',[['h','h (W/m²K)',10],['e','Emissivity',.9],['A','Area (m²)',2],['Ts','Surface temp (°C)',80],['Ti','Air temp (°C)',20],['Tr','Surroundings (°C)',20]],v=>{const c=v.h*v.A*(v.Ts-v.Ti),r=v.e*5.67e-8*v.A*((v.Ts+273.15)**4-(v.Tr+273.15)**4);return[['Convection',c,'W'],['Radiation',r,'W'],['Total',c+r,'W']]}),
+T('ht','lmtd','Heat exchanger area (LMTD, counterflow)',[['Thi','Hot in (°C)',90],['Tho','Hot out (°C)',60],['Tci','Cold in (°C)',20],['Tco','Cold out (°C)',50],['Q','Duty (kW)',100],['U','U (W/m²K)',500],['F','Correction factor F',1]],v=>{const a=v.Thi-v.Tco,b=v.Tho-v.Tci;if(a<=0||b<=0)return'Temperatures cross; check the terminal differences.';const lm=Math.abs(a-b)<1e-9?a:(a-b)/Math.log(a/b);return[['LMTD',lm,'K'],['Required area',v.Q*1e3/(v.U*v.F*lm),'m²']]}),
+T('ht','nat','Natural convection, vertical plate in air',[['L','Height (m)',.5],['Ts','Surface temp (°C)',60],['Ti','Air temp (°C)',20],['A','Area (m²)',.5]],v=>{const nu=1.6e-5,al=2.25e-5,k=.026,Pr=nu/al,b=1/((v.Ts+v.Ti)/2+273.15),Ra=9.81*b*Math.abs(v.Ts-v.Ti)*v.L**3/(nu*al),Nu=(.825+.387*Ra**(1/6)/(1+(.492/Pr)**(9/16))**(8/27))**2,h=Nu*k/v.L;return[['Rayleigh',Ra,''],['Nusselt',Nu,''],['h',h,'W/m²K'],['Heat rate',h*v.A*(v.Ts-v.Ti),'W']]}),
+T('hv','air','Air sensible capacity',[['Q','Airflow (m³/h)',3000],['rho','Density (kg/m³)',1.2],['cp','cp (kJ/kgK)',1.006],['dT','Temperature difference (K)',10]],v=>{const k=v.rho*v.Q/3600*v.cp*v.dT;return[['Capacity',k,'kW'],['Capacity',k/3.517,'TR']]}),
+T('hv','vent','Outdoor air requirement',[['n','Occupants',30],['A','Floor area (m²)',250],['rp','Per person (L/s)',10],['ra','Per area (L/s·m²)',.3]],v=>{const t=v.n*v.rp+v.A*v.ra;return[['Outdoor air',t,'L/s'],['Outdoor air',t*3.6,'m³/h']]}),
+T('hv','duct','Duct sizing',[['Q','Airflow (m³/h)',2500],['v','Velocity (m/s)',5],['r','Width/height ratio',2]],v=>{const A=v.Q/3600/v.v,h=Math.sqrt(A/v.r)*1e3;return[['Area',A,'m²'],['Round diameter',Math.sqrt(4*A/Math.PI)*1e3,'mm'],['Rectangular height',h,'mm'],['Rectangular width',h*v.r,'mm']]}),
+T('hv','psy','Moist air properties',[['t','Dry-bulb (°C)',25],['rh','Relative humidity (%)',50],['p','Pressure (kPa)',101.325]],v=>{const pw=.61121*Math.exp((18.678-v.t/234.5)*(v.t/(257.14+v.t))),pv=v.rh/100*pw;if(pv>=v.p||v.rh<=0)return'Check humidity and pressure.';const w=.621945*pv/(v.p-pv),a=Math.log(pv/.61121);return[['Humidity ratio',w*1e3,'g/kg'],['Enthalpy',1.006*v.t+w*(2501+1.86*v.t),'kJ/kg'],['Dew point',257.14*a/(18.678-a),'°C'],['Vapor pressure',pv,'kPa']]}),
+T('hv','cop','Refrigeration cycle COP',[['h1','Evaporator outlet h1 (kJ/kg)',400],['h2','Compressor outlet h2 (kJ/kg)',442],['h4','Expansion outlet h4 (kJ/kg)',250],['m','Mass flow (kg/s)',.5]],v=>v.h2<=v.h1||v.h4>=v.h1?'Require h2 > h1 > h4.':[['COP',(v.h1-v.h4)/(v.h2-v.h1),''],['Cooling capacity',v.m*(v.h1-v.h4),'kW'],['Compressor power',v.m*(v.h2-v.h1),'kW']]),
+T('th','gas','Ideal gas mass and density',[['P','Pressure (kPa)',101.325],['V','Volume (m³)',1],['t','Temperature (°C)',25],['R','R (kJ/kgK)',.287]],v=>{const m=v.P*v.V/(v.R*(v.t+273.15));return[['Mass',m,'kg'],['Density',m/v.V,'kg/m³']]}),
+T('th','carnot','Carnot limits',[['Th','Hot reservoir (°C)',500],['Tc','Cold reservoir (°C)',25]],v=>{if(v.Th<=v.Tc)return'Hot reservoir must be warmer.';const H=v.Th+273.15,C=v.Tc+273.15;return[['Engine efficiency',(1-C/H)*100,'%'],['Refrigerator COP',C/(H-C),''],['Heat pump COP',H/(H-C),'']]}),
+T('fl','pipe','Pipe friction loss (Haaland)',[['rho','Density (kg/m³)',1000],['mu','Viscosity (Pa·s)',.001],['Q','Flow (m³/h)',17.2],['D','Inner diameter (mm)',65],['L','Length (m)',100],['e','Roughness (mm)',.045]],v=>{const V=v.Q/3600/(Math.PI*(v.D/1e3)**2/4),Re=v.rho*V*v.D/1e3/v.mu,f=Re<2300?64/Re:(-1.8*Math.log10((v.e/v.D/3.7)**1.11+6.9/Re))**-2,dP=f*v.L/(v.D/1e3)*v.rho*V*V/2;return[['Velocity',V,'m/s'],['Reynolds',Re,Re<2300?'laminar':'turbulent'],['Friction factor',f,''],['Pressure drop',dP/1e3,'kPa'],['Head loss',dP/(v.rho*9.81),'m']]}),
+T('fl','pump','Pump power',[['Q','Flow (m³/h)',17.2],['H','Head (m)',15],['eta','Efficiency (%)',70],['rho','Density (kg/m³)',1000]],v=>{const hy=v.rho*9.81*v.Q/3600*v.H/1e3;return v.eta<=0||v.eta>100?'Efficiency must be 1 to 100.':[['Hydraulic power',hy,'kW'],['Shaft power',hy/(v.eta/100),'kW']]}),
+T('st','beam','Simply supported beam',[['L','Span (m)',4],['P','Midspan load (kN)',10],['w','Uniform load (kN/m)',5],['E','E (GPa)',200],['I','I (cm⁴)',8000]],v=>{const EI=v.E*v.I*10;return[['Reaction each support',(v.P+v.w*v.L)/2,'kN'],['Maximum moment',v.P*v.L/4+v.w*v.L**2/8,'kN·m'],['Maximum deflection',(v.P*1e3*v.L**3/(48*EI)+5*v.w*1e3*v.L**4/(384*EI))*1e3,'mm']]}),
+T('dy','vib','Spring-mass vibration',[['m','Mass (kg)',50],['k','Stiffness (N/m)',20000],['c','Damping (N·s/m)',200]],v=>{const w=Math.sqrt(v.k/v.m);return[['Natural frequency',w/(2*Math.PI),'Hz'],['Angular frequency',w,'rad/s'],['Damping ratio',v.c/(2*Math.sqrt(v.k*v.m)),'']]}),
+T('dy','torq','Torque from power and speed',[['P','Power (kW)',15],['n','Speed (rpm)',1450]],v=>[['Torque',v.P*9549.3/v.n,'N·m'],['Angular speed',2*Math.PI*v.n/60,'rad/s']]),
+T('ma','stress','Axial stress and safety factor',[['F','Force (kN)',50],['A','Area (mm²)',400],['Sy','Yield strength (MPa)',250],['E','E (GPa)',200]],v=>{const s=v.F*1e3/v.A;return[['Stress',s,'MPa'],['Safety factor',v.Sy/s,''],['Strain',s/(v.E*1e3)*1e6,'µε']]}),
+T('ma','euler','Euler buckling load',[['E','E (GPa)',200],['I','I (cm⁴)',50],['L','Length (m)',2],['K','End factor K',1]],v=>[['Critical load',Math.PI**2*v.E*v.I*10/(v.K*v.L)**2/1e3,'kN']]),
+T('md','shaft','Shaft diameter from torque',[['T','Torque (N·m)',100],['tau','Allowable shear (MPa)',40]],v=>[['Minimum diameter',Math.cbrt(16*v.T*1e3/(Math.PI*v.tau)),'mm']])];
+function card(c){const[,id,t,ins]=c;return`<article class="card"><h3>${t}</h3><div class="f">${ins.map(([k,l,d])=>`<label>${l}<input id="${id}_${k}" type="number" step="any" value="${d}"></label>`).join('')}</div><button class="b" onclick="run('${id}')">Calculate</button><div class="res" id="r_${id}"></div></article>`}
+function run(id){const c=K.find(x=>x[1]===id),v={},box=$('#r_'+id);let r;c[3].forEach(([k])=>v[k]=parseFloat($('#'+id+'_'+k).value));
+if(Object.values(v).some(x=>!isFinite(x)))r='Enter a valid number in every field.';else try{r=c[4](v)}catch(e){r='Check your inputs.'}
+if(typeof r==='string'||r.some(x=>typeof x[1]==='number'&&!isFinite(x[1]))){box.className='res err';box.textContent=typeof r==='string'?r:'The inputs give no finite result. Check them.';return}
+LAST[id]={title:c[2],inputs:c[3].map(([k,l])=>l+': '+v[k]).join('; '),out:r.map(x=>x[0]+' = '+N(x[1])+' '+x[2]).join('; ')};
+box.className='res ok';box.innerHTML=r.map(x=>`<div><span>${x[0]}</span><b>${N(x[1])} ${x[2]}</b></div>`).join('')+`<button class="b s" onclick="saveCalc('${id}')">Save to project</button>`}
+function newProj(n,c=''){const p={id:uid(),owner:owner(),name:n,client:c,calcs:[]};S.projects.push(p);S.active[owner()]=p.id;save();return p}
+function saveCalc(id){if(!mine().length){const n=prompt('Name your first project:');if(!n)return;newProj(n)}const p=mine().find(x=>x.id===S.active[owner()])||mine()[0];p.calcs.push({...LAST[id],date:new Date().toLocaleString()});save();head();toast('Saved to '+p.name)}
+function calcPage(a){return`<div class="ph"><h2>${CAT[a][0]}</h2><p>${CAT[a][1]}.</p></div><div class="g">${K.filter(c=>c[0]===a).map(card).join('')}</div><div class="note">These tools give preliminary results. Confirm final designs against applicable codes, material data and a qualified engineer’s review.</div>`}
+function home(){return`<section class="sheet"><div class="l"><h1>Calculate it. Save it. Hand off the drawing.</h1><p>One workspace for mechanical engineering: calculators across every core discipline, saved project records, and a marketplace where companies hire verified freelancers for CAD and analysis.</p><p><a class="b" href="#/calc/ht">Open calculators</a> <a class="b s" href="#/market">Hire or find work</a></p></div><div class="tb"><div><span>Disciplines</span>${Object.keys(CAT).length}</div><div><span>Calculators</span>${K.length}</div><div><span>CAD tools</span>SolidWorks, CATIA, AutoCAD</div><div><span>Platform fee</span>20%</div><div><span>Freelancer share</span>80%</div></div></section><div class="g">${Object.entries(CAT).map(([k,v])=>`<a class="card cat" href="#/calc/${k}"><h3>${v[0]}</h3><p>${v[1]}</p></a>`).join('')}</div>`}
+function projects(){const ps=mine();return`<div class="ph"><h2>Project workspace</h2><p>${S.session?'Projects are saved to your account on this browser.':'You are working as a guest. Sign in under Marketplace to keep projects under your account.'}</p></div><div class="card"><h3>New project</h3><div class="f"><label>Project name<input id="pn"></label><label>Client or site<input id="pc"></label></div><button class="b" onclick="addProj()">Create project</button></div>`+(ps.length?ps.map(p=>`<div class="card"><div class="row"><h3>${esc(p.name)}</h3><span class="mut">${esc(p.client)} ${p.id===S.active[owner()]?'(active)':''}</span></div><table>${p.calcs.map((c,i)=>`<tr><td><b>${esc(c.title)}</b><br><span class="mut">${esc(c.inputs)}</span></td><td>${esc(c.out)}</td><td><button class="b x" onclick="delCalc('${p.id}',${i})">Remove</button></td></tr>`).join('')||'<tr><td class="mut">No calculations yet. Calculate something, then choose Save to project.</td></tr>'}</table><div class="row" style="margin-top:12px"><span><button class="b s" onclick="setActive('${p.id}')">Make active</button> <button class="b s" onclick="exportProj('${p.id}')">Export report</button></span><button class="b x" onclick="delProj('${p.id}')">Delete project</button></div></div>`).join(''):'<div class="card mut">No projects yet. Create one above.</div>')}
+function addProj(){const n=$('#pn').value.trim();if(!n)return toast('Enter a project name');newProj(n,$('#pc').value.trim());route()}
+function setActive(id){S.active[owner()]=id;save();route()}
+function delCalc(p,i){S.projects.find(x=>x.id===p).calcs.splice(i,1);save();route()}
+function delProj(id){if(confirm('Delete this project and its calculations?')){S.projects=S.projects.filter(p=>p.id!==id);save();route()}}
+function exportProj(id){const p=S.projects.find(x=>x.id===id),t=['MECHMIND AI PROJECT REPORT','Project: '+p.name,'Client: '+p.client,'Date: '+new Date().toLocaleString(),'',...p.calcs.map((c,i)=>(i+1)+'. '+c.title+'\n   Inputs: '+c.inputs+'\n   Results: '+c.out+'\n   Saved: '+c.date),'','Preliminary calculations only. Verify against codes and standards.'].join('\n'),a=document.createElement('a');a.href=URL.createObjectURL(new Blob([t],{type:'text/plain'}));a.download=p.name.replace(/\W+/g,'_')+'_report.txt';a.click();URL.revokeObjectURL(a.href)}
+const JC=['SolidWorks 3D modeling','CATIA surface and assembly design','AutoCAD 2D drafting','Fusion 360 or Inventor design','FEA or CFD analysis','HVAC system design','Thermal or fluid calculations','Stress and machine design','Technical report','Other'];
+const DS=[['SolidWorks','Parts, assemblies, drawings, sheet metal and weldments.',0],['CATIA','Surface modeling, large assemblies and digital mock-up.',1],['AutoCAD','2D drafting, HVAC and piping layouts, plans and details.',2],['Fusion 360 and Inventor','Parametric design, CAM and rapid prototyping.',3],['FEA and CFD','Structural, thermal and flow simulation with a written report.',4],['HVAC design','Load calculation, duct and pipe layouts, equipment schedules.',5]];
+function design(){return`<div class="ph"><h2>Design studio</h2><p>Pick a service and post the job. Freelancers who know the tool will bid and deliver.</p></div><div class="g">${DS.map(d=>`<article class="card"><h3>${d[0]}</h3><p class="mut">${d[1]}</p><button class="b" onclick="startJob(${d[2]})">Request this service</button></article>`).join('')}</div>`}
+function startJob(i){preset=i;location.hash='#/market'}
+async function signup(){const n=$('#an').value.trim(),e=$('#ae').value.trim().toLowerCase(),p=$('#ap').value;if(!n||!/.+@.+/.test(e)||p.length<6)return toast('Complete every field; password needs 6+ characters');if(S.users.some(u=>u.email===e))return toast('That email is already registered');const u={id:uid(),name:n,email:e,pw:await hash(p),role:$('#ar').value};S.users.push(u);S.session=u.id;save();route()}
+async function login(){const e=$('#le').value.trim().toLowerCase(),u=S.users.find(x=>x.email===e);if(!u||u.pw!==await hash($('#lp').value))return toast('Email or password is incorrect');S.session=u.id;save();route()}
+function logout(){S.session=null;save();route()}
+const jb=id=>S.jobs.find(j=>j.id===id);
+function postJob(){const t=$('#jt').value.trim(),b=parseFloat($('#jb').value),d=$('#jd').value.trim();if(!t||!(b>0)||!d)return toast('Add a title, description and a budget above 0');S.jobs.unshift({id:uid(),by:S.session,byName:me().name,title:t,cat:$('#jc').value,desc:d,budget:b,days:+$('#jx').value||7,status:'open',worker:null,workerName:'',delivery:'',date:new Date().toLocaleDateString()});save();toast('Job posted');route()}
+function acceptJob(id){const j=jb(id);if(j&&j.status==='open'){j.status='progress';j.worker=S.session;j.workerName=me().name;save();route()}}
+function deliver(id){const t=$('#d_'+id).value.trim();if(!t)return toast('Add a delivery link or note');const j=jb(id);j.delivery=t;j.status='delivered';save();route()}
+function approve(id){jb(id).status='done';save();route()}
+function jobCard(j){const u=me(),f=j.budget*FEE,st={open:'Open',progress:'In progress',delivered:'Delivered',done:'Completed'}[j.status];let a='';
+if(u&&u.role==='freelancer'){if(j.status==='open')a=`<button class="b" onclick="acceptJob('${j.id}')">Take this job</button>`;else if(j.worker===u.id&&j.status==='progress')a=`<input id="d_${j.id}" placeholder="Delivery link or notes" style="max-width:300px"><button class="b" onclick="deliver('${j.id}')">Submit delivery</button>`}
+if(u&&u.id===j.by&&j.status==='delivered')a=`<button class="b" onclick="approve('${j.id}')">Approve and release payment</button>`;
+return`<article class="card"><div class="row"><h3>${esc(j.title)}</h3><span class="tag ${j.status}">${st}</span></div><p class="mut">${esc(j.cat)}, ${j.days} days, posted by ${esc(j.byName)} on ${esc(j.date)}</p><p>${esc(j.desc)}</p><div class="split"><span>Budget <b>${$m(j.budget)}</b></span><span>Freelancer gets 80% <b>${$m(j.budget-f)}</b></span><span>Platform fee 20% <b>${$m(f)}</b></span></div>${j.delivery&&u&&(u.id===j.by||u.id===j.worker)?`<p><b>Delivery:</b> ${esc(j.delivery)}</p>`:''}${j.status==='done'?'<p class="mut">Payout is queued. The payment gateway is not connected yet.</p>':''}<div class="row">${a}</div></article>`}
+function market(){const u=me();let h=`<div class="ph"><h2>Marketplace</h2><p>Companies post engineering work. Freelancers take it, deliver it and get paid 80% of the budget.</p></div>`;
+if(!u)h+=`<div class="g"><div class="card"><h3>Sign in</h3><div class="f"><label>Email<input id="le" type="email"></label><label>Password<input id="lp" type="password"></label></div><button class="b" onclick="login()">Sign in</button></div><div class="card"><h3>Create an account</h3><div class="f"><label>Name or company<input id="an"></label><label>I am a<select id="ar"><option value="company">Company posting work</option><option value="freelancer">Freelance engineer</option></select></label><label>Email<input id="ae" type="email"></label><label>Password<input id="ap" type="password"></label></div><button class="b" onclick="signup()">Create account</button></div></div><h3 style="margin:20px 0 10px">Open jobs</h3>`;
+else{h+=`<div class="card row"><span>Signed in as <b>${esc(u.name)}</b> (${u.role})</span><button class="b s" onclick="logout()">Sign out</button></div>`;
+if(u.role==='company')h+=`<div class="card"><h3>Post a job</h3><div class="f"><label>Title<input id="jt"></label><label>Service<select id="jc">${JC.map((c,i)=>`<option${i===preset?' selected':''}>${c}</option>`).join('')}</select></label><label>Budget (USD)<input id="jb" type="number" min="1" step="any"></label><label>Deadline (days)<input id="jx" type="number" min="1" value="7"></label><label style="grid-column:1/-1">What do you need?<textarea id="jd" rows="3"></textarea></label></div><button class="b" onclick="postJob()">Post job</button><p class="mut">The freelancer receives 80% of the budget and the platform keeps 20%.</p></div><h3 style="margin:20px 0 10px">Your jobs</h3>`;else h+=`<h3 style="margin:20px 0 10px">Open jobs and your work</h3>`}
+const list=S.jobs.filter(j=>!u?j.status==='open':u.role==='company'?j.by===u.id:j.status==='open'||j.worker===u.id);
+return h+(list.length?`<div class="g">${list.map(jobCard).join('')}</div>`:'<div class="card mut">No jobs here yet.</div>')+`<div class="note">Accounts, jobs and payouts are stored in this browser for now. Connect a backend and a payment gateway before real money moves.</div>`}
+function head(){const p=mine().find(x=>x.id===S.active[owner()]),u=me();$('#proj').textContent=p?'Active project: '+p.name+' ('+p.calcs.length+' saved)':'No active project';$('#user').innerHTML=u?esc(u.name)+' ('+u.role+')':'<a href="#/market">Sign in</a>'}
+function route(){const h=(location.hash||'#/home').slice(2).split('/'),pg=h[0],a=CAT[h[1]]?h[1]:'ht';$('#app').innerHTML=pg==='calc'?calcPage(a):({home,projects,design,market}[pg]||home)();const cur='#/'+(pg==='calc'?'calc/'+a:pg);document.querySelectorAll('.nb').forEach(b=>b.classList.toggle('on',b.getAttribute('href')===cur));head();scrollTo(0,0)}
+$('#nav').innerHTML=[['home','Home'],['projects','Project workspace'],['design','Design studio'],['market','Marketplace']].map(x=>`<a class="nb" href="#/${x[0]}">${x[1]}</a>`).join('')+'<div class="lab">Engineering calculators</div>'+Object.entries(CAT).map(([k,v])=>`<a class="nb" href="#/calc/${k}">${v[0]}</a>`).join('');
+addEventListener('hashchange',route);route();
+</script></body></html>
 
  
 
