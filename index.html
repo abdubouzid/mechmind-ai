@@ -48,6 +48,467 @@ body.home .hd{position:absolute;top:66px;left:0;right:0;background:none}
 @media(max-width:800px){.util{height:auto;padding:10px 16px;flex-wrap:wrap}.ur{flex-wrap:wrap}.pill{padding:7px 16px}.hd{flex-direction:column;align-items:flex-start;padding:14px 16px}body.home .hd{position:relative;top:0;background:var(--nav)}.dd{display:none!important}.nb{padding:8px 10px}.hero{min-height:420px}.hc{text-align:left;padding:48px 16px 90px}.wrap{padding:16px}.f{grid-template-columns:1fr}.stats{margin:-40px 12px 0}.sec{padding:32px 16px 10px}}
 #toast{position:fixed;bottom:20px;right:20px;background:var(--nav);color:#fff;padding:11px 18px;border-radius:6px;opacity:0;transition:opacity .2s;pointer-events:none;z-index:9}#toast.on{opacity:1}
 @media(prefers-reduced-motion:reduce){*{transition:none!important}}
+
+#thermo-page {
+      --bg-page: #f4f6f9;
+      --bg-card: #ffffff;
+      --border-card: #e2e8f0;
+      --border-input: #cbd5e1;
+      --text-primary: #111827;
+      --text-secondary: #4b5563;
+      --text-muted: #6b7280;
+      --blue-primary: #0d47a1;
+      --blue-hover: #09357a;
+      --green-badge: #16a34a;
+      --pill-bg: #ffffff;
+      --pill-border: #d1d5db;
+      --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.06), 0 1px 2px rgba(15, 23, 42, 0.04);
+      --radius-card: 14px;
+      --radius-input: 7px;
+      --radius-pill: 999px;
+    }
+#thermo-page * {
+      box-sizing: border-box;
+    }
+#thermo-page {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Inter, Helvetica, Arial, sans-serif;
+      background-color: var(--bg-page);
+      color: var(--text-primary);
+      line-height: 1.45;
+      padding-bottom: 5rem;
+    }
+#thermo-page .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 1.5rem 1.5rem 3rem;
+    }
+#thermo-page .nav-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin-bottom: 1.75rem;
+    }
+#thermo-page .nav-pill {
+      padding: 0.5rem 1.05rem;
+      border-radius: var(--radius-pill);
+      border: 1px solid var(--pill-border);
+      background: var(--pill-bg);
+      color: var(--text-primary);
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.15s ease;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+    }
+#thermo-page .nav-pill:hover {
+      border-color: var(--blue-primary);
+      color: var(--blue-primary);
+    }
+#thermo-page .nav-pill.active {
+      background: var(--blue-primary);
+      border-color: var(--blue-primary);
+      color: #ffffff;
+    }
+#thermo-page .page-header {
+      margin-bottom: 1.5rem;
+    }
+#thermo-page .page-header h1 {
+      margin: 0 0 0.35rem;
+      font-size: 1.75rem;
+      font-weight: 800;
+      color: var(--text-primary);
+      letter-spacing: -0.02em;
+    }
+#thermo-page .page-header p {
+      margin: 0;
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+    }
+#thermo-page .panel-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      border-radius: var(--radius-card);
+      padding: 1.5rem 1.75rem;
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 1.75rem;
+    }
+#thermo-page .panel-title {
+      margin: 0 0 0.35rem;
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--text-primary);
+    }
+#thermo-page .panel-subtitle {
+      margin: 0 0 1.25rem;
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+    }
+#thermo-page .diagrams-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.25rem;
+      text-align: center;
+      align-items: start;
+    }
+#thermo-page .diagram-item h3 {
+      margin: 0 0 0.75rem;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+#thermo-page .diagram-svg {
+      width: 100%;
+      max-width: 210px;
+      height: 115px;
+      margin: 0 auto 0.5rem;
+      display: block;
+    }
+#thermo-page .diagram-eq {
+      margin: 0.25rem 0 0;
+      font-size: 0.92rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+    }
+#thermo-page .sim-controls {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 1.25rem;
+      margin-bottom: 1rem;
+    }
+#thermo-page .sim-select-group, #thermo-page .sim-slider-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+#thermo-page .sim-slider-group {
+      flex: 1;
+      min-width: 240px;
+    }
+#thermo-page .sim-label {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+#thermo-page .sim-select {
+      padding: 0.48rem 0.75rem;
+      border-radius: var(--radius-input);
+      border: 1px solid var(--border-input);
+      background: #fff;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+#thermo-page input[type="range"] {
+      width: 100%;
+      accent-color: #1976d2;
+      cursor: pointer;
+    }
+#thermo-page .sim-bar-container {
+      margin: 0.75rem 0 1.25rem;
+    }
+#thermo-page .sim-gradient-bar {
+      height: 44px;
+      border-radius: 4px;
+      background: linear-gradient(90deg, #1d4ed8 0%, #3b82f6 35%, #f59e0b 75%, #dc2626 100%);
+      position: relative;
+      overflow: hidden;
+      border: 1px solid #cbd5e1;
+    }
+#thermo-page .sim-bar-marker {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      background: #111827;
+      transition: left 0.1s linear;
+    }
+#thermo-page .sim-bar-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      margin-top: 0.35rem;
+    }
+#thermo-page .sim-plots {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin-top: 0.5rem;
+    }
+#thermo-page .plot-box {
+      display: flex;
+      flex-direction: column;
+    }
+#thermo-page .plot-caption {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      margin-bottom: 0.4rem;
+    }
+#thermo-page canvas.sim-canvas {
+      width: 100%;
+      height: 210px;
+      border: 1px solid #cbd5e1;
+      background: #ffffff;
+      border-radius: 4px;
+    }
+#thermo-page .sim-footer {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      margin-top: 1rem;
+      padding-top: 0.75rem;
+    }
+#thermo-page .sim-readout {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+    }
+#thermo-page .sim-btn-group {
+      display: flex;
+      gap: 0.5rem;
+    }
+#thermo-page .btn-outline {
+      padding: 0.45rem 0.95rem;
+      border-radius: 999px;
+      border: 1px solid #cbd5e1;
+      background: #ffffff;
+      color: var(--blue-primary);
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      cursor: pointer;
+    }
+#thermo-page .btn-outline:hover {
+      background: #f1f5f9;
+    }
+#thermo-page .chapter-heading {
+      margin: 2.25rem 0 1rem;
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--text-primary);
+    }
+#thermo-page .calc-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.15rem;
+      align-items: start;
+    }
+#thermo-page .calc-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      border-radius: var(--radius-card);
+      padding: 1.25rem 1.2rem;
+      box-shadow: var(--shadow-sm);
+    }
+#thermo-page .calc-card h3 {
+      margin: 0 0 1rem;
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: var(--text-primary);
+      line-height: 1.3;
+    }
+#thermo-page .input-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem 0.65rem;
+      margin-bottom: 1rem;
+    }
+#thermo-page .field {
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+    }
+#thermo-page .field.full {
+      grid-column: 1 / -1;
+    }
+#thermo-page .field label {
+      font-size: 0.77rem;
+      font-weight: 700;
+      color: #374151;
+      line-height: 1.25;
+      min-height: 1.9rem;
+      display: flex;
+      align-items: flex-end;
+    }
+#thermo-page .field input, #thermo-page .field select {
+      width: 100%;
+      padding: 0.48rem 0.6rem;
+      border: 1px solid var(--border-input);
+      border-radius: var(--radius-input);
+      font-size: 0.88rem;
+      font-weight: 500;
+      color: var(--text-primary);
+      background: #ffffff;
+      transition: border-color 0.15s ease;
+    }
+#thermo-page .field input:focus, #thermo-page .field select:focus {
+      outline: none;
+      border-color: var(--blue-primary);
+      box-shadow: 0 0 0 2px rgba(13, 71, 161, 0.12);
+    }
+#thermo-page .btn-calc {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.55rem 1.25rem;
+      border-radius: 999px;
+      border: none;
+      background: var(--blue-primary);
+      color: #ffffff;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.15s ease;
+    }
+#thermo-page .btn-calc:hover {
+      background: var(--blue-hover);
+    }
+#thermo-page .calc-formula {
+      margin: 0.75rem 0 0;
+      font-size: 0.76rem;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+#thermo-page .calc-result {
+      margin-top: 0.85rem;
+      padding: 0.7rem 0.8rem;
+      border-radius: 8px;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      font-size: 0.82rem;
+      color: var(--text-primary);
+      display: none;
+    }
+#thermo-page .calc-result.visible {
+      display: block;
+    }
+#thermo-page .calc-result strong {
+      color: var(--blue-primary);
+    }
+#thermo-page .calc-result div + div {
+      margin-top: 0.25rem;
+    }
+#thermo-page .table-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+#thermo-page .table-tab {
+      padding: 0.42rem 0.9rem;
+      border-radius: 8px;
+      border: 1px solid var(--border-input);
+      background: #f8fafc;
+      color: var(--text-secondary);
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+#thermo-page .table-tab.active {
+      background: var(--blue-primary);
+      border-color: var(--blue-primary);
+      color: #ffffff;
+    }
+#thermo-page .table-lookup-bar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-end;
+      gap: 0.85rem;
+      padding: 0.9rem 1rem;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      margin-bottom: 1rem;
+    }
+#thermo-page .table-lookup-bar .field {
+      min-width: 165px;
+    }
+#thermo-page .table-lookup-bar .field label {
+      min-height: auto;
+    }
+#thermo-page .lookup-output {
+      font-size: 0.84rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      padding: 0.5rem 0.75rem;
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      flex: 1;
+      min-width: 240px;
+    }
+#thermo-page .data-table-wrap {
+      overflow-x: auto;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+    }
+#thermo-page table.prop-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.82rem;
+      text-align: right;
+    }
+#thermo-page table.prop-table th, #thermo-page table.prop-table td {
+      padding: 0.55rem 0.75rem;
+      border-bottom: 1px solid #e2e8f0;
+    }
+#thermo-page table.prop-table th {
+      background: #f1f5f9;
+      color: var(--text-primary);
+      font-weight: 700;
+      white-space: nowrap;
+    }
+#thermo-page table.prop-table tr:hover td {
+      background: #f8fafc;
+    }
+#thermo-page .floating-actions {
+      position: fixed;
+      left: 1rem;
+      bottom: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      z-index: 50;
+    }
+#thermo-page .float-badge {
+      padding: 0.55rem 1rem;
+      border-radius: 8px;
+      font-size: 0.74rem;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: #ffffff;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.18);
+      text-align: left;
+    }
+#thermo-page .float-blue {
+      background: var(--blue-primary);
+    }
+#thermo-page .float-green {
+      background: var(--green-badge);
+    }
+@media (max-width: 1100px) {
+#thermo-page .calc-grid, #thermo-page .diagrams-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+}
+@media (max-width: 680px) {
+#thermo-page .calc-grid, #thermo-page .diagrams-grid, #thermo-page .sim-plots {
+        grid-template-columns: 1fr;
+      }
+}
 </style></head><body>
 <div class="util"><span id="proj"></span><span class="ur"><a class="pill" href="#/market">Post a job</a><a class="pill" href="#/market">Find freelance work</a><span id="user"></span></span></div>
 <header class="hd"><a class="logo" href="#/home"><i>M</i>MechMind AI</a><nav id="nav"></nav></header>
@@ -195,7 +656,8 @@ LAST[id]={title:c[2],inputs:c[3].map(([k,l])=>l+': '+v[k]).join('; '),out:r.map(
 box.className='res ok';box.innerHTML=r.map(x=>`<div><span>${x[0]}</span><b>${N(x[1])} ${x[2]}</b></div>`).join('')+`<button class="b s" onclick="saveCalc('${id}')">Save to project</button>`;if(c[0]==='hv'&&$('#pc'))$('#pc').innerHTML=chartSVG()}
 function newProj(n,c=''){const p={id:uid(),owner:owner(),name:n,client:c,calcs:[]};S.projects.push(p);S.active[owner()]=p.id;save();return p}
 function saveCalc(id){if(!mine().length){const n=prompt('Name your first project:');if(!n)return;newProj(n)}const p=mine().find(x=>x.id===S.active[owner()])||mine()[0];p.calcs.push({...LAST[id],date:new Date().toLocaleString()});save();head();toast('Saved to '+p.name)}
-function calcPage(a){const G=a==='hv'?HG:a==='ht'?HTG:[['',K.filter(c=>c[0]===a).map(c=>c[1])]];return`${chips(a)}<div class="ph"><h2>${CAT[a][0]}</h2><p>${CAT[a][1]}.</p></div>${a==='hv'?chartCard()+`<div class="note" style="margin-top:0">Symbols: <b>W</b> humidity ratio (kg water per kg dry air), <b>h</b> specific enthalpy (kJ/kg dry air), <b>v</b> specific volume (m³/kg dry air), <b>t</b> dry-bulb, <b>RH</b> relative humidity, <b>ADP</b> apparatus dew point, <b>BF</b> bypass factor, <b>SHR</b> sensible heat ratio. HVAC tools use SI units.</div>`:''}${a==='ht'?simHTML():''}`+G.map(([t,ids])=>(t?`<h3 class="gh">${t}</h3>`:'')+`<div class="g">${ids.map(i=>card(K.find(c=>c[1]===i))).join('')}</div>`).join('')+`<div class="note">These tools give preliminary results. ${a==='ht'?'Fluid properties are inputs: take them from tables at the film temperature. ':''}Confirm final designs against applicable codes, material data and a qualified engineer’s review.</div>`}
+const THERMO_MARKUP='<div id="thermo-page"><div class="container">\n<!-- Top Discipline Navigation -->\n\n<!-- Header -->\n<header class="page-header">\n<h1>Thermodynamics</h1>\n<p>Chapters 1–11: closed systems, pure substance property tables, gas power cycles, Rankine steam cycles, and vapor-compression refrigeration.</p>\n</header>\n<!-- Visual Reference Card: Fundamental Thermodynamic Processes & Cycles -->\n<section aria-labelledby="diagrams-heading" class="panel-card">\n<h2 class="panel-title" id="diagrams-heading">Diagrams: fundamental thermodynamic processes &amp; cycles</h2>\n<p class="panel-subtitle">Core energy balances and ideal cycle state paths (Closed Systems, Pure Substances, Gas &amp; Vapor Cycles).</p>\n<div class="diagrams-grid">\n<!-- 1. Closed System Boundary Work -->\n<div class="diagram-item">\n<h3>Closed-system energy</h3>\n<svg aria-hidden="true" class="diagram-svg" viewbox="0 0 210 115">\n<rect fill="#e0f2fe" height="72" rx="4" stroke="#0284c7" stroke-width="2" width="126" x="42" y="22"></rect>\n<rect fill="#f97316" height="12" width="126" x="42" y="42"></rect>\n<line stroke="#dc2626" stroke-width="3" x1="105" x2="105" y1="42" y2="12"></line>\n<polygon fill="#dc2626" points="105,6 99,16 111,16"></polygon>\n<text fill="#dc2626" font-size="11" font-weight="700" x="116" y="22">Wb</text>\n<line stroke="#ea580c" stroke-width="2.5" x1="18" x2="38" y1="74" y2="74"></line>\n<polygon fill="#ea580c" points="41,74 33,69 33,79"></polygon>\n<text fill="#ea580c" font-size="11" font-weight="700" x="12" y="66">Q</text>\n</svg>\n<p class="diagram-eq">ΔU = Q − W</p>\n</div>\n<!-- 2. Pure Substance Two-Phase Dome -->\n<div class="diagram-item">\n<h3>Saturation dome (T–v)</h3>\n<svg aria-hidden="true" class="diagram-svg" viewbox="0 0 210 115">\n<line stroke="#64748b" stroke-width="1.5" x1="25" x2="190" y1="98" y2="98"></line>\n<line stroke="#64748b" stroke-width="1.5" x1="25" x2="25" y1="98" y2="12"></line>\n<path d="M 40 94 Q 105 10 175 94" fill="none" stroke="#0d47a1" stroke-width="2.5"></path>\n<line stroke="#dc2626" stroke-dasharray="4 3" stroke-width="2" x1="56" x2="152" y1="64" y2="64"></line>\n<circle cx="96" cy="64" fill="#dc2626" r="4"></circle>\n<text fill="#dc2626" font-size="11" font-weight="700" x="86" y="55">x</text>\n</svg>\n<p class="diagram-eq">v = vf + x·vfg</p>\n</div>\n<!-- 3. Gas Power Cycle (Brayton / Otto) -->\n<div class="diagram-item">\n<h3>Brayton gas cycle (T–s)</h3>\n<svg aria-hidden="true" class="diagram-svg" viewbox="0 0 210 115">\n<line stroke="#64748b" stroke-width="1.5" x1="25" x2="190" y1="98" y2="98"></line>\n<line stroke="#64748b" stroke-width="1.5" x1="25" x2="25" y1="98" y2="12"></line>\n<polygon fill="rgba(220,38,38,0.08)" points="52,85 52,55 152,22 152,58" stroke="#dc2626" stroke-width="2.2"></polygon>\n<text font-size="10" font-weight="700" x="41" y="92">1</text>\n<text font-size="10" font-weight="700" x="41" y="52">2</text>\n<text font-size="10" font-weight="700" x="157" y="24">3</text>\n<text font-size="10" font-weight="700" x="157" y="64">4</text>\n</svg>\n<p class="diagram-eq">ηth = 1 − 1 / rp^((k−1)/k)</p>\n</div>\n<!-- 4. Vapor Rankine / Refrigeration Cycle -->\n<div class="diagram-item">\n<h3>Rankine &amp; cooling (T–s)</h3>\n<svg aria-hidden="true" class="diagram-svg" viewbox="0 0 210 115">\n<line stroke="#64748b" stroke-width="1.5" x1="25" x2="190" y1="98" y2="98"></line>\n<line stroke="#64748b" stroke-width="1.5" x1="25" x2="25" y1="98" y2="12"></line>\n<path d="M 38 94 Q 95 14 168 94" fill="none" stroke="#94a3b8" stroke-width="1.8"></path>\n<polyline fill="rgba(13,71,161,0.08)" points="58,78 58,42 135,42 148,26 148,78 58,78" stroke="#0d47a1" stroke-width="2.2"></polyline>\n</svg>\n<p class="diagram-eq">ηth = wnet / qin</p>\n</div>\n</div>\n</section>\n<!-- Interactive Cycle & Property Simulation Panel -->\n<section aria-labelledby="sim-heading" class="panel-card">\n<h2 class="panel-title" id="sim-heading">Simulation: thermodynamic cycle &amp; isentropic performance</h2>\n<p class="panel-subtitle">\n        Adjust the cycle operating ratio to observe real-time thermal efficiency, back-work ratio, and state temperatures on the P–v / T–s curves.\n      </p>\n<div class="sim-controls">\n<div class="sim-select-group">\n<label class="sim-label" for="sim-cycle-select">Cycle model:</label>\n<select class="sim-select" id="sim-cycle-select">\n<option value="brayton">Ideal Brayton Cycle (Gas Turbine, k = 1.4)</option>\n<option value="otto">Ideal Otto Cycle (Spark-Ignition, k = 1.4)</option>\n<option value="diesel">Ideal Diesel Cycle (Compression-Ignition, rc = 2.0)</option>\n<option value="rankine">Ideal Rankine Steam Cycle (Pcond = 10 kPa, T3 = 500 °C)</option>\n</select>\n</div>\n<div class="sim-slider-group">\n<label class="sim-label" for="sim-ratio-slider" id="sim-slider-label">\n            Pressure ratio rp = P2/P1: 15\n          </label>\n<input id="sim-ratio-slider" max="30" min="2" step="0.5" type="range" value="15"/>\n</div>\n</div>\n<!-- Thermal Spectrum Bar (Matching Screenshot Style) -->\n<div class="sim-bar-container">\n<div class="sim-gradient-bar">\n<div class="sim-bar-marker" id="sim-bar-marker" style="left: 46%;"></div>\n</div>\n<div class="sim-bar-labels">\n<span>State 1 (Low T / P)</span>\n<span id="sim-mid-label">Compressor / Pump Exit (State 2)</span>\n<span>State 3 (Peak Tmax)</span>\n</div>\n</div>\n<!-- Dual Interactive Plots -->\n<div class="sim-plots">\n<div class="plot-box">\n<span class="plot-caption" id="left-plot-caption">Cycle state diagram (T–s normalized)</span>\n<canvas class="sim-canvas" height="210" id="sim-canvas-left" width="560"></canvas>\n</div>\n<div class="plot-box">\n<span class="plot-caption" id="right-plot-caption">Thermal efficiency ηth (%) vs. Ratio (solid = ideal, dashed = actual ηc=0.80, ηt=0.85)</span>\n<canvas class="sim-canvas" height="210" id="sim-canvas-right" width="560"></canvas>\n</div>\n</div>\n<div class="sim-footer">\n<div class="sim-readout" id="sim-readout">\n          ηth,ideal = 53.86%, ηth,actual = 32.14%, T2 = 650.4 K, T4 = 461.3 K, Back-Work Ratio = 0.650\n        </div>\n<div class="sim-btn-group">\n<button class="btn-outline" id="sim-sweep-btn" type="button">SWEEP RATIO</button>\n<button class="btn-outline" id="sim-reset-btn" type="button">RESTART</button>\n</div>\n</div>\n</section>\n<!-- =================================================================== -->\n<!-- CH. 1–4: CLOSED SYSTEMS & PURE SUBSTANCES                           -->\n<!-- =================================================================== -->\n<h2 class="chapter-heading">Ch.1–4 Closed systems, boundary work &amp; pure substances</h2>\n<div class="calc-grid">\n<!-- Card 1: Closed System First Law & Piston-Cylinder -->\n<div class="calc-card">\n<h3>Closed-system energy &amp; polytropic work</h3>\n<div class="input-grid">\n<div class="field">\n<label for="cs-m">Mass m (kg)</label>\n<input id="cs-m" step="any" type="number" value="2"/>\n</div>\n<div class="field">\n<label for="cs-n">Polytropic n</label>\n<input id="cs-n" step="any" type="number" value="1.3"/>\n</div>\n<div class="field">\n<label for="cs-p1">Initial P1 (kPa)</label>\n<input id="cs-p1" step="any" type="number" value="150"/>\n</div>\n<div class="field">\n<label for="cs-v1">Initial V1 (m³)</label>\n<input id="cs-v1" step="any" type="number" value="0.4"/>\n</div>\n<div class="field">\n<label for="cs-v2">Final V2 (m³)</label>\n<input id="cs-v2" step="any" type="number" value="0.1"/>\n</div>\n<div class="field">\n<label for="cs-du">Δu (kJ/kg)</label>\n<input id="cs-du" step="any" type="number" value="185"/>\n</div>\n</div>\n<button class="btn-calc" onclick="calcClosedSystem()" type="button">CALCULATE</button>\n<p class="calc-formula">Wb = (P2·V2 − P1·V1)/(1 − n); Q = m·Δu + Wb (Ch.4)</p>\n<div class="calc-result" id="res-cs"></div>\n</div>\n<!-- Card 2: Spring-Loaded Piston-Cylinder -->\n<div class="calc-card">\n<h3>Spring-loaded piston-cylinder</h3>\n<div class="input-grid">\n<div class="field">\n<label for="sp-p1">Initial P1 (kPa)</label>\n<input id="sp-p1" step="any" type="number" value="200"/>\n</div>\n<div class="field">\n<label for="sp-v1">Initial V1 (m³)</label>\n<input id="sp-v1" step="any" type="number" value="0.05"/>\n</div>\n<div class="field">\n<label for="sp-v2">Final V2 (m³)</label>\n<input id="sp-v2" step="any" type="number" value="0.10"/>\n</div>\n<div class="field">\n<label for="sp-k">Spring k (kN/m)</label>\n<input id="sp-k" step="any" type="number" value="150"/>\n</div>\n<div class="field full">\n<label for="sp-a">Piston cross-section area A (m²)</label>\n<input id="sp-a" step="any" type="number" value="0.25"/>\n</div>\n</div>\n<button class="btn-calc" onclick="calcSpringPiston()" type="button">CALCULATE</button>\n<p class="calc-formula">P2 = P1 + k·(V2 − V1)/A²; Wb = ½(P1 + P2)(V2 − V1)</p>\n<div class="calc-result" id="res-sp"></div>\n</div>\n<!-- Card 3: Pure Substance Two-Phase Mixture (Quality x) -->\n<div class="calc-card">\n<h3>Two-phase mixture &amp; quality (x)</h3>\n<div class="input-grid">\n<div class="field">\n<label for="mx-vf">Sat. liquid vf (m³/kg)</label>\n<input id="mx-vf" step="any" type="number" value="0.001043"/>\n</div>\n<div class="field">\n<label for="mx-vg">Sat. vapor vg (m³/kg)</label>\n<input id="mx-vg" step="any" type="number" value="1.6941"/>\n</div>\n<div class="field">\n<label for="mx-hf">Sat. liquid hf (kJ/kg)</label>\n<input id="mx-hf" step="any" type="number" value="419.17"/>\n</div>\n<div class="field">\n<label for="mx-hg">Sat. vapor hg (kJ/kg)</label>\n<input id="mx-hg" step="any" type="number" value="2675.6"/>\n</div>\n<div class="field">\n<label for="mx-x">Quality x (0–1)</label>\n<input id="mx-x" max="1" min="0" step="any" type="number" value="0.65"/>\n</div>\n<div class="field">\n<label for="mx-m">Total mass m (kg)</label>\n<input id="mx-m" step="any" type="number" value="5"/>\n</div>\n</div>\n<button class="btn-calc" onclick="calcMixture()" type="button">CALCULATE</button>\n<p class="calc-formula">y = yf + x·(yg − yf); mg = x·m; mf = (1 − x)·m (Ch.3)</p>\n<div class="calc-result" id="res-mx"></div>\n</div>\n<!-- Card 4: Linear Table Interpolation -->\n<div class="calc-card">\n<h3>Property table linear interpolation</h3>\n<div class="input-grid">\n<div class="field">\n<label for="in-x1">Lower X1</label>\n<input id="in-x1" step="any" type="number" value="520"/>\n</div>\n<div class="field">\n<label for="in-y1">Lower Y1</label>\n<input id="in-y1" step="any" type="number" value="523.63"/>\n</div>\n<div class="field">\n<label for="in-x2">Upper X2</label>\n<input id="in-x2" step="any" type="number" value="530"/>\n</div>\n<div class="field">\n<label for="in-y2">Upper Y2</label>\n<input id="in-y2" step="any" type="number" value="533.98"/>\n</div>\n<div class="field full">\n<label for="in-x">Target X value</label>\n<input id="in-x" step="any" type="number" value="522.4"/>\n</div>\n</div>\n<button class="btn-calc" onclick="calcInterpolation()" type="button">CALCULATE</button>\n<p class="calc-formula">Y = Y1 + [(X − X1)/(X2 − X1)]·(Y2 − Y1)</p>\n<div class="calc-result" id="res-in"></div>\n</div>\n</div>\n<!-- =================================================================== -->\n<!-- CH. 9: GAS POWER CYCLES (OTTO, DIESEL, DUAL, BRAYTON)               -->\n<!-- =================================================================== -->\n<h2 class="chapter-heading">Ch.9 Gas power cycles: Otto, Diesel, Dual &amp; Brayton</h2>\n<div class="calc-grid">\n<!-- Card 5: Ideal Otto Cycle -->\n<div class="calc-card">\n<h3>Ideal Otto cycle (air-standard)</h3>\n<div class="input-grid">\n<div class="field">\n<label for="ot-r">Compression ratio r</label>\n<input id="ot-r" step="any" type="number" value="10"/>\n</div>\n<div class="field">\n<label for="ot-p1">Inlet P1 (kPa)</label>\n<input id="ot-p1" step="any" type="number" value="95"/>\n</div>\n<div class="field">\n<label for="ot-t1">Inlet T1 (°C)</label>\n<input id="ot-t1" step="any" type="number" value="35"/>\n</div>\n<div class="field">\n<label for="ot-qin">Heat qin (kJ/kg)</label>\n<input id="ot-qin" step="any" type="number" value="650"/>\n</div>\n<div class="field">\n<label for="ot-cv">cv (kJ/kg·K)</label>\n<input id="ot-cv" step="any" type="number" value="0.718"/>\n</div>\n<div class="field">\n<label for="ot-k">Specific heat k</label>\n<input id="ot-k" step="any" type="number" value="1.4"/>\n</div>\n</div>\n<button class="btn-calc" onclick="calcOtto()" type="button">CALCULATE</button>\n<p class="calc-formula">ηth = 1 − 1/r^(k−1); MEP = wnet / (v1 − v2) (Ch.9)</p>\n<div class="calc-result" id="res-ot"></div>\n</div>\n<!-- Card 6: Ideal Diesel & Dual Cycle -->\n<div class="calc-card">\n<h3>Ideal Diesel &amp; Dual (karma) cycle</h3>\n<div class="input-grid">\n<div class="field">\n<label for="di-r">Compression ratio r</label>\n<input id="di-r" step="any" type="number" value="20"/>\n</div>\n<div class="field">\n<label for="di-rc">Cutoff ratio rc</label>\n<input id="di-rc" step="any" type="number" value="2.2"/>\n</div>\n<div class="field">\n<label for="di-rp">Pressure ratio rp (1=Diesel)</label>\n<input id="di-rp" step="any" type="number" value="1"/>\n</div>\n<div class="field">\n<label for="di-p1">Inlet P1 (kPa)</label>\n<input id="di-p1" step="any" type="number" value="95"/>\n</div>\n<div class="field">\n<label for="di-t1">Inlet T1 (°C)</label>\n<input id="di-t1" step="any" type="number" value="15"/>\n</div>\n<div class="field">\n<label for="di-k">Specific heat k</label>\n<input id="di-k" step="any" type="number" value="1.4"/>\n</div>\n</div>\n<button class="btn-calc" onclick="calcDieselDual()" type="button">CALCULATE</button>\n<p class="calc-formula">ηth = 1 − (1/r^(k−1))·[(rp·rc^k − 1)/((rp − 1) + k·rp·(rc − 1))]</p>\n<div class="calc-result" id="res-di"></div>\n</div>\n<!-- Card 7: Brayton Cycle (Ideal & Actual) -->\n<div class="calc-card">\n<h3>Brayton gas turbine cycle</h3>\n<div class="input-grid">\n<div class="field">\n<label for="br-rp">Pressure ratio rp</label>\n<input id="br-rp" step="any" type="number" value="15"/>\n</div>\n<div class="field">\n<label for="br-t1">Comp. inlet T1 (K)</label>\n<input id="br-t1" step="any" type="number" value="300"/>\n</div>\n<div class="field">\n<label for="br-t3">Turbine inlet T3 (K)</label>\n<input id="br-t3" step="any" type="number" value="1000"/>\n</div>\n<div class="field">\n<label for="br-etac">Comp. eff. ηc (%)</label>\n<input id="br-etac" step="any" type="number" value="100"/>\n</div>\n<div class="field">\n<label for="br-etat">Turbine eff. ηt (%)</label>\n<input id="br-etat" step="any" type="number" value="100"/>\n</div>\n<div class="field">\n<label for="br-wnet">Target Power (MW)</label>\n<input id="br-wnet" step="any" type="number" value="100"/>\n</div>\n</div>\n<button class="btn-calc" onclick="calcBrayton()" type="button">CALCULATE</button>\n<p class="calc-formula">wnet = wt − wc; BWR = wc / wt; ṁ = Ẇnet / wnet (Ch.9)</p>\n<div class="calc-result" id="res-br"></div>\n</div>\n<!-- Card 8: Regenerative Brayton Cycle -->\n<div class="calc-card">\n<h3>Regenerative Brayton cycle</h3>\n<div class="input-grid">\n<div class="field">\n<label for="rg-rp">Pressure ratio rp</label>\n<input id="rg-rp" step="any" type="number" value="8"/>\n</div>\n<div class="field">\n<label for="rg-t1">Comp. inlet T1 (°C)</label>\n<input id="rg-t1" step="any" type="number" value="20"/>\n</div>\n<div class="field">\n<label for="rg-t3">Max temp T3 (°C)</label>\n<input id="rg-t3" step="any" type="number" value="800"/>\n</div>\n<div class="field">\n<label for="rg-eps">Regenerator ε (%)</label>\n<input id="rg-eps" step="any" type="number" value="83.7"/>\n</div>\n<div class="field full">\n<label for="rg-wnet">Net cycle power Ẇnet (kW)</label>\n<input id="rg-wnet" step="any" type="number" value="500"/>\n</div>\n</div>\n<button class="btn-calc" onclick="calcRegenBrayton()" type="button">CALCULATE</button>\n<p class="calc-formula">ε = (T5 − T2)/(T4 − T2); qin = cp·(T3 − T5) (Ch.9)</p>\n<div class="calc-result" id="res-rg"></div>\n</div>\n</div>\n<!-- =================================================================== -->\n<!-- CH. 10–11: VAPOR POWER (RANKINE) & REFRIGERATION CYCLES             -->\n<!-- =================================================================== -->\n<h2 class="chapter-heading">Ch.10–11 Rankine vapor power &amp; refrigeration cycles</h2>\n<div class="calc-grid">\n<!-- Card 9: Simple & Actual Rankine Cycle -->\n<div class="calc-card">\n<h3>Rankine steam cycle (ideal / actual)</h3>\n<div class="input-grid">\n<div class="field">\n<label for="rk-p2">Boiler P2 (MPa)</label>\n<input id="rk-p2" step="any" type="number" value="7"/>\n</div>\n<div class="field">\n<label for="rk-t3">Turbine T3 (°C)</label>\n<input id="rk-t3" step="any" type="number" value="500"/>\n</div>\n<div class="field">\n<label for="rk-p1">Condenser P1 (kPa)</label>\n<input id="rk-p1" step="any" type="number" value="10"/>\n</div>\n<div class="field">\n<label for="rk-etap">Pump eff. ηp (%)</label>\n<input id="rk-etap" step="any" type="number" value="87"/>\n</div>\n<div class="field">\n<label for="rk-etat">Turbine eff. ηt (%)</label>\n<input id="rk-etat" step="any" type="number" value="90"/>\n</div>\n<div class="field">\n<label for="rk-wnet">Net Power (MW)</label>\n<input id="rk-wnet" step="any" type="number" value="30"/>\n</div>\n</div>\n<button class="btn-calc" onclick="calcRankine()" type="button">CALCULATE</button>\n<p class="calc-formula">wp = v1·(P2 − P1)/ηp; ηth = (wt − wp)/qin (Ch.10)</p>\n<div class="calc-result" id="res-rk"></div>\n</div>\n<!-- Card 10: Open Feedwater Heater (Regenerative Rankine) -->\n<div class="calc-card">\n<h3>Open feedwater heater extraction</h3>\n<div class="input-grid">\n<div class="field">\n<label for="fw-h5">Turbine inlet h5 (kJ/kg)</label>\n<input id="fw-h5" step="any" type="number" value="3375.1"/>\n</div>\n<div class="field">\n<label for="fw-h6">Extracted h6 (kJ/kg)</label>\n<input id="fw-h6" step="any" type="number" value="2654.1"/>\n</div>\n<div class="field">\n<label for="fw-h7">Condenser in h7 (kJ/kg)</label>\n<input id="fw-h7" step="any" type="number" value="2089.7"/>\n</div>\n<div class="field">\n<label for="fw-h2">Pump I exit h2 (kJ/kg)</label>\n<input id="fw-h2" step="any" type="number" value="192.3"/>\n</div>\n<div class="field">\n<label for="fw-h3">OFWH exit h3 (kJ/kg)</label>\n<input id="fw-h3" step="any" type="number" value="640.09"/>\n</div>\n<div class="field">\n<label for="fw-h4">Boiler in h4 (kJ/kg)</label>\n<input id="fw-h4" step="any" type="number" value="650.47"/>\n</div>\n</div>\n<button class="btn-calc" onclick="calcOFWH()" type="button">CALCULATE</button>\n<p class="calc-formula">y = (h3 − h2)/(h6 − h2); qout = (1 − y)·(h7 − h1) (Ch.10)</p>\n<div class="calc-result" id="res-fw"></div>\n</div>\n<!-- Card 11: Vapor-Compression Refrigeration (R-134a) -->\n<div class="calc-card">\n<h3>Vapor-compression refrigeration</h3>\n<div class="input-grid">\n<div class="field">\n<label for="rf-h1">Evap. exit h1 (kJ/kg)</label>\n<input id="rf-h1" step="any" type="number" value="236.97"/>\n</div>\n<div class="field">\n<label for="rf-h2s">Isentropic h2s (kJ/kg)</label>\n<input id="rf-h2s" step="any" type="number" value="273.5"/>\n</div>\n<div class="field">\n<label for="rf-h3">Cond. exit h3 (kJ/kg)</label>\n<input id="rf-h3" step="any" type="number" value="88.82"/>\n</div>\n<div class="field">\n<label for="rf-etac">Comp. eff. ηc (%)</label>\n<input id="rf-etac" step="any" type="number" value="100"/>\n</div>\n<div class="field full">\n<label for="rf-m">Refrigerant mass flow ṁ (kg/s)</label>\n<input id="rf-m" step="any" type="number" value="0.05"/>\n</div>\n</div>\n<button class="btn-calc" onclick="calcRefrigeration()" type="button">CALCULATE</button>\n<p class="calc-formula">COPR = (h1 − h4)/(h2a − h1); Q̇H = Q̇L + Ẇin (Ch.11)</p>\n<div class="calc-result" id="res-rf"></div>\n</div>\n<!-- Card 12: Carnot COP & Two-Stage Cascade Balance -->\n<div class="calc-card">\n<h3>Carnot COP &amp; cascade flow ratio</h3>\n<div class="input-grid">\n<div class="field">\n<label for="ca-tl">Cold space TL (°C)</label>\n<input id="ca-tl" step="any" type="number" value="26"/>\n</div>\n<div class="field">\n<label for="ca-th">Warm ambient TH (°C)</label>\n<input id="ca-th" step="any" type="number" value="34"/>\n</div>\n<div class="field">\n<label for="ca-ql">Cooling load Q̇L (kW)</label>\n<input id="ca-ql" step="any" type="number" value="5.66"/>\n</div>\n<div class="field">\n<label for="ca-ma">Upper ṁA (kg/s)</label>\n<input id="ca-ma" step="any" type="number" value="0.24"/>\n</div>\n<div class="field">\n<label for="ca-dh-up">Upper ΔhHX (kJ/kg)</label>\n<input id="ca-dh-up" step="any" type="number" value="153.94"/>\n</div>\n<div class="field">\n<label for="ca-dh-lo">Lower ΔhHX (kJ/kg)</label>\n<input id="ca-dh-lo" step="any" type="number" value="196.66"/>\n</div>\n</div>\n<button class="btn-calc" onclick="calcCarnotCascade()" type="button">CALCULATE</button>\n<p class="calc-formula">COPrev = TL/(TH − TL); ṁB = ṁA·(h5 − h8)/(h2 − h3) (Ch.6 &amp; 11)</p>\n<div class="calc-result" id="res-ca"></div>\n</div>\n</div>\n<!-- =================================================================== -->\n<!-- INTERACTIVE THERMODYNAMIC PROPERTY TABLES (A-4, A-5, A-12, A-17)     -->\n<!-- =================================================================== -->\n<h2 class="chapter-heading">Reference property tables &amp; automatic interpolator</h2>\n<section aria-labelledby="tables-heading" class="panel-card">\n<h3 class="panel-title" id="tables-heading">Interactive Steam, R-134a &amp; Ideal-Gas Air Tables</h3>\n<p class="panel-subtitle">\n        Select a thermodynamic reference table and enter any pressure or temperature within range to compute exact linearly interpolated properties automatically.\n      </p>\n<div class="table-tabs" role="tablist">\n<button class="table-tab active" data-table="water-p" onclick="switchTable(\'water-p\', this)" type="button">\n          Table A-5: Saturated Water (Pressure)\n        </button>\n<button class="table-tab" data-table="r134a-p" onclick="switchTable(\'r134a-p\', this)" type="button">\n          Table A-12: Saturated R-134a (Pressure)\n        </button>\n<button class="table-tab" data-table="air-t" onclick="switchTable(\'air-t\', this)" type="button">\n          Table A-17: Ideal-Gas Air (Temperature)\n        </button>\n</div>\n<div class="table-lookup-bar">\n<div class="field">\n<label for="tbl-query-input" id="tbl-query-label">Pressure P (kPa)</label>\n<input id="tbl-query-input" oninput="runTableLookup()" step="any" type="number" value="50"/>\n</div>\n<div class="lookup-output" id="tbl-lookup-output">\n          Enter a value to interpolate properties automatically.\n        </div>\n</div>\n<div class="data-table-wrap">\n<table class="prop-table" id="prop-table"></table>\n</div>\n</section>\n</div><div class="floating-actions">\n<button class="float-badge float-blue" onclick="document.getElementById(\'tables-heading\').scrollIntoView({behavior:\'smooth\'})" type="button">\n      PROPERTY TABLES\n    </button>\n<button class="float-badge float-green" onclick="document.getElementById(\'sim-heading\').scrollIntoView({behavior:\'smooth\'})" type="button">\n      CYCLE SIMULATOR\n    </button>\n</div></div>';
+function calcPage(a){if(a==='th')return `${chips(a)}${THERMO_MARKUP}`;const G=a==='hv'?HG:a==='ht'?HTG:[['',K.filter(c=>c[0]===a).map(c=>c[1])]];return`${chips(a)}<div class="ph"><h2>${CAT[a][0]}</h2><p>${CAT[a][1]}.</p></div>${a==='hv'?chartCard()+`<div class="note" style="margin-top:0">Symbols: <b>W</b> humidity ratio (kg water per kg dry air), <b>h</b> specific enthalpy (kJ/kg dry air), <b>v</b> specific volume (m³/kg dry air), <b>t</b> dry-bulb, <b>RH</b> relative humidity, <b>ADP</b> apparatus dew point, <b>BF</b> bypass factor, <b>SHR</b> sensible heat ratio. HVAC tools use SI units.</div>`:''}${a==='ht'?simHTML():''}`+G.map(([t,ids])=>(t?`<h3 class="gh">${t}</h3>`:'')+`<div class="g">${ids.map(i=>card(K.find(c=>c[1]===i))).join('')}</div>`).join('')+`<div class="note">These tools give preliminary results. ${a==='ht'?'Fluid properties are inputs: take them from tables at the film temperature. ':''}Confirm final designs against applicable codes, material data and a qualified engineer’s review.</div>`}
 const chips=a=>`<div class="chips">${Object.entries(CAT).map(([k,v])=>`<a href="#/calc/${k}"${k===a?' class="on"':''}>${v[0]}</a>`).join('')}</div>`;
 function home(){return`<section class="hero"><div class="hc"><h1>Calculate it. Save it. Hand off the drawing.</h1><p>Smart calculators<b>|</b>Project records<b>|</b>Verified freelancers</p><a class="b" href="#/calc/hv">Open calculators</a><a class="b o" href="#/market">Hire or find work</a></div></section><div class="stats"><div><b>${Object.keys(CAT).length}</b><span>Disciplines</span></div><div><b>${K.length}</b><span>Calculators</span></div><div><b>Full HVAC</b><span>Psychrometrics to fans</span></div><div><b>Ch. 1-11</b><span>Heat transfer course</span></div></div><section class="sec"><div class="ph"><h2>Engineering disciplines</h2><p>One workspace for mechanical engineering: calculators across every core discipline, saved project records, and a marketplace for CAD and analysis work.</p></div><div class="g">${Object.entries(CAT).map(([k,v])=>`<a class="card cat" href="#/calc/${k}"><h3>${v[0]}</h3><p>${v[1]}</p></a>`).join('')}</div></section>`}
 function projects(){const ps=mine();return`<div class="ph"><h2>Project workspace</h2><p>${S.session?'Projects are saved to your account on this browser.':'You are working as a guest. Sign in under Marketplace to keep projects under your account.'}</p></div><div class="card"><h3>New project</h3><div class="f"><label>Project name<input id="pn"></label><label>Client or site<input id="pc"></label></div><button class="b" onclick="addProj()">Create project</button></div>`+(ps.length?ps.map(p=>`<div class="card"><div class="row"><h3>${esc(p.name)}</h3><span class="mut">${esc(p.client)} ${p.id===S.active[owner()]?'(active)':''}</span></div><table>${p.calcs.map((c,i)=>`<tr><td><b>${esc(c.title)}</b><br><span class="mut">${esc(c.inputs)}</span></td><td>${esc(c.out)}</td><td><button class="b x" onclick="delCalc('${p.id}',${i})">Remove</button></td></tr>`).join('')||'<tr><td class="mut">No calculations yet. Calculate something, then choose Save to project.</td></tr>'}</table><div class="row" style="margin-top:12px"><span><button class="b s" onclick="setActive('${p.id}')">Make active</button> <button class="b s" onclick="exportProj('${p.id}')">Export report</button></span><button class="b x" onclick="delProj('${p.id}')">Delete project</button></div></div>`).join(''):'<div class="card mut">No projects yet. Create one above.</div>')}
@@ -227,12 +689,699 @@ if(u.role==='company')h+=`<div class="card"><h3>Post a job</h3><div class="f"><l
 const list=S.jobs.filter(j=>!u?j.status==='open':u.role==='company'?j.by===u.id:j.status==='open'||j.worker===u.id);
 return h+(list.length?`<div class="g">${list.map(jobCard).join('')}</div>`:'<div class="card mut">No jobs here yet.</div>')+`<div class="note">Accounts, jobs and payouts are stored in this browser for now. Connect a backend and a payment gateway before real money moves.</div>`}
 function head(){const p=mine().find(x=>x.id===S.active[owner()]),u=me();$('#proj').textContent=p?'Active project: '+p.name+' ('+p.calcs.length+' saved)':'No active project';$('#user').innerHTML=u?esc(u.name)+' ('+u.role+')':'<a href="#/market">Sign in</a>'}
-function route(){const h=(location.hash||'#/home').slice(2).split('/'),pg=h[0],a=CAT[h[1]]?h[1]:'ht',P={projects,design,market},hm=pg!=='calc'&&!P[pg];document.body.classList.toggle('home',hm);$('#app').innerHTML=hm?home():`<div class="wrap">${pg==='calc'?calcPage(a):P[pg]()}</div>`;const cur='#/'+(pg==='calc'?'calc/'+a:hm?'home':pg);document.querySelectorAll('#nav a').forEach(b=>b.classList.toggle('on',b.getAttribute('href')===cur||!!b.dataset.p&&pg==='calc'));head();scrollTo(0,0);if(pg==='calc'&&a==='ht')simInit()}
+function route(){if(window.stopThermo)window.stopThermo();const h=(location.hash||'#/home').slice(2).split('/'),pg=h[0],a=CAT[h[1]]?h[1]:'ht',P={projects,design,market},hm=pg!=='calc'&&!P[pg];document.body.classList.toggle('home',hm);$('#app').innerHTML=hm?home():`<div class="wrap">${pg==='calc'?calcPage(a):P[pg]()}</div>`;const cur='#/'+(pg==='calc'?'calc/'+a:hm?'home':pg);document.querySelectorAll('#nav a').forEach(b=>b.classList.toggle('on',b.getAttribute('href')===cur||!!b.dataset.p&&pg==='calc'));head();scrollTo(0,0);if(pg==='calc'&&a==='ht')simInit();if(pg==='calc'&&a==='th')initThermo()}
+function initThermo(){
+
+    /* =========================================================================
+       1. EMBEDDED THERMODYNAMIC PROPERTY TABLES (FROM ATTACHED REFERENCE PDFs)
+       ========================================================================= */
+    const TABLES = {
+      "water-p": {
+        key: "P",
+        unit: "kPa",
+        label: "Pressure P (kPa)",
+        defaultVal: 50,
+        headers: ["P (kPa)", "Tsat (°C)", "vf (m³/kg)", "vg (m³/kg)", "hf (kJ/kg)", "hfg (kJ/kg)", "hg (kJ/kg)", "sf (kJ/kg·K)", "sg (kJ/kg·K)"],
+        rows: [
+          [7.5, 40.29, 0.001008, 19.233, 168.75, 2405.3, 2574.0, 0.5763, 8.2501],
+          [10, 45.81, 0.001010, 14.670, 191.81, 2392.1, 2583.9, 0.6492, 8.1488],
+          [50, 81.32, 0.001030, 3.2403, 340.54, 2304.7, 2645.2, 1.0912, 7.5931],
+          [100, 99.61, 0.001043, 1.6941, 417.51, 2257.5, 2675.0, 1.3028, 7.3589],
+          [500, 151.83, 0.001093, 0.37483, 640.09, 2108.0, 2748.1, 1.8604, 6.8207],
+          [1000, 179.88, 0.001127, 0.19436, 762.51, 2014.6, 2777.1, 2.1381, 6.5850],
+          [3000, 233.85, 0.001217, 0.06667, 1008.3, 1794.9, 2803.2, 2.6454, 6.1856],
+          [6000, 275.59, 0.001319, 0.032449, 1213.8, 1570.9, 2784.6, 3.0275, 5.8902],
+          [7000, 285.83, 0.001352, 0.027378, 1267.5, 1504.2, 2771.7, 3.1220, 5.8148],
+          [8000, 295.01, 0.001384, 0.023525, 1317.1, 1440.5, 2757.7, 3.2077, 5.7450],
+          [10000, 311.00, 0.001452, 0.018028, 1407.8, 1317.1, 2724.9, 3.3603, 5.6159]
+        ]
+      },
+      "r134a-p": {
+        key: "P",
+        unit: "kPa",
+        label: "Pressure P (kPa)",
+        defaultVal: 500,
+        headers: ["P (kPa)", "Tsat (°C)", "vf (m³/kg)", "vg (m³/kg)", "hf (kJ/kg)", "hfg (kJ/kg)", "hg (kJ/kg)", "sf (kJ/kg·K)", "sg (kJ/kg·K)"],
+        rows: [
+          [120, -22.32, 0.0007324, 0.16212, 22.49, 214.48, 236.97, 0.09275, 0.94779],
+          [140, -18.77, 0.0007383, 0.14014, 27.08, 212.08, 239.16, 0.11087, 0.94456],
+          [400, 8.91, 0.0007907, 0.051201, 63.94, 191.62, 255.55, 0.24761, 0.92691],
+          [500, 15.71, 0.0008059, 0.041118, 73.33, 185.98, 259.30, 0.28023, 0.92400],
+          [700, 26.69, 0.0008331, 0.029361, 88.82, 176.21, 265.03, 0.33230, 0.91994],
+          [900, 35.51, 0.0008580, 0.022683, 101.61, 167.66, 269.26, 0.37377, 0.91692],
+          [1200, 46.29, 0.0008934, 0.016715, 117.77, 156.10, 273.87, 0.42441, 0.91303]
+        ]
+      },
+      "air-t": {
+        key: "T",
+        unit: "K",
+        label: "Temperature T (K)",
+        defaultVal: 525,
+        headers: ["T (K)", "h (kJ/kg)", "Pr", "u (kJ/kg)", "vr", "s° (kJ/kg·K)"],
+        rows: [
+          [290, 290.16, 1.2311, 206.91, 676.1, 1.66802],
+          [300, 300.19, 1.3860, 214.07, 621.2, 1.70203],
+          [320, 320.29, 1.7375, 228.42, 528.6, 1.76690],
+          [520, 523.63, 9.684, 374.36, 154.1, 2.25997],
+          [530, 533.98, 10.37, 381.84, 146.7, 2.27967],
+          [550, 555.74, 11.86, 396.86, 133.1, 2.31809],
+          [560, 565.17, 12.66, 404.42, 127.0, 2.33685],
+          [640, 649.22, 20.64, 465.50, 88.99, 2.47716],
+          [650, 659.84, 21.86, 473.25, 85.34, 2.49364],
+          [700, 713.27, 28.80, 512.33, 69.76, 2.57277],
+          [710, 724.04, 30.38, 520.23, 67.07, 2.58810],
+          [860, 888.27, 63.09, 641.40, 39.12, 2.79783],
+          [880, 910.56, 68.98, 657.95, 36.61, 2.82344],
+          [940, 977.92, 89.28, 708.08, 30.22, 2.89748],
+          [960, 1000.55, 97.00, 725.02, 28.40, 2.92128],
+          [1100, 1161.07, 167.1, 845.33, 18.896, 3.07732],
+          [1200, 1277.79, 238.0, 933.33, 14.470, 3.17888],
+          [1800, 2003.3, 1310.0, 1487.2, 3.994, 3.66840]
+        ]
+      }
+    };
+
+    let activeTableId = "water-p";
+
+    function switchTable(id, btn) {
+      activeTableId = id;
+      document.querySelectorAll(".table-tab").forEach((t) => t.classList.remove("active"));
+      btn.classList.add("active");
+      const cfg = TABLES[id];
+      document.getElementById("tbl-query-label").textContent = cfg.label;
+      document.getElementById("tbl-query-input").value = cfg.defaultVal;
+      renderPropertyTable();
+      runTableLookup();
+    }
+
+    function renderPropertyTable() {
+      const cfg = TABLES[activeTableId];
+      const tableEl = document.getElementById("prop-table");
+      const thead = `<thead><tr>${cfg.headers.map((h) => `<th>${h}</th>`).join("")}</tr></thead>`;
+      const tbody = `<tbody>${cfg.rows
+        .map((row) => `<tr>${row.map((val) => `<td>${val}</td>`).join("")}</tr>`)
+        .join("")}</tbody>`;
+      tableEl.innerHTML = thead + tbody;
+    }
+
+    function runTableLookup() {
+      const cfg = TABLES[activeTableId];
+      const x = parseFloat(document.getElementById("tbl-query-input").value);
+      const out = document.getElementById("tbl-lookup-output");
+      if (isNaN(x)) {
+        out.textContent = "Enter a valid numerical value.";
+        return;
+      }
+      const rows = cfg.rows;
+      const minX = rows[0][0];
+      const maxX = rows[rows.length - 1][0];
+      if (x < minX || x > maxX) {
+        out.textContent = `Out of embedded table range (${minX} – ${maxX} ${cfg.unit}).`;
+        return;
+      }
+      let idx = 0;
+      for (let i = 0; i < rows.length - 1; i++) {
+        if (x >= rows[i][0] && x <= rows[i + 1][0]) {
+          idx = i;
+          break;
+        }
+      }
+      const r1 = rows[idx];
+      const r2 = rows[idx + 1];
+      const frac = r2[0] === r1[0] ? 0 : (x - r1[0]) / (r2[0] - r1[0]);
+      const interp = r1.map((v, col) => v + frac * (r2[col] - v));
+
+      const parts = cfg.headers.slice(1).map((h, i) => {
+        const val = interp[i + 1];
+        const formatted = Math.abs(val) < 0.01 ? val.toFixed(6) : val.toFixed(4);
+        return `<strong>${h.split(" ")[0]}:</strong> ${formatted}`;
+      });
+      out.innerHTML = `Interpolated at ${x} ${cfg.unit} → ${parts.join(" &nbsp;|&nbsp; ")}`;
+    }
+
+    /* =========================================================================
+       2. INTERACTIVE CYCLE SIMULATION & LIVE PLOTS
+       ========================================================================= */
+    const cycleSelect = document.getElementById("sim-cycle-select");
+    const ratioSlider = document.getElementById("sim-ratio-slider");
+    const sliderLabel = document.getElementById("sim-slider-label");
+    const readoutEl = document.getElementById("sim-readout");
+    const barMarker = document.getElementById("sim-bar-marker");
+    const leftCanvas = document.getElementById("sim-canvas-left");
+    const rightCanvas = document.getElementById("sim-canvas-right");
+    let sweepTimer = null;
+
+    function configureSliderForCycle() {
+      const mode = cycleSelect.value;
+      if (mode === "brayton") {
+        ratioSlider.min = 2; ratioSlider.max = 30; ratioSlider.step = 0.5; ratioSlider.value = 15;
+      } else if (mode === "otto") {
+        ratioSlider.min = 4; ratioSlider.max = 16; ratioSlider.step = 0.5; ratioSlider.value = 10;
+      } else if (mode === "diesel") {
+        ratioSlider.min = 12; ratioSlider.max = 26; ratioSlider.step = 0.5; ratioSlider.value = 20;
+      } else {
+        ratioSlider.min = 1; ratioSlider.max = 15; ratioSlider.step = 0.5; ratioSlider.value = 7;
+      }
+      updateSimulation();
+    }
+
+    function computeCyclePoint(mode, r) {
+      const k = 1.4;
+      if (mode === "brayton") {
+        const T1 = 300, T3 = 1100;
+        const T2s = T1 * Math.pow(r, (k - 1) / k);
+        const T4s = T3 / Math.pow(r, (k - 1) / k);
+        const etaIdeal = 1 - 1 / Math.pow(r, (k - 1) / k);
+        const T2a = T1 + (T2s - T1) / 0.80;
+        const T4a = T3 - 0.85 * (T3 - T4s);
+        const wnetAct = (T3 - T4a) - (T2a - T1);
+        const qinAct = T3 - T2a;
+        const etaActual = qinAct > 0 ? Math.max(0, wnetAct / qinAct) : 0;
+        const bwr = (T2s - T1) / (T3 - T4s);
+        return {
+          label: `Pressure ratio rp = P2/P1: ${r}`,
+          etaIdeal,
+          etaActual,
+          summary: `ηth,ideal = ${(etaIdeal * 100).toFixed(2)}%, ηth,actual = ${(etaActual * 100).toFixed(2)}%, T2s = ${T2s.toFixed(1)} K, T4s = ${T4s.toFixed(1)} K, Back-Work Ratio = ${bwr.toFixed(3)}`
+        };
+      }
+      if (mode === "otto") {
+        const T1 = 308;
+        const T2 = T1 * Math.pow(r, k - 1);
+        const etaIdeal = 1 - 1 / Math.pow(r, k - 1);
+        const etaActual = etaIdeal * 0.78;
+        return {
+          label: `Compression ratio r = V1/V2: ${r}`,
+          etaIdeal,
+          etaActual,
+          summary: `ηth,ideal = ${(etaIdeal * 100).toFixed(2)}%, ηth,actual ≈ ${(etaActual * 100).toFixed(2)}%, Compression T2 = ${T2.toFixed(1)} K (P1 = 95 kPa, T1 = 308 K)`
+        };
+      }
+      if (mode === "diesel") {
+        const rc = 2.0, T1 = 288;
+        const T2 = T1 * Math.pow(r, k - 1);
+        const T3 = T2 * rc;
+        const etaIdeal = 1 - (1 / Math.pow(r, k - 1)) * ((Math.pow(rc, k) - 1) / (k * (rc - 1)));
+        const etaActual = etaIdeal * 0.80;
+        return {
+          label: `Compression ratio r = V1/V2 (rc = 2.0): ${r}`,
+          etaIdeal,
+          etaActual,
+          summary: `ηth,ideal = ${(etaIdeal * 100).toFixed(2)}%, ηth,actual ≈ ${(etaActual * 100).toFixed(2)}%, T2 = ${T2.toFixed(1)} K, Peak T3 = ${T3.toFixed(1)} K`
+        };
+      }
+      // Rankine approximation across boiler pressure P2 (MPa) with Pcond = 10 kPa, T3 = 500°C
+      const etaIdeal = Math.min(0.45, 0.255 + 0.048 * Math.log(r + 1));
+      const etaActual = etaIdeal * 0.88;
+      return {
+        label: `Boiler pressure P2 (MPa) [Pcond = 10 kPa, T3 = 500 °C]: ${r} MPa`,
+        etaIdeal,
+        etaActual,
+        summary: `ηth,ideal ≈ ${(etaIdeal * 100).toFixed(2)}%, ηth,actual (ηp=87%, ηt=90%) ≈ ${(etaActual * 100).toFixed(2)}%, Boiler P2 = ${r} MPa`
+      };
+    }
+
+    function drawPlots(mode, r) {
+      // Left Plot: Normalized T-s Cycle Loop
+      const lctx = leftCanvas.getContext("2d");
+      const w = leftCanvas.width, h = leftCanvas.height;
+      lctx.clearRect(0, 0, w, h);
+
+      const pad = 28;
+      lctx.strokeStyle = "#94a3b8";
+      lctx.lineWidth = 1.5;
+      lctx.beginPath();
+      lctx.moveTo(pad, 14);
+      lctx.lineTo(pad, h - pad);
+      lctx.lineTo(w - 16, h - pad);
+      lctx.stroke();
+
+      const minR = parseFloat(ratioSlider.min);
+      const maxR = parseFloat(ratioSlider.max);
+      const norm = (r - minR) / (maxR - minR);
+
+      const x1 = pad + 45;
+      const y1 = h - pad - 24;
+      const y2 = y1 - (35 + norm * 65);
+      const x3 = w - 65;
+      const y3 = 26;
+      const x4 = mode === "rankine" ? x3 : x3 + 22;
+      const y4 = y1 - (10 + (1 - norm) * 28);
+
+      // Ideal Loop
+      lctx.strokeStyle = "#0d47a1";
+      lctx.lineWidth = 2.6;
+      lctx.beginPath();
+      lctx.moveTo(x1, y1);
+      lctx.lineTo(x1, y2);
+      lctx.lineTo(x3, y3);
+      lctx.lineTo(x4, y4);
+      lctx.closePath();
+      lctx.stroke();
+
+      // Actual irreversibility dashed path
+      lctx.save();
+      lctx.setLineDash([5, 4]);
+      lctx.strokeStyle = "#dc2626";
+      lctx.lineWidth = 2;
+      lctx.beginPath();
+      lctx.moveTo(x1, y1);
+      lctx.lineTo(x1 + 24, y2 - 8);
+      lctx.moveTo(x3, y3);
+      lctx.lineTo(x4 + 28, y4 - 10);
+      lctx.stroke();
+      lctx.restore();
+
+      lctx.fillStyle = "#111827";
+      lctx.font = "bold 12px sans-serif";
+      lctx.fillText("1", x1 - 14, y1 + 4);
+      lctx.fillText("2s", x1 - 18, y2);
+      lctx.fillText("3", x3 + 6, y3 + 4);
+      lctx.fillText("4s", x4 + 6, y4 + 4);
+
+      // Right Plot: Efficiency Curve across Ratio Sweep
+      const rctx = rightCanvas.getContext("2d");
+      rctx.clearRect(0, 0, w, h);
+
+      rctx.strokeStyle = "#94a3b8";
+      rctx.lineWidth = 1.5;
+      rctx.beginPath();
+      rctx.moveTo(pad, 14);
+      rctx.lineTo(pad, h - pad);
+      rctx.lineTo(w - 16, h - pad);
+      rctx.stroke();
+
+      const steps = 40;
+      // Ideal solid blue curve
+      rctx.strokeStyle = "#0d47a1";
+      rctx.lineWidth = 2.5;
+      rctx.beginPath();
+      for (let i = 0; i <= steps; i++) {
+        const ri = minR + (i / steps) * (maxR - minR);
+        const pt = computeCyclePoint(mode, ri);
+        const px = pad + (i / steps) * (w - pad - 24);
+        const py = (h - pad) - Math.min(0.85, pt.etaIdeal) * (h - pad - 20);
+        if (i === 0) rctx.moveTo(px, py);
+        else rctx.lineTo(px, py);
+      }
+      rctx.stroke();
+
+      // Actual dashed red curve
+      rctx.save();
+      rctx.setLineDash([5, 4]);
+      rctx.strokeStyle = "#dc2626";
+      rctx.lineWidth = 2.2;
+      rctx.beginPath();
+      for (let i = 0; i <= steps; i++) {
+        const ri = minR + (i / steps) * (maxR - minR);
+        const pt = computeCyclePoint(mode, ri);
+        const px = pad + (i / steps) * (w - pad - 24);
+        const py = (h - pad) - Math.min(0.85, pt.etaActual) * (h - pad - 20);
+        if (i === 0) rctx.moveTo(px, py);
+        else rctx.lineTo(px, py);
+      }
+      rctx.stroke();
+      rctx.restore();
+
+      // Current Ratio Vertical Marker
+      const curX = pad + norm * (w - pad - 24);
+      rctx.strokeStyle = "#111827";
+      rctx.lineWidth = 1.5;
+      rctx.beginPath();
+      rctx.moveTo(curX, 16);
+      rctx.lineTo(curX, h - pad);
+      rctx.stroke();
+    }
+
+    function updateSimulation() {
+      const mode = cycleSelect.value;
+      const r = parseFloat(ratioSlider.value);
+      const minR = parseFloat(ratioSlider.min);
+      const maxR = parseFloat(ratioSlider.max);
+      const pct = ((r - minR) / (maxR - minR)) * 100;
+
+      const data = computeCyclePoint(mode, r);
+      sliderLabel.textContent = data.label;
+      readoutEl.textContent = data.summary;
+      barMarker.style.left = `calc(${pct}% - 2px)`;
+      drawPlots(mode, r);
+    }
+
+    cycleSelect.addEventListener("change", configureSliderForCycle);
+    ratioSlider.addEventListener("input", updateSimulation);
+
+    document.getElementById("sim-sweep-btn").addEventListener("click", () => {
+      if (sweepTimer) {
+        clearInterval(sweepTimer);
+        sweepTimer = null;
+        return;
+      }
+      sweepTimer = setInterval(() => {
+        let next = parseFloat(ratioSlider.value) + parseFloat(ratioSlider.step);
+        if (next > parseFloat(ratioSlider.max)) next = parseFloat(ratioSlider.min);
+        ratioSlider.value = next;
+        updateSimulation();
+      }, 90);
+    });
+
+    document.getElementById("sim-reset-btn").addEventListener("click", () => {
+      if (sweepTimer) {
+        clearInterval(sweepTimer);
+        sweepTimer = null;
+      }
+      configureSliderForCycle();
+    });
+
+    /* =========================================================================
+       3. ENGINEERING CALCULATOR FUNCTIONS (ALL 12 CARDS)
+       ========================================================================= */
+    function showResult(id, html) {
+      const el = document.getElementById(id);
+      el.innerHTML = html;
+      el.classList.add("visible");
+    }
+
+    function calcClosedSystem() {
+      const m = parseFloat(document.getElementById("cs-m").value);
+      const n = parseFloat(document.getElementById("cs-n").value);
+      const P1 = parseFloat(document.getElementById("cs-p1").value);
+      const V1 = parseFloat(document.getElementById("cs-v1").value);
+      const V2 = parseFloat(document.getElementById("cs-v2").value);
+      const du = parseFloat(document.getElementById("cs-du").value);
+
+      const P2 = P1 * Math.pow(V1 / V2, n);
+      const Wb = Math.abs(n - 1) < 1e-9 ? P1 * V1 * Math.log(V2 / V1) : (P2 * V2 - P1 * V1) / (1 - n);
+      const dU = m * du;
+      const Q = dU + Wb;
+
+      showResult("res-cs", `
+        <div><strong>Final Pressure P2:</strong> ${P2.toFixed(2)} kPa</div>
+        <div><strong>Boundary Work Wb:</strong> ${Wb.toFixed(2)} kJ</div>
+        <div><strong>Net Heat Transfer Q:</strong> ${Q.toFixed(2)} kJ (ΔU = ${dU.toFixed(2)} kJ)</div>
+      `);
+    }
+
+    function calcSpringPiston() {
+      const P1 = parseFloat(document.getElementById("sp-p1").value);
+      const V1 = parseFloat(document.getElementById("sp-v1").value);
+      const V2 = parseFloat(document.getElementById("sp-v2").value);
+      const k = parseFloat(document.getElementById("sp-k").value);
+      const A = parseFloat(document.getElementById("sp-a").value);
+
+      const dx = (V2 - V1) / A;
+      const P2 = P1 + (k * dx) / A;
+      const Wb = 0.5 * (P1 + P2) * (V2 - V1);
+
+      showResult("res-sp", `
+        <div><strong>Piston Displacement Δx:</strong> ${dx.toFixed(3)} m</div>
+        <div><strong>Final Pressure P2:</strong> ${P2.toFixed(2)} kPa</div>
+        <div><strong>Total Boundary Work Wb:</strong> ${Wb.toFixed(3)} kJ</div>
+      `);
+    }
+
+    function calcMixture() {
+      const vf = parseFloat(document.getElementById("mx-vf").value);
+      const vg = parseFloat(document.getElementById("mx-vg").value);
+      const hf = parseFloat(document.getElementById("mx-hf").value);
+      const hg = parseFloat(document.getElementById("mx-hg").value);
+      const x = parseFloat(document.getElementById("mx-x").value);
+      const m = parseFloat(document.getElementById("mx-m").value);
+
+      const v = vf + x * (vg - vf);
+      const h = hf + x * (hg - hf);
+      const mg = x * m;
+      const mf = (1 - x) * m;
+      const Vtot = m * v;
+
+      showResult("res-mx", `
+        <div><strong>Specific Volume v:</strong> ${v.toFixed(5)} m³/kg (Total V = ${Vtot.toFixed(4)} m³)</div>
+        <div><strong>Specific Enthalpy h:</strong> ${h.toFixed(2)} kJ/kg</div>
+        <div><strong>Phase Split:</strong> mvapor = ${mg.toFixed(3)} kg, mliquid = ${mf.toFixed(3)} kg</div>
+      `);
+    }
+
+    function calcInterpolation() {
+      const x1 = parseFloat(document.getElementById("in-x1").value);
+      const y1 = parseFloat(document.getElementById("in-y1").value);
+      const x2 = parseFloat(document.getElementById("in-x2").value);
+      const y2 = parseFloat(document.getElementById("in-y2").value);
+      const x = parseFloat(document.getElementById("in-x").value);
+
+      const y = y1 + ((x - x1) / (x2 - x1)) * (y2 - y1);
+      showResult("res-in", `
+        <div><strong>Interpolated Y:</strong> ${y.toFixed(4)}</div>
+        <div><strong>Interpolation Factor:</strong> ${(((x - x1) / (x2 - x1)) * 100).toFixed(2)}%</div>
+      `);
+    }
+
+    function calcOtto() {
+      const r = parseFloat(document.getElementById("ot-r").value);
+      const P1 = parseFloat(document.getElementById("ot-p1").value);
+      const T1 = parseFloat(document.getElementById("ot-t1").value) + 273.15;
+      const qin = parseFloat(document.getElementById("ot-qin").value);
+      const cv = parseFloat(document.getElementById("ot-cv").value);
+      const k = parseFloat(document.getElementById("ot-k").value);
+      const R = 0.287;
+
+      const T2 = T1 * Math.pow(r, k - 1);
+      const P2 = P1 * Math.pow(r, k);
+      const T3 = T2 + qin / cv;
+      const P3 = P2 * (T3 / T2);
+      const T4 = T3 / Math.pow(r, k - 1);
+      const qout = cv * (T4 - T1);
+      const wnet = qin - qout;
+      const eta = (wnet / qin) * 100;
+      const v1 = (R * T1) / P1;
+      const mep = wnet / (v1 * (1 - 1 / r));
+
+      showResult("res-ot", `
+        <div><strong>Thermal Efficiency ηth:</strong> ${eta.toFixed(2)}% | <strong>wnet:</strong> ${wnet.toFixed(2)} kJ/kg</div>
+        <div><strong>Peak State 3:</strong> T3 = ${T3.toFixed(1)} K, P3 = ${P3.toFixed(1)} kPa</div>
+        <div><strong>Mean Effective Pressure (MEP):</strong> ${mep.toFixed(1)} kPa</div>
+      `);
+    }
+
+    function calcDieselDual() {
+      const r = parseFloat(document.getElementById("di-r").value);
+      const rc = parseFloat(document.getElementById("di-rc").value);
+      const rp = parseFloat(document.getElementById("di-rp").value);
+      const P1 = parseFloat(document.getElementById("di-p1").value);
+      const T1 = parseFloat(document.getElementById("di-t1").value) + 273.15;
+      const k = parseFloat(document.getElementById("di-k").value);
+      const cv = 0.718, cp = 1.005, R = 0.287;
+
+      const T2 = T1 * Math.pow(r, k - 1);
+      const P2 = P1 * Math.pow(r, k);
+      const Tx = T2 * rp;
+      const T3 = Tx * rc;
+      const T4 = T3 * Math.pow(rc / r, k - 1);
+
+      const qin = cv * (Tx - T2) + cp * (T3 - Tx);
+      const qout = cv * (T4 - T1);
+      const wnet = qin - qout;
+      const eta = (wnet / qin) * 100;
+      const v1 = (R * T1) / P1;
+      const mep = wnet / (v1 * (1 - 1 / r));
+
+      showResult("res-di", `
+        <div><strong>Thermal Efficiency ηth:</strong> ${eta.toFixed(2)}% | <strong>wnet:</strong> ${wnet.toFixed(2)} kJ/kg</div>
+        <div><strong>Temperatures:</strong> T2 = ${T2.toFixed(1)} K, T3 = ${T3.toFixed(1)} K, T4 = ${T4.toFixed(1)} K</div>
+        <div><strong>Mean Effective Pressure (MEP):</strong> ${mep.toFixed(1)} kPa</div>
+      `);
+    }
+
+    function calcBrayton() {
+      const rp = parseFloat(document.getElementById("br-rp").value);
+      const T1 = parseFloat(document.getElementById("br-t1").value);
+      const T3 = parseFloat(document.getElementById("br-t3").value);
+      const etac = parseFloat(document.getElementById("br-etac").value) / 100;
+      const etat = parseFloat(document.getElementById("br-etat").value) / 100;
+      const WnetMW = parseFloat(document.getElementById("br-wnet").value);
+      const cp = 1.005, k = 1.4;
+
+      const T2s = T1 * Math.pow(rp, (k - 1) / k);
+      const T2a = T1 + (T2s - T1) / etac;
+      const T4s = T3 / Math.pow(rp, (k - 1) / k);
+      const T4a = T3 - etat * (T3 - T4s);
+
+      const wc = cp * (T2a - T1);
+      const wt = cp * (T3 - T4a);
+      const wnet = wt - wc;
+      const qin = cp * (T3 - T2a);
+      const eta = (wnet / qin) * 100;
+      const bwr = wc / wt;
+      const mdot = (WnetMW * 1000) / wnet;
+
+      showResult("res-br", `
+        <div><strong>Thermal Efficiency ηth:</strong> ${eta.toFixed(2)}% | <strong>BWR:</strong> ${bwr.toFixed(3)}</div>
+        <div><strong>Net Work wnet:</strong> ${wnet.toFixed(2)} kJ/kg (T2a = ${T2a.toFixed(1)} K, T4a = ${T4a.toFixed(1)} K)</div>
+        <div><strong>Required Air Mass Flow ṁ:</strong> ${mdot.toFixed(2)} kg/s</div>
+      `);
+    }
+
+    function calcRegenBrayton() {
+      const rp = parseFloat(document.getElementById("rg-rp").value);
+      const T1 = parseFloat(document.getElementById("rg-t1").value) + 273.15;
+      const T3 = parseFloat(document.getElementById("rg-t3").value) + 273.15;
+      const eps = parseFloat(document.getElementById("rg-eps").value) / 100;
+      const Wnet = parseFloat(document.getElementById("rg-wnet").value);
+      const cp = 1.005, k = 1.4;
+
+      const T2 = T1 * Math.pow(rp, (k - 1) / k);
+      const T4 = T3 / Math.pow(rp, (k - 1) / k);
+      const T5 = T2 + eps * (T4 - T2);
+      const T6 = T4 - (T5 - T2);
+
+      const wnet = cp * ((T3 - T4) - (T2 - T1));
+      const mdot = Wnet / wnet;
+      const Qin = mdot * cp * (T3 - T5);
+      const eta = (Wnet / Qin) * 100;
+
+      showResult("res-rg", `
+        <div><strong>Regenerative Efficiency ηth:</strong> ${eta.toFixed(2)}%</div>
+        <div><strong>Regenerator Exit:</strong> T5 = ${T5.toFixed(1)} K, Exhaust T6 = ${T6.toFixed(1)} K</div>
+        <div><strong>Mass Flow ṁ:</strong> ${mdot.toFixed(3)} kg/s | <strong>Combustor Q̇in:</strong> ${Qin.toFixed(1)} kW</div>
+      `);
+    }
+
+    function calcRankine() {
+      const P2MPa = parseFloat(document.getElementById("rk-p2").value);
+      const T3 = parseFloat(document.getElementById("rk-t3").value);
+      const P1kPa = parseFloat(document.getElementById("rk-p1").value);
+      const etap = parseFloat(document.getElementById("rk-etap").value) / 100;
+      const etat = parseFloat(document.getElementById("rk-etat").value) / 100;
+      const WnetMW = parseFloat(document.getElementById("rk-wnet").value);
+
+      // Condenser saturated liquid properties via Table A-5 interpolation
+      const wRows = TABLES["water-p"].rows;
+      let idx = 0;
+      for (let i = 0; i < wRows.length - 1; i++) {
+        if (P1kPa >= wRows[i][0] && P1kPa <= wRows[i + 1][0]) { idx = i; break; }
+      }
+      const f = (P1kPa - wRows[idx][0]) / (wRows[idx + 1][0] - wRows[idx][0] || 1);
+      const v1 = wRows[idx][2] + f * (wRows[idx + 1][2] - wRows[idx][2]);
+      const h1 = wRows[idx][4] + f * (wRows[idx + 1][4] - wRows[idx][4]);
+      const hfg1 = wRows[idx][5] + f * (wRows[idx + 1][5] - wRows[idx][5]);
+      const sf1 = wRows[idx][7] + f * (wRows[idx + 1][7] - wRows[idx][7]);
+      const sg1 = wRows[idx][8] + f * (wRows[idx + 1][8] - wRows[idx][8]);
+
+      const P2kPa = P2MPa * 1000;
+      const wps = v1 * (P2kPa - P1kPa);
+      const wpa = wps / etap;
+      const h2a = h1 + wpa;
+
+      // Superheated steam approximation anchored to Table A-6 values
+      const h3 = 2750 + 2.15 * (T3 - 250) - 18 * P2MPa;
+      const s3 = 6.80 - 0.14 * Math.log(P2MPa / 7) + 0.0014 * (T3 - 500);
+      const x4s = Math.min(1, Math.max(0, (s3 - sf1) / (sg1 - sf1)));
+      const h4s = h1 + x4s * hfg1;
+      const wta = etat * (h3 - h4s);
+      const h4a = h3 - wta;
+
+      const qin = h3 - h2a;
+      const qout = h4a - h1;
+      const wnet = wta - wpa;
+      const eta = (wnet / qin) * 100;
+      const mdot = (WnetMW * 1000) / wnet;
+      const QoutMW = (mdot * qout) / 1000;
+
+      showResult("res-rk", `
+        <div><strong>Thermal Efficiency ηth:</strong> ${eta.toFixed(2)}% | <strong>wnet:</strong> ${wnet.toFixed(2)} kJ/kg</div>
+        <div><strong>Steam Mass Flow ṁ:</strong> ${mdot.toFixed(2)} kg/s | <strong>Isentropic Quality x4s:</strong> ${x4s.toFixed(3)}</div>
+        <div><strong>Condenser Heat Rejected Q̇out:</strong> ${QoutMW.toFixed(2)} MW</div>
+      `);
+    }
+
+    function calcOFWH() {
+      const h5 = parseFloat(document.getElementById("fw-h5").value);
+      const h6 = parseFloat(document.getElementById("fw-h6").value);
+      const h7 = parseFloat(document.getElementById("fw-h7").value);
+      const h2 = parseFloat(document.getElementById("fw-h2").value);
+      const h3 = parseFloat(document.getElementById("fw-h3").value);
+      const h4 = parseFloat(document.getElementById("fw-h4").value);
+      const h1 = h2 - 0.49;
+
+      const y = (h3 - h2) / (h6 - h2);
+      const qin = h5 - h4;
+      const qout = (1 - y) * (h7 - h1);
+      const wnet = qin - qout;
+      const eta = (wnet / qin) * 100;
+
+      showResult("res-fw", `
+        <div><strong>Extracted Steam Fraction y:</strong> ${(y * 100).toFixed(2)}% (${y.toFixed(4)})</div>
+        <div><strong>Net Cycle Work wnet:</strong> ${wnet.toFixed(2)} kJ/kg | <strong>Thermal ηth:</strong> ${eta.toFixed(2)}%</div>
+      `);
+    }
+
+    function calcRefrigeration() {
+      const h1 = parseFloat(document.getElementById("rf-h1").value);
+      const h2s = parseFloat(document.getElementById("rf-h2s").value);
+      const h3 = parseFloat(document.getElementById("rf-h3").value);
+      const etac = parseFloat(document.getElementById("rf-etac").value) / 100;
+      const mdot = parseFloat(document.getElementById("rf-m").value);
+
+      const h2a = h1 + (h2s - h1) / etac;
+      const h4 = h3;
+      const QL = mdot * (h1 - h4);
+      const Win = mdot * (h2a - h1);
+      const QH = QL + Win;
+      const cop = QL / Win;
+
+      showResult("res-rf", `
+        <div><strong>COPR:</strong> ${cop.toFixed(2)} | <strong>Actual h2a:</strong> ${h2a.toFixed(2)} kJ/kg</div>
+        <div><strong>Cooling Capacity Q̇L:</strong> ${QL.toFixed(2)} kW | <strong>Compressor Ẇin:</strong> ${Win.toFixed(2)} kW</div>
+        <div><strong>Condenser Heat Rejection Q̇H:</strong> ${QH.toFixed(2)} kW</div>
+      `);
+    }
+
+    function calcCarnotCascade() {
+      const TL = parseFloat(document.getElementById("ca-tl").value) + 273.15;
+      const TH = parseFloat(document.getElementById("ca-th").value) + 273.15;
+      const QL = parseFloat(document.getElementById("ca-ql").value);
+      const mA = parseFloat(document.getElementById("ca-ma").value);
+      const dhUp = parseFloat(document.getElementById("ca-dh-up").value);
+      const dhLo = parseFloat(document.getElementById("ca-dh-lo").value);
+
+      const copRev = TL / (TH - TL);
+      const wMin = QL / copRev;
+      const mB = (mA * dhUp) / dhLo;
+
+      showResult("res-ca", `
+        <div><strong>Reversible Carnot COP:</strong> ${copRev.toFixed(2)} | <strong>Min Power Ẇmin:</strong> ${wMin.toFixed(4)} kW</div>
+        <div><strong>Cascade Lower Loop Flow ṁB:</strong> ${mB.toFixed(4)} kg/s</div>
+      `);
+    }
+
+    // Initialize after the SPA has inserted the thermodynamics markup.
+    renderPropertyTable();
+    runTableLookup();
+    updateSimulation();
+
+      window.switchTable=switchTable; window.runTableLookup=runTableLookup;
+      window.calcClosedSystem=calcClosedSystem; window.calcSpringPiston=calcSpringPiston;
+      window.calcMixture=calcMixture; window.calcInterpolation=calcInterpolation;
+      window.calcOtto=calcOtto; window.calcDieselDual=calcDieselDual;
+      window.calcBrayton=calcBrayton; window.calcRegenBrayton=calcRegenBrayton;
+      window.calcRankine=calcRankine; window.calcOFWH=calcOFWH;
+      window.calcRefrigeration=calcRefrigeration; window.calcCarnotCascade=calcCarnotCascade;
+      window.stopThermo=()=>{if(sweepTimer){clearInterval(sweepTimer);sweepTimer=null;}};
+
+  
+}
+
 $('#nav').innerHTML=`<a class="nb" href="#/home">Home</a><div class="nv"><a class="nb" data-p="1" href="#/calc/ht">Calculators ▾</a><div class="dd">${Object.entries(CAT).map(([k,v])=>`<a href="#/calc/${k}">${v[0]}</a>`).join('')}</div></div><a class="nb" href="#/projects">Projects</a><a class="nb" href="#/design">Design studio</a><a class="nb" href="#/market">Marketplace</a>`;
 $('#yr').textContent=new Date().getFullYear();
 (()=>{let ok=0;try{ok=localStorage.getItem('mm_ok')}catch(e){}const c=$('#ck');if(ok)c.remove();else c.querySelector('button').onclick=()=>{try{localStorage.setItem('mm_ok','1')}catch(e){}c.remove()}})();
 addEventListener('hashchange',route);route();
 </script></body></html>
+
+ 
+
+ 
+     
+
+ 
+
 
  
 
